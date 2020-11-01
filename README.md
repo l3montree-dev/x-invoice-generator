@@ -124,7 +124,7 @@ You can download example X-Invoices in UBL and CII Standard [here](https://baske
 
 ### Design/ UI
 
-You can download a mockup as Adobe XD file [here](https://basket.l3montree.com/s/RjZzGrgXXkocJti) or as PDF [here](https://basket.l3montree.com/s/S78DBNc9nb2bX6X).
+You can download a mockup as Adobe XD file [here](https://basket.l3montree.com/s/icJAQEAgT8nCNTS) or as PDF [here](https://basket.l3montree.com/s/gSR2PnYjYC9tQJk).
 
 | Functionality        | Color Code |
 | -------------------- | ---------- |
