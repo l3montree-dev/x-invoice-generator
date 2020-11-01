@@ -1,0 +1,18 @@
+{
+  "name": "xinvoice",
+  "productName": "X-Invoice Generator",
+  "version": "0.0.1",
+  "description": "According to the decision of the IT Planning Council of June 22nd, 2017, X-Invoices are decisive for the implementation of Directive 2014/55/EU in Germany. This Generator tries to implement the specifications in a simple and open way.",
+  "main": "./main.prod.js",
+  "author": {
+    "name": "l3montree",
+    "email": "developer@l3montree.com",
+    "url": "https://l3montree.com"
+  },
+  "scripts": {
+    "electron-rebuild": "node -r ../internals/scripts/BabelRegister.js ../internals/scripts/ElectronRebuild.js",
+    "postinstall": "yarn electron-rebuild"
+  },
+  "license": "GPL-3.0-only",
+  "dependencies": {}
+}
