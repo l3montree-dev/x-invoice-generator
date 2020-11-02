@@ -9,14 +9,14 @@ export interface TagWithAttributes {
 }
 
 export interface InvoicePeriod {
-  StartDate: XInvoiceDateTag;
-  EndDate: XInvoiceDateTag;
-  DescriptionCode: XInvoiceEnumTag<VATDateCode>;
+  StartDate?: XInvoiceDateTag;
+  EndDate?: XInvoiceDateTag;
+  DescriptionCode?: XInvoiceEnumTag<VATDateCode>;
 }
 
 export interface OrderReference {
   ID: XInvoiceStringTag;
-  SalesOrderID: XInvoiceStringTag;
+  SalesOrderID?: XInvoiceStringTag;
 }
 
 export interface BillingReference {
@@ -25,7 +25,7 @@ export interface BillingReference {
 
 export interface InvoiceDocumentReference {
   ID: XInvoiceStringTag;
-  IssueDate: XInvoiceDateTag;
+  IssueDate?: XInvoiceDateTag;
 }
 
 export interface DespatchDocumentReference {
@@ -40,7 +40,9 @@ export interface OriginatorDocumentReference {
   ID: XInvoiceStringTag;
 }
 
-export interface ContractDocumentReference {}
+export interface ContractDocumentReference {
+  ID: XInvoiceStringTag;
+}
 
 export interface AdditionalDocumentReference {}
 
