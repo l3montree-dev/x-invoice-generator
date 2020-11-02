@@ -2,7 +2,14 @@ import XInvoiceEnumTag from './XInvoiceEnumTag';
 import XInvoiceStringTag from './XInvoiceStringTag';
 import XInvoiceNumberTag from './XInvoiceNumberTag';
 import XInvoiceDateTag from './XInvoiceDateTag';
+import XInvoiceBinaryObjectTag from './XInvoiceBinaryObjectTag';
+import XInvoiceURITag from './XInvoiceURITag';
 import XInvoiceTag from './XInvoiceTag';
+
+export interface TagWithAttributes {
+  attributes?: Record<string, string>[];
+  content: string;
+}
 
 export interface InvoicePeriod {
   StartDate?: XInvoiceDateTag;
@@ -35,7 +42,21 @@ export type OriginatorDocumentReference = Identification<XInvoiceStringTag>;
 
 export type ContractDocumentReference = Identification<XInvoiceStringTag>;
 
-export interface AdditionalDocumentReference {}
+export interface AdditionalDocumentReference {
+  ID: XInvoiceStringTag;
+  DocumentTypeCode?: '130';
+  DocumentDescription?: XInvoiceStringTag;
+  Attachment?: Attachment;
+}
+
+export interface Attachment {
+  EmbeddedDocumentBinaryObject?: XInvoiceBinaryObjectTag;
+  ExternalReference?: ExternalReference;
+}
+
+export interface ExternalReference {
+  URI: XInvoiceURITag;
+}
 
 export interface ProjectReference {}
 
