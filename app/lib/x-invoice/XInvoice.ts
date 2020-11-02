@@ -2,8 +2,8 @@ import XInvoiceEnumTag from './XInvoiceEnumTag';
 import XInvoiceStringTag from './XInvoiceStringTag';
 import XInvoiceNumberTag from './XInvoiceNumberTag';
 import XInvoiceDateTag from './XInvoiceDateTag';
-import XInvoiceBinaryObjectTag from "./XInvoiceBinaryObjectTag";
-import XInvoiceURITag from "./XInvoiceURITag";
+import XInvoiceBinaryObjectTag from './XInvoiceBinaryObjectTag';
+import XInvoiceURITag from './XInvoiceURITag';
 import XInvoiceTag from './XInvoiceTag';
 
 export interface TagWithAttributes {
@@ -42,8 +42,8 @@ export type OriginatorDocumentReference = Identification<XInvoiceStringTag>;
 
 export type ContractDocumentReference = Identification<XInvoiceStringTag>;
 
-export interface AdditionalDocumentReference {
-  ID: XInvoiceStringTag;
+export interface AdditionalDocumentReference
+  extends Identification<XInvoiceStringTag> {
   DocumentTypeCode?: '130';
   DocumentDescription?: XInvoiceStringTag;
   Attachment?: Attachment;
@@ -58,9 +58,50 @@ export interface ExternalReference {
   URI: XInvoiceURITag;
 }
 
-export interface ProjectReference {}
+export type ProjectReference = Identification<XInvoiceStringTag>;
 
-export interface AccountingSupplierParty {}
+export interface AccountingSupplierParty {
+  Party: Party;
+}
+
+export interface Party {
+  EndpointID: XInvoiceStringTag<{ schemeID: string }>;
+  PartyIdentification?: PartyIdentification[];
+  PartyName?: PartyName;
+  PostalAddress: PostalAddress;
+  PartyTaxScheme?: PartyTaxScheme | [PartyTaxScheme, PartyTaxScheme];
+}
+
+export interface PartyIdentification {
+  ID: XInvoiceStringTag<{ schemeID: string }>;
+}
+
+export interface PartyName {
+  Name: XInvoiceStringTag;
+}
+
+export interface PostalAddress {
+  StreetName?: XInvoiceStringTag;
+  AdditionalStreetName?: XInvoiceStringTag;
+  CityName?: XInvoiceStringTag;
+  PostalZone?: XInvoiceStringTag;
+  CountrySubentity?: XInvoiceStringTag;
+  AddressLine?: AddressLine;
+  Country: Country;
+}
+
+export interface AddressLine {
+  Line: XInvoiceStringTag;
+}
+
+export interface Country {
+  IdentificationCode: IdentificationCode;
+}
+
+export interface PartyTaxScheme {
+  CompanyID: XInvoiceStringTag;
+  TaxScheme: TaxScheme;
+}
 export interface AccountingCustomerParty {}
 export interface PayeeParty {}
 
