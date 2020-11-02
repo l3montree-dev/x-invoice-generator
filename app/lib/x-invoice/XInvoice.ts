@@ -119,8 +119,23 @@ export interface Contact {
 export interface AccountingCustomerParty {}
 export interface PayeeParty {}
 
-export interface TaxRepresentativeParty {}
-export interface Delivery {}
+export interface TaxRepresentativeParty {
+  PartyName: PartyName;
+  PostalAddress: PostalAddress;
+  PartyTaxScheme: PartyTaxScheme;
+}
+export interface DeliveryParty {
+  Name: PartyName;
+}
+export interface DeliveryLocation {
+  ID: XInvoiceNumberTag<{ schemeID: string }>;
+  Address: PostalAddress;
+  DeliveryParty: DeliveryParty;
+}
+export interface Delivery {
+  ActualDeliveryDate: XInvoiceDateTag;
+  DeliveryLocation: DeliveryLocation;
+}
 export interface CardAccount {
   PrimaryAccountNumberID: XInvoiceNumberTag;
   NetworkID: XInvoiceStringTag;
@@ -272,6 +287,8 @@ export interface XInvoice {
   BuyerReference?: XInvoiceStringTag;
   InvoicePeriod?: InvoicePeriod;
   BillingsReference?: BillingReference[];
+  TaxRepresentativeParty?: TaxRepresentativeParty;
+  Delivery?: Delivery;
   PaymentTerms?: PaymentTerms[];
   AllowanceCharge?: AllowanceCharge[];
   TaxTotal: TaxTotal | [TaxTotal, TaxTotal];
