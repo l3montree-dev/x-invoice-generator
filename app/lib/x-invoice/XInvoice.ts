@@ -51,12 +51,14 @@ export interface XInvoice {
   ID: XInvoiceNumberTag;
   IssueDate: XInvoiceDateTag;
   DueDate?: XInvoiceDateTag;
-  InvoiceTypeCode: XInvoiceEnumTag<'380' | '383'>;
+  InvoiceTypeCode: 380;
   Note?: XInvoiceStringTag;
   TaxPointDate?: XInvoiceDateTag;
   DocumentCurrencyCode: XInvoiceEnumTag<CurrencyCodes>;
   TaxCurrencyCode?: XInvoiceEnumTag<TaxCurrencyCode>;
   AccountingCost?: XInvoiceStringTag;
   BuyerReference?: XInvoiceStringTag;
-  InvoicePeriod: InvoicePeriod;
+  InvoicePeriod?: InvoicePeriod;
+  BillingsReference?: BillingReference[];
+  TaxTotal: TaxTotal | [TaxTotal, TaxTotal];
 }
