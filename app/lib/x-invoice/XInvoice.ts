@@ -7,11 +7,14 @@ import XInvoiceTag from './XInvoiceTag';
 export interface InvoicePeriod {
   StartDate?: XInvoiceDateTag;
   EndDate?: XInvoiceDateTag;
-  DescriptionCode?: XInvoiceEnumTag<VATDateCode>;
+  DescriptionCode?: XInvoiceEnumTag<
+    | '3' // Invoice document issue date time
+    | '35' // Delivery date/time, actual
+    | '432' // Paid to date>
+  >;
 }
 
-export interface OrderReference {
-  ID: XInvoiceStringTag;
+export interface OrderReference extends Identification<XInvoiceStringTag> {
   SalesOrderID?: XInvoiceStringTag;
 }
 
@@ -19,26 +22,18 @@ export interface BillingReference {
   InvoiceDocumentReference: InvoiceDocumentReference;
 }
 
-export interface InvoiceDocumentReference {
-  ID: XInvoiceStringTag;
+export interface InvoiceDocumentReference
+  extends Identification<XInvoiceNumberTag> {
   IssueDate?: XInvoiceDateTag;
 }
 
-export interface DespatchDocumentReference {
-  ID: XInvoiceStringTag;
-}
+export type DespatchDocumentReference = Identification<XInvoiceStringTag>;
 
-export interface ReceiptDocumentReference {
-  ID: XInvoiceStringTag;
-}
+export type ReceiptDocumentReference = Identification<XInvoiceStringTag>;
 
-export interface OriginatorDocumentReference {
-  ID: XInvoiceStringTag;
-}
+export type OriginatorDocumentReference = Identification<XInvoiceStringTag>;
 
-export interface ContractDocumentReference {
-  ID: XInvoiceStringTag;
-}
+export type ContractDocumentReference = Identification<XInvoiceStringTag>;
 
 export interface AdditionalDocumentReference {}
 
@@ -52,27 +47,21 @@ export interface TaxRepresentativeParty {}
 export interface Delivery {}
 export interface PaymentMeans {}
 export interface PaymentTerms {}
-export interface AllowanceCharge {}
 export interface TaxTotal {}
 export interface LegalMonetaryTotal {}
-export interface InvoicePeriod {
-  StartDate: XInvoiceDateTag;
-  EndDate: XInvoiceDateTag;
-}
 export interface OrderLineReference {
   LineId: XInvoiceNumberTag;
 }
 
-export interface DocumentReference {
-  ID: XInvoiceStringTag;
+export interface DocumentReference extends Identification<XInvoiceStringTag> {
   DocumentTypeCode: 130;
 }
 export enum Bool {
   true,
   false,
 }
-export interface Identification {
-  ID: XInvoiceNumberTag;
+export interface Identification<T extends XInvoiceTag<any>> {
+  ID: T;
 }
 export enum IdentificationCode {
   CN,
@@ -90,7 +79,8 @@ export enum TaxSchemeID {
 export interface TaxScheme {
   ID: XInvoiceEnumTag<TaxSchemeID>;
 }
-export interface ClassifiedTaxCategory extends Identification {
+export interface ClassifiedTaxCategory
+  extends Identification<XInvoiceNumberTag> {
   Percent?: XInvoiceNumberTag;
   TaxScheme: TaxScheme;
 }
@@ -101,9 +91,9 @@ export interface AdditionalItemProperty {
 export interface Item {
   Description?: XInvoiceStringTag;
   Name: XInvoiceStringTag;
-  BuyersItemIdentification?: Identification;
-  SellersItemIdentification?: Identification;
-  StandardItemIdentification?: Identification;
+  BuyersItemIdentification?: Identification<XInvoiceNumberTag>;
+  SellersItemIdentification?: Identification<XInvoiceNumberTag>;
+  StandardItemIdentification?: Identification<XInvoiceNumberTag>;
   OriginCountry?: OriginCountry;
   CommodityClassification?: CommodityClassification;
   ClassifiedTaxCategory: ClassifiedTaxCategory;
@@ -139,12 +129,6 @@ export interface InvoiceLine {
 
 export enum CurrencyCodes {
   EUR,
-}
-
-export enum VATDateCode {
-  '3', // Invoice document issue date time
-  '35', // Delivery date/time, actual
-  '432', // Paid to date
 }
 
 export enum TaxCurrencyCode {}
