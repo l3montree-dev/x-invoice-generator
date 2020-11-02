@@ -192,6 +192,7 @@ export interface XInvoice {
   BuyerReference?: XInvoiceStringTag;
   InvoicePeriod?: InvoicePeriod;
   BillingsReference?: BillingReference[];
+  AllowanceCharge?: AllowanceCharge[];
   TaxTotal: TaxTotal | [TaxTotal, TaxTotal];
   InvoiceLine: InvoiceLine[];
   LegalMonetaryTotal: LegalMonetaryTotal;
