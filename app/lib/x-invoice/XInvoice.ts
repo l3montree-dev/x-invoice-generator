@@ -67,7 +67,9 @@ export interface PayeeParty {}
 export interface TaxRepresentativeParty {}
 export interface Delivery {}
 export interface PaymentMeans {}
-export interface PaymentTerms {}
+export interface PaymentTerms {
+  Note: XInvoiceStringTag;
+}
 export interface TaxCategory extends Identification<XInvoiceNumberTag> {
   Percent?: XInvoiceNumberTag;
   TaxExemptionReasonCode?: XInvoiceNumberTag;
@@ -75,29 +77,30 @@ export interface TaxCategory extends Identification<XInvoiceNumberTag> {
   TaxScheme: TaxScheme;
 }
 export interface TaxSubtotal {
-  TaxableAmount: XInvoiceNumberTag;
-  TaxAmount: XInvoiceNumberTag;
+  TaxableAmount: XInvoiceNumberTag<{currencyID: CurrencyCodes}>;
+  TaxAmount: XInvoiceNumberTag<{currencyID: CurrencyCodes}>;
   TaxCategory: TaxCategory;
 }
 export interface TaxTotal {
-  TaxAmount: XInvoiceNumberTag;
+  TaxAmount: XInvoiceNumberTag<{currencyID: CurrencyCodes}>;
   TaxSubtotal?: TaxSubtotal[];
 }
 export interface LegalMonetaryTotal {
-  LineExtensionAmount: XInvoiceNumberTag;
-  TaxExclusiveAmount: XInvoiceNumberTag;
-  TaxInclusiveAmount: XInvoiceNumberTag;
-  AllowanceTotalAmount?: XInvoiceNumberTag;
-  ChargeTotalAmount?: XInvoiceNumberTag;
-  PrepaidAmount?: XInvoiceNumberTag;
-  PayableRoundingAmount?: XInvoiceNumberTag;
-  PayableAmount?: XInvoiceNumberTag;
+  LineExtensionAmount: XInvoiceNumberTag<{currencyID: CurrencyCodes}>;
+  TaxExclusiveAmount: XInvoiceNumberTag<{currencyID: CurrencyCodes}>;
+  TaxInclusiveAmount: XInvoiceNumberTag<{currencyID: CurrencyCodes}>;
+  AllowanceTotalAmount?: XInvoiceNumberTag<{currencyID: CurrencyCodes}>;
+  ChargeTotalAmount?: XInvoiceNumberTag<{currencyID: CurrencyCodes}>;
+  PrepaidAmount?: XInvoiceNumberTag<{currencyID: CurrencyCodes}>;
+  PayableRoundingAmount?: XInvoiceNumberTag<{currencyID: CurrencyCodes}>;
+  PayableAmount?: XInvoiceNumberTag<{currencyID: CurrencyCodes}>;
 }
 export interface OrderLineReference {
   LineId: XInvoiceNumberTag;
 }
 
-export interface DocumentReference extends Identification<XInvoiceStringTag> {
+export interface DocumentReference {
+  ID: XInvoiceStringTag<{ schemeID: string }>;
   DocumentTypeCode: 130;
 }
 export enum Bool {
@@ -120,9 +123,7 @@ export interface CommodityClassification {
 export enum TaxSchemeID {
   VAT,
 }
-export interface TaxScheme {
-  ID: XInvoiceEnumTag<TaxSchemeID>;
-}
+export type TaxScheme = Identification<XInvoiceEnumTag<TaxSchemeID>>;
 export interface ClassifiedTaxCategory
   extends Identification<XInvoiceNumberTag> {
   Percent?: XInvoiceNumberTag;
@@ -132,12 +133,15 @@ export interface AdditionalItemProperty {
   Name: XInvoiceTag<any>;
   Value: XInvoiceTag<any>;
 }
+export interface StandardItemIdentification {
+  ID: XInvoiceNumberTag<{ schemeID: string }>;
+}
 export interface Item {
   Description?: XInvoiceStringTag;
   Name: XInvoiceStringTag;
   BuyersItemIdentification?: Identification<XInvoiceNumberTag>;
   SellersItemIdentification?: Identification<XInvoiceNumberTag>;
-  StandardItemIdentification?: Identification<XInvoiceNumberTag>;
+  StandardItemIdentification?: StandardItemIdentification;
   OriginCountry?: OriginCountry;
   CommodityClassification?: CommodityClassification;
   ClassifiedTaxCategory: ClassifiedTaxCategory;
@@ -148,20 +152,20 @@ export interface AllowanceCharge {
   AllowanceChargeReasonCode?: XInvoiceNumberTag;
   AllowanceChargeReason?: XInvoiceStringTag;
   MultiplierFactorNumeric: XInvoiceNumberTag;
-  Amount: XInvoiceNumberTag;
-  BaseAmount?: XInvoiceNumberTag;
+  Amount: XInvoiceNumberTag<{ currencyId: CurrencyCodes }>;
+  BaseAmount?: XInvoiceNumberTag<{ currencyId: CurrencyCodes }>;
   Item: Item;
 }
 export interface Price {
-  PriceAmount: XInvoiceNumberTag;
-  BaseQuantity?: XInvoiceNumberTag;
+  PriceAmount: XInvoiceNumberTag<{currencyID: CurrencyCodes};
+  BaseQuantity?: XInvoiceNumberTag<{unitCode: string}>;
   AllowanceCharge?: AllowanceCharge;
 }
 export interface InvoiceLine {
   ID: XInvoiceNumberTag;
   Note?: XInvoiceStringTag;
-  InvoicedQuantity: XInvoiceNumberTag;
-  LineExtensionAmount: XInvoiceNumberTag;
+  InvoicedQuantity: XInvoiceNumberTag<{ unitCode: string }>;
+  LineExtensionAmount: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
   AccountingCost?: XInvoiceStringTag;
   InvoicePeriod?: InvoicePeriod;
   OrderLineReference?: OrderLineReference;
@@ -192,6 +196,7 @@ export interface XInvoice {
   BuyerReference?: XInvoiceStringTag;
   InvoicePeriod?: InvoicePeriod;
   BillingsReference?: BillingReference[];
+  PaymentTerms?: PaymentTerms[];
   AllowanceCharge?: AllowanceCharge[];
   TaxTotal: TaxTotal | [TaxTotal, TaxTotal];
   InvoiceLine: InvoiceLine[];
