@@ -32,7 +32,9 @@ export interface DespatchDocumentReference {
   ID: XInvoiceStringTag;
 }
 
-export interface ReceiptDocumentReference {}
+export interface ReceiptDocumentReference {
+  ID: XInvoiceStringTag;
+}
 
 export interface OriginatorDocumentReference {}
 
