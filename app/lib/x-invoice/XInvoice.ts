@@ -4,6 +4,7 @@ import XInvoiceNumberTag from './XInvoiceNumberTag';
 import XInvoiceDateTag from './XInvoiceDateTag';
 import XInvoiceBinaryObjectTag from "./XInvoiceBinaryObjectTag";
 import XInvoiceURITag from "./XInvoiceURITag";
+import XInvoiceTag from './XInvoiceTag';
 
 export interface TagWithAttributes {
   attributes?: Record<string, string>[];
@@ -13,11 +14,14 @@ export interface TagWithAttributes {
 export interface InvoicePeriod {
   StartDate?: XInvoiceDateTag;
   EndDate?: XInvoiceDateTag;
-  DescriptionCode?: XInvoiceEnumTag<VATDateCode>;
+  DescriptionCode?: XInvoiceEnumTag<
+    | '3' // Invoice document issue date time
+    | '35' // Delivery date/time, actual
+    | '432' // Paid to date>
+  >;
 }
 
-export interface OrderReference {
-  ID: XInvoiceStringTag;
+export interface OrderReference extends Identification<XInvoiceStringTag> {
   SalesOrderID?: XInvoiceStringTag;
 }
 
@@ -25,26 +29,18 @@ export interface BillingReference {
   InvoiceDocumentReference: InvoiceDocumentReference;
 }
 
-export interface InvoiceDocumentReference {
-  ID: XInvoiceStringTag;
+export interface InvoiceDocumentReference
+  extends Identification<XInvoiceNumberTag> {
   IssueDate?: XInvoiceDateTag;
 }
 
-export interface DespatchDocumentReference {
-  ID: XInvoiceStringTag;
-}
+export type DespatchDocumentReference = Identification<XInvoiceStringTag>;
 
-export interface ReceiptDocumentReference {
-  ID: XInvoiceStringTag;
-}
+export type ReceiptDocumentReference = Identification<XInvoiceStringTag>;
 
-export interface OriginatorDocumentReference {
-  ID: XInvoiceStringTag;
-}
+export type OriginatorDocumentReference = Identification<XInvoiceStringTag>;
 
-export interface ContractDocumentReference {
-  ID: XInvoiceStringTag;
-}
+export type ContractDocumentReference = Identification<XInvoiceStringTag>;
 
 export interface AdditionalDocumentReference {
   ID: XInvoiceStringTag;
@@ -75,16 +71,86 @@ export interface PaymentTerms {}
 export interface AllowanceCharge {}
 export interface TaxTotal {}
 export interface LegalMonetaryTotal {}
-export interface InvoiceLine {}
+export interface OrderLineReference {
+  LineId: XInvoiceNumberTag;
+}
+
+export interface DocumentReference extends Identification<XInvoiceStringTag> {
+  DocumentTypeCode: 130;
+}
+export enum Bool {
+  true,
+  false,
+}
+export interface Identification<T extends XInvoiceTag<any>> {
+  ID: T;
+}
+export enum IdentificationCode {
+  CN,
+}
+export interface OriginCountry {
+  IdentificationCode: XInvoiceEnumTag<IdentificationCode>;
+}
+export interface CommodityClassification {
+  ItemClassificationCode: XInvoiceNumberTag;
+}
+
+export enum TaxSchemeID {
+  VAT,
+}
+export interface TaxScheme {
+  ID: XInvoiceEnumTag<TaxSchemeID>;
+}
+export interface ClassifiedTaxCategory
+  extends Identification<XInvoiceNumberTag> {
+  Percent?: XInvoiceNumberTag;
+  TaxScheme: TaxScheme;
+}
+export interface AdditionalItemProperty {
+  Name: XInvoiceTag<any>;
+  Value: XInvoiceTag<any>;
+}
+export interface Item {
+  Description?: XInvoiceStringTag;
+  Name: XInvoiceStringTag;
+  BuyersItemIdentification?: Identification<XInvoiceNumberTag>;
+  SellersItemIdentification?: Identification<XInvoiceNumberTag>;
+  StandardItemIdentification?: Identification<XInvoiceNumberTag>;
+  OriginCountry?: OriginCountry;
+  CommodityClassification?: CommodityClassification;
+  ClassifiedTaxCategory: ClassifiedTaxCategory;
+  AdditionalItemProperty?: AdditionalItemProperty[];
+}
+export interface AllowanceCharge {
+  ChargeIndicator: XInvoiceEnumTag<Bool>;
+  AllowanceChargeReasonCode?: XInvoiceNumberTag;
+  AllowanceChargeReason?: XInvoiceStringTag;
+  MultiplierFactorNumeric: XInvoiceNumberTag;
+  Amount: XInvoiceNumberTag;
+  BaseAmount?: XInvoiceNumberTag;
+  Item: Item;
+}
+export interface Price {
+  PriceAmount: XInvoiceNumberTag;
+  BaseQuantity?: XInvoiceNumberTag;
+  AllowanceCharge?: AllowanceCharge;
+}
+export interface InvoiceLine {
+  ID: XInvoiceNumberTag;
+  Note?: XInvoiceStringTag;
+  InvoicedQuantity: XInvoiceNumberTag;
+  LineExtensionAmount: XInvoiceNumberTag;
+  AccountingCost?: XInvoiceStringTag;
+  InvoicePeriod?: InvoicePeriod;
+  OrderLineReference?: OrderLineReference;
+  DocumentReference?: DocumentReference;
+  AllowanceCharge?: AllowanceCharge;
+  Item: Item;
+  Price: Price;
+}
 
 export enum CurrencyCodes {
   EUR,
-}
-
-export enum VATDateCode {
-  '3', // Invoice document issue date time
-  '35', // Delivery date/time, actual
-  '432', // Paid to date
 }
 
 export enum TaxCurrencyCode {}
@@ -105,4 +171,5 @@ export interface XInvoice {
   InvoicePeriod?: InvoicePeriod;
   BillingsReference?: BillingReference[];
   TaxTotal: TaxTotal | [TaxTotal, TaxTotal];
+  InvoiceLine: InvoiceLine[];
 }
