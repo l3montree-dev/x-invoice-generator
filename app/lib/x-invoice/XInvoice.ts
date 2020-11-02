@@ -48,7 +48,16 @@ export interface Delivery {}
 export interface PaymentMeans {}
 export interface PaymentTerms {}
 export interface TaxTotal {}
-export interface LegalMonetaryTotal {}
+export interface LegalMonetaryTotal {
+  LineExtensionAmount: XInvoiceNumberTag;
+  TaxExclusiveAmount: XInvoiceNumberTag;
+  TaxInclusiveAmount: XInvoiceNumberTag;
+  AllowanceTotalAmount?: XInvoiceNumberTag;
+  ChargeTotalAmount?: XInvoiceNumberTag;
+  PrepaidAmount?: XInvoiceNumberTag;
+  PayableRoundingAmount?: XInvoiceNumberTag;
+  PayableAmount?: XInvoiceNumberTag;
+}
 export interface OrderLineReference {
   LineId: XInvoiceNumberTag;
 }
@@ -150,4 +159,5 @@ export interface XInvoice {
   BillingsReference?: BillingReference[];
   TaxTotal: TaxTotal | [TaxTotal, TaxTotal];
   InvoiceLine: InvoiceLine[];
+  LegalMonetaryTotal: LegalMonetaryTotal;
 }
