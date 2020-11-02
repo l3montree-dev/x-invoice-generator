@@ -54,8 +54,8 @@ export interface AdditionalDocumentReference {
 }
 
 export interface Attachment {
-  EmbeddedDocumentBinaryObject: XInvoiceBinaryObjectTag;
-  ExternalReference: ExternalReference;
+  EmbeddedDocumentBinaryObject?: XInvoiceBinaryObjectTag;
+  ExternalReference?: ExternalReference;
 }
 
 export interface ExternalReference {
