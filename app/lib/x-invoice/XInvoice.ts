@@ -1,3 +1,8 @@
+import XInvoiceEnumTag from './XInvoiceEnumTag';
+import XInvoiceStringTag from './XInvoiceStringTag';
+import XInvoiceNumberTag from './XInvoiceNumberTag';
+import XInvoiceDateTag from './XInvoiceDateTag';
+
 export interface TagWithAttributes {
   attributes?: Record<string, string>[];
   content: string;
@@ -34,17 +39,24 @@ export interface TaxTotal {}
 export interface LegalMonetaryTotal {}
 export interface InvoiceLine {}
 
+export enum CurrencyCodes {
+  EUR,
+}
+
+export enum TaxCurrencyCode {}
+
 export interface XInvoice {
-  CustomizationID: string;
-  ProfileId: string;
-  ID: string;
-  IssueDate: string;
-  DueDate?: string;
-  InvoiceTypeCode: string;
-  Note?: string;
-  TaxPointDate?: string;
-  DocumentCurrencyCode: string;
-  TaxCurrencyCode?: string;
-  AccountingCost?: string;
-  BuyerReference?: string;
+  CustomizationID: XInvoiceStringTag;
+  ProfileId: XInvoiceStringTag;
+  ID: XInvoiceNumberTag;
+  IssueDate: XInvoiceDateTag;
+  DueDate?: XInvoiceDateTag;
+  InvoiceTypeCode: XInvoiceEnumTag<'380' | '383'>;
+  Note?: XInvoiceStringTag;
+  TaxPointDate?: XInvoiceDateTag;
+  DocumentCurrencyCode: XInvoiceEnumTag<CurrencyCodes>;
+  TaxCurrencyCode?: XInvoiceEnumTag<TaxCurrencyCode>;
+  AccountingCost?: XInvoiceStringTag;
+  BuyerReference?: XInvoiceStringTag;
+  InvoicePeriod: InvoicePeriod;
 }
