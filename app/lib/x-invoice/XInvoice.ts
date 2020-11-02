@@ -25,10 +25,12 @@ export interface BillingReference {
 
 export interface InvoiceDocumentReference {
   ID: XInvoiceStringTag;
-  IssueDate: XInvoiceDateTag
+  IssueDate: XInvoiceDateTag;
 }
 
-export interface DespatchDocumentReference {}
+export interface DespatchDocumentReference {
+  ID: XInvoiceStringTag;
+}
 
 export interface ReceiptDocumentReference {}
 
