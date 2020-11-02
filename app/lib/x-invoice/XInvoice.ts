@@ -5,6 +5,7 @@ import XInvoiceDateTag from './XInvoiceDateTag';
 import XInvoiceBinaryObjectTag from './XInvoiceBinaryObjectTag';
 import XInvoiceURITag from './XInvoiceURITag';
 import XInvoiceTag from './XInvoiceTag';
+import XInvoiceEMailTag from './XInvoiceEMailTag';
 
 export interface TagWithAttributes {
   attributes?: Record<string, string>[];
@@ -70,6 +71,8 @@ export interface Party {
   PartyName?: PartyName;
   PostalAddress: PostalAddress;
   PartyTaxScheme?: PartyTaxScheme | [PartyTaxScheme, PartyTaxScheme];
+  PartyLegalEntity: PartyLegalEntity;
+  Contact?: Contact;
 }
 
 export interface PartyIdentification {
@@ -101,6 +104,17 @@ export interface Country {
 export interface PartyTaxScheme {
   CompanyID: XInvoiceStringTag;
   TaxScheme: TaxScheme;
+}
+
+export interface PartyLegalEntity {
+  RegistrationName: XInvoiceStringTag;
+  CompanyID?: XInvoiceStringTag<{ schemeID: string }>;
+  ComapnyLegalForm?: XInvoiceStringTag;
+}
+export interface Contact {
+  Name?: XInvoiceStringTag;
+  Telephone?: XInvoiceStringTag;
+  ElectronicMail?: XInvoiceEMailTag;
 }
 export interface AccountingCustomerParty {}
 export interface PayeeParty {}
