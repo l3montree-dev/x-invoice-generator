@@ -47,7 +47,21 @@ export interface TaxRepresentativeParty {}
 export interface Delivery {}
 export interface PaymentMeans {}
 export interface PaymentTerms {}
-export interface TaxTotal {}
+export interface TaxCategory extends Identification<XInvoiceNumberTag> {
+  Percent?: XInvoiceNumberTag;
+  TaxExemptionReasonCode?: XInvoiceNumberTag;
+  TaxExemptionReason?: XInvoiceStringTag;
+  TaxScheme: TaxScheme;
+}
+export interface TaxSubtotal {
+  TaxableAmount: XInvoiceNumberTag;
+  TaxAmount: XInvoiceNumberTag;
+  TaxCategory: TaxCategory;
+}
+export interface TaxTotal {
+  TaxAmount: XInvoiceNumberTag;
+  TaxSubtotal?: TaxSubtotal[];
+}
 export interface LegalMonetaryTotal {
   LineExtensionAmount: XInvoiceNumberTag;
   TaxExclusiveAmount: XInvoiceNumberTag;
