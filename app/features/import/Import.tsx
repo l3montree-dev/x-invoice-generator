@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Import = () => {
-  return <div />;
+  return <div>Import</div>;
 };
 
 export default Import;
