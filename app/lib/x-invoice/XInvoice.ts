@@ -36,7 +36,9 @@ export interface ReceiptDocumentReference {
   ID: XInvoiceStringTag;
 }
 
-export interface OriginatorDocumentReference {}
+export interface OriginatorDocumentReference {
+  ID: XInvoiceStringTag;
+}
 
 export interface ContractDocumentReference {}
 
