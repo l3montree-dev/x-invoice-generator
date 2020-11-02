@@ -4,19 +4,41 @@ import XInvoiceNumberTag from './XInvoiceNumberTag';
 import XInvoiceDateTag from './XInvoiceDateTag';
 import XInvoiceTag from './XInvoiceTag';
 
-export interface InvoicePeriod {}
+export interface InvoicePeriod {
+  StartDate?: XInvoiceDateTag;
+  EndDate?: XInvoiceDateTag;
+  DescriptionCode?: XInvoiceEnumTag<VATDateCode>;
+}
 
-export interface OrderReference {}
+export interface OrderReference {
+  ID: XInvoiceStringTag;
+  SalesOrderID?: XInvoiceStringTag;
+}
 
-export interface BillingReference {}
+export interface BillingReference {
+  InvoiceDocumentReference: InvoiceDocumentReference;
+}
 
-export interface DespatchDocumentReference {}
+export interface InvoiceDocumentReference {
+  ID: XInvoiceStringTag;
+  IssueDate?: XInvoiceDateTag;
+}
 
-export interface ReceiptDocumentReference {}
+export interface DespatchDocumentReference {
+  ID: XInvoiceStringTag;
+}
 
-export interface OriginatorDocumentReference {}
+export interface ReceiptDocumentReference {
+  ID: XInvoiceStringTag;
+}
 
-export interface ContractDocumentReference {}
+export interface OriginatorDocumentReference {
+  ID: XInvoiceStringTag;
+}
+
+export interface ContractDocumentReference {
+  ID: XInvoiceStringTag;
+}
 
 export interface AdditionalDocumentReference {}
 
@@ -117,6 +139,12 @@ export interface InvoiceLine {
 
 export enum CurrencyCodes {
   EUR,
+}
+
+export enum VATDateCode {
+  '3', // Invoice document issue date time
+  '35', // Delivery date/time, actual
+  '432', // Paid to date
 }
 
 export enum TaxCurrencyCode {}
