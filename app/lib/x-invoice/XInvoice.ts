@@ -116,8 +116,10 @@ export interface Contact {
   Telephone?: XInvoiceStringTag;
   ElectronicMail?: XInvoiceEMailTag;
 }
-export interface AccountingCustomerParty {}
-export interface PayeeParty {}
+export type PayeeParty = Party;
+export interface AccountingCustomerParty {
+  Party: Party;
+}
 
 export interface TaxRepresentativeParty {
   PartyName: PartyName;
@@ -287,11 +289,21 @@ export interface XInvoice {
   BuyerReference?: XInvoiceStringTag;
   InvoicePeriod?: InvoicePeriod;
   BillingsReference?: BillingReference[];
+  DespatchDocumentReference?: DespatchDocumentReference;
+  ReceiptDocumentReference?: ReceiptDocumentReference;
+  OriginatorDocumentReference?: OriginatorDocumentReference;
+  ContractDocumentReference?: ContractDocumentReference;
+  AdditionalDocumentReference?: AdditionalDocumentReference[];
+  ProjectReference?: ProjectReference;
+  AccountingSupplierParty: AccountingSupplierParty;
+  AccountingCustomerParty: AccountingCustomerParty;
+  PayeeParty?: PayeeParty;
   TaxRepresentativeParty?: TaxRepresentativeParty;
   Delivery?: Delivery;
+  PaymentMeans?: PaymentMeans[];
   PaymentTerms?: PaymentTerms[];
   AllowanceCharge?: AllowanceCharge[];
   TaxTotal: TaxTotal | [TaxTotal, TaxTotal];
-  InvoiceLine: InvoiceLine[];
   LegalMonetaryTotal: LegalMonetaryTotal;
+  InvoiceLine: InvoiceLine[];
 }
