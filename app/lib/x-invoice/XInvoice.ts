@@ -66,7 +66,28 @@ export interface PayeeParty {}
 
 export interface TaxRepresentativeParty {}
 export interface Delivery {}
-export interface PaymentMeans {}
+export interface CardAccount {
+  PrimaryAccountNumberID: XInvoiceNumberTag;
+  NetworkID: XInvoiceStringTag;
+  HolderName?: XInvoiceStringTag;
+}
+export type FinancialInstitutionBranch = Identification<XInvoiceNumberTag>;
+export interface PayeeFinancialAccount
+  extends Identification<XInvoiceNumberTag> {
+  Name: XInvoiceStringTag;
+  FinancialInstitutionBranch?: FinancialInstitutionBranch;
+}
+export type PayerFinancialAccount = Identification<XInvoiceNumberTag>;
+export interface PaymentMandate extends Identification<XInvoiceNumberTag> {
+  PayerFinancialAccount: PayerFinancialAccount;
+}
+export interface PaymentMeans {
+  PaymentMeansCode: XInvoiceNumberTag<{ name: string }>;
+  PaymentID: XInvoiceNumberTag;
+  CardAccount?: CardAccount;
+  PayeeFinancialAccount?: PayeeFinancialAccount;
+  PaymentMandate?: PaymentMandate;
+}
 export interface PaymentTerms {
   Note: XInvoiceStringTag;
 }
@@ -77,23 +98,23 @@ export interface TaxCategory extends Identification<XInvoiceNumberTag> {
   TaxScheme: TaxScheme;
 }
 export interface TaxSubtotal {
-  TaxableAmount: XInvoiceNumberTag<{currencyID: CurrencyCodes}>;
-  TaxAmount: XInvoiceNumberTag<{currencyID: CurrencyCodes}>;
+  TaxableAmount: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
+  TaxAmount: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
   TaxCategory: TaxCategory;
 }
 export interface TaxTotal {
-  TaxAmount: XInvoiceNumberTag<{currencyID: CurrencyCodes}>;
+  TaxAmount: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
   TaxSubtotal?: TaxSubtotal[];
 }
 export interface LegalMonetaryTotal {
-  LineExtensionAmount: XInvoiceNumberTag<{currencyID: CurrencyCodes}>;
-  TaxExclusiveAmount: XInvoiceNumberTag<{currencyID: CurrencyCodes}>;
-  TaxInclusiveAmount: XInvoiceNumberTag<{currencyID: CurrencyCodes}>;
-  AllowanceTotalAmount?: XInvoiceNumberTag<{currencyID: CurrencyCodes}>;
-  ChargeTotalAmount?: XInvoiceNumberTag<{currencyID: CurrencyCodes}>;
-  PrepaidAmount?: XInvoiceNumberTag<{currencyID: CurrencyCodes}>;
-  PayableRoundingAmount?: XInvoiceNumberTag<{currencyID: CurrencyCodes}>;
-  PayableAmount?: XInvoiceNumberTag<{currencyID: CurrencyCodes}>;
+  LineExtensionAmount: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
+  TaxExclusiveAmount: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
+  TaxInclusiveAmount: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
+  AllowanceTotalAmount?: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
+  ChargeTotalAmount?: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
+  PrepaidAmount?: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
+  PayableRoundingAmount?: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
+  PayableAmount?: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
 }
 export interface OrderLineReference {
   LineId: XInvoiceNumberTag;
@@ -157,8 +178,8 @@ export interface AllowanceCharge {
   Item: Item;
 }
 export interface Price {
-  PriceAmount: XInvoiceNumberTag<{currencyID: CurrencyCodes};
-  BaseQuantity?: XInvoiceNumberTag<{unitCode: string}>;
+  PriceAmount: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
+  BaseQuantity?: XInvoiceNumberTag<{ unitCode: string }>;
   AllowanceCharge?: AllowanceCharge;
 }
 export interface InvoiceLine {
