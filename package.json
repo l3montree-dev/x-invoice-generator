@@ -276,7 +276,8 @@
     "redux-thunk": "^2.3.0",
     "regenerator-runtime": "^0.13.5",
     "source-map-support": "^0.5.19",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "ts-jest": "^26.4.3"
   },
   "devEngines": {
     "node": ">=7.x",

@@ -200,7 +200,7 @@ export enum Bool {
   true,
   false,
 }
-export interface Identification<T extends XInvoiceTag> {
+export interface Identification<T extends XInvoiceTag<any>> {
   ID: T;
 }
 export enum IdentificationCode {
@@ -223,8 +223,8 @@ export interface ClassifiedTaxCategory
   TaxScheme: TaxScheme;
 }
 export interface AdditionalItemProperty {
-  Name: XInvoiceTag;
-  Value: XInvoiceTag;
+  Name: XInvoiceTag<any>;
+  Value: XInvoiceTag<any>;
 }
 export interface StandardItemIdentification {
   ID: XInvoiceNumberTag<{ schemeID: string }>;
@@ -308,7 +308,7 @@ export interface Invoice extends Node {
   InvoiceLine: InvoiceLine[];
 }
 
-export type Leaf = XInvoiceTag | XInvoiceTag[];
+export type Leaf = XInvoiceTag<any> | XInvoiceTag<any>[];
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
