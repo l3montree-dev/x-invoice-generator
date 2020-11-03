@@ -3,22 +3,19 @@ export interface TagOptions<T, Attributes extends AttributeType> {
   validator?: (val: T) => boolean;
   attributes?: Attributes;
 }
-export default abstract class XInvoiceTag<
-  T,
-  Attributes extends AttributeType = undefined
-> {
+export default abstract class XInvoiceTag<T, Attributes extends AttributeType> {
   static readonly UBL_TAG_PREFIX = 'cbc';
 
   protected attributes?: Attributes;
 
   protected validator?: (val: T) => boolean;
 
-  protected constructor(
+  public constructor(
     protected value: T,
-    tagOptions: TagOptions<T, Attributes>
+    tagOptions?: TagOptions<T, Attributes>
   ) {
-    this.attributes = tagOptions.attributes;
-    this.validator = tagOptions.validator;
+    this.attributes = tagOptions?.attributes;
+    this.validator = tagOptions?.validator;
   }
 
   public isValid(): boolean {
@@ -28,13 +25,21 @@ export default abstract class XInvoiceTag<
     return true;
   }
 
+  protected valueToString(): string {
+    return `${this.value}`;
+  }
+
   public toXMLTag(tagName: string) {
     let attributeString = this.attributesToString();
     if (attributeString) {
       // prepend a blank if the attribute string does actually exist.
       attributeString = ` ${attributeString}`;
     }
-    return `<${XInvoiceTag.UBL_TAG_PREFIX}:${tagName}${attributeString}>${this.value}</${XInvoiceTag.UBL_TAG_PREFIX}:${tagName}>`;
+    return `<${
+      XInvoiceTag.UBL_TAG_PREFIX
+    }:${tagName}${attributeString}>${this.valueToString()}</${
+      XInvoiceTag.UBL_TAG_PREFIX
+    }:${tagName}>`;
   }
 
   protected attributesToString(): string {

@@ -1,9 +1,5 @@
-import XInvoiceTag, { AttributeType, TagOptions } from './XInvoiceTag';
+import XInvoiceTag, { AttributeType } from './XInvoiceTag';
 
 export default class XInvoiceEMailTag<
   Attributes extends AttributeType = undefined
-> extends XInvoiceTag<string, Attributes> {
-  constructor(value: string, tagOptions?: TagOptions<string, Attributes>) {
-    super(value, tagOptions ?? { validator: (val) => val !== '' });
-  }
-}
+> extends XInvoiceTag<string, Attributes> {}

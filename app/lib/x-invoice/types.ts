@@ -98,7 +98,7 @@ export interface AddressLine {
 }
 
 export interface Country {
-  IdentificationCode: IdentificationCode;
+  IdentificationCode: XInvoiceEnumTag<IdentificationCode>;
 }
 
 export interface PartyTaxScheme {
@@ -200,7 +200,7 @@ export enum Bool {
   true,
   false,
 }
-export interface Identification<T extends XInvoiceTag<any>> {
+export interface Identification<T extends XInvoiceTag<any, undefined>> {
   ID: T;
 }
 export enum IdentificationCode {
@@ -223,8 +223,8 @@ export interface ClassifiedTaxCategory
   TaxScheme: TaxScheme;
 }
 export interface AdditionalItemProperty {
-  Name: XInvoiceTag<any>;
-  Value: XInvoiceTag<any>;
+  Name: XInvoiceTag<any, undefined>;
+  Value: XInvoiceTag<any, undefined>;
 }
 export interface StandardItemIdentification {
   ID: XInvoiceNumberTag<{ schemeID: string }>;
@@ -308,7 +308,7 @@ export interface Invoice extends Node {
   InvoiceLine: InvoiceLine[];
 }
 
-export type Leaf = XInvoiceTag<any> | XInvoiceTag<any>[];
+export type Leaf = XInvoiceTag<any, undefined> | XInvoiceTag<any, undefined>[];
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
