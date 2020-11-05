@@ -30,6 +30,17 @@ describe('XInvoice test suite', () => {
 <cbc:TaxExclusiveAmount currencyID="EUR">0</cbc:TaxExclusiveAmount>
 <cbc:LineExtensionAmount currencyID="EUR">0</cbc:LineExtensionAmount></cac:LegalMonetaryTotal>
 <cbc:ProfileId>profile_id</cbc:ProfileId>
+<cac:PaymentMeans><cbc:PaymentMeansCode name="Credit Transfer">30</cbc:PaymentMeansCode>
+        <cbc:PaymentID>Rechnung mit Bitte um Bezahlung</cbc:PaymentID>
+        <cac:PayeeFinancialAccount>
+            <cbc:ID>DE12345678912345678900</cbc:ID>
+            <cbc:Name>l3montree</cbc:Name>
+            <cac:FinancialInstitutionBranch>
+                <cbc:ID>DEUXXXXXXXX</cbc:ID>
+            </cac:FinancialInstitutionBranch>
+        </cac:PayeeFinancialAccount>
+    </cac:PaymentMeans>
+<cac:PaymentTerms><cbc:Note>None</cbc:Note></cac:PaymentTerms>
 <cac:TaxTotal><cbc:TaxAmount currencyID="EUR">2</cbc:TaxAmount></cac:TaxTotal></ubl:Invoice>`;
   const party: Party = {
     EndpointID: {
@@ -105,6 +116,21 @@ describe('XInvoice test suite', () => {
     ],
     InvoiceTypeCode: '380',
     IssueDate: '2020-11-02',
+    PaymentMeans: [
+      {
+        PaymentMeansCode: {
+          content: '30',
+          attributes: { name: 'Credit Transfer' },
+        },
+        PaymentID: 'Rechnung mit Bitte um Bezahlung',
+        PayeeFinancialAccount: {
+          ID: 'DE12345678912345678900',
+          Name: 'l3montree',
+          FinancialInstitutionBranch: { ID: 'DEUXXXXXXXX' },
+        },
+      },
+    ],
+    PaymentTerms: [{ Note: 'None' }],
     LegalMonetaryTotal: {
       TaxInclusiveAmount: {
         content: '10',
@@ -139,7 +165,7 @@ describe('XInvoice test suite', () => {
       new XInvoice((await XInvoice.fromXML(xmlString)) as Invoice).toXML()
     ).toEqual(xmlString);
   });
-  it.skip('should validate a xml string by using the schematron definitions from itplr', async () => {
-    // await XInvoice.validateXInvoice(xmlString);
+  it('should validate a xml string by using the schematron definitions from itplr', async () => {
+    await XInvoice.validateXInvoice(new XInvoice(xinvoice).toXML());
   });
 });
