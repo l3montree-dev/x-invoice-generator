@@ -1,17 +1,116 @@
-import { Invoice, Node } from './types';
-import XInvoiceTag from './XInvoiceTag';
+import { parseStringPromise } from 'xml2js';
+import { Invoice, Node, Tag } from './types';
 
 export default class XInvoice {
   constructor(protected invoice: Invoice) {}
+
+  protected static isLeaf(obj: Node | Tag): boolean {
+    switch (typeof obj) {
+      // it is always a leaf, if it is a scalar value.
+      case 'object':
+        // either it is a node or a TagWithAttributes
+        // TagWithAttributes contain the content property.
+        return 'content' in obj;
+      default:
+        return true;
+    }
+  }
+
+  protected static recursiveInvoiceGeneration(obj: Node): Partial<Invoice> {
+    return (
+      Object.keys(obj)
+        .map((key) => {
+          if (key.startsWith('cac:')) {
+            const tagName = key.substr(4);
+            // we have to check, if the value is an array. this is perfectly possible.
+            // an array is identified by having at least 2 elements.
+            if (obj[key].length > 1) {
+              return {
+                [tagName]: obj[key].map((el: Node) =>
+                  this.recursiveInvoiceGeneration(el)
+                ),
+              };
+            }
+            return {
+              [tagName]: this.recursiveInvoiceGeneration(obj[key][0]),
+            };
+          }
+          if (key.startsWith('cbc:')) {
+            // the simple case.
+            // we finished the recursion
+            const tagName = key.substr(4);
+            // lets checkout if there are any attributes for this tag.
+            // const attr: object | undefined = obj[key].$;
+            // since we are using xml2js - which is not capable of identifying scalar values
+            // we need to index the first element of the array.
+            let tag = obj[key][0];
+            if (typeof tag === 'object') {
+              // it is a tag with some attributes.
+              // we find the value at: _
+              // and the attributes at: $;
+              tag = { content: tag._, attributes: tag.$ };
+            }
+            // const attr;
+            return { [tagName]: tag };
+          }
+          // lets skip it.
+          return null;
+        })
+        // filter all null values.
+        // yes its not tail recursive.
+        .filter((entry) => entry)
+        .reduce((a, b) => ({ ...a, ...b }), {}) as Partial<Invoice>
+    );
+  }
+
+  public static async fromXML(xml: string): Promise<Partial<Invoice>> {
+    // we have to create the Invoice javascript object.
+    // this object is the bridge between a user interface and the xml data structure.
+    const obj = await parseStringPromise(xml);
+    return this.recursiveInvoiceGeneration(obj['ubl:Invoice']);
+  }
+
+  protected static attributeString(leaf: Tag): string {
+    if (typeof leaf === 'object' && 'content' in leaf) {
+      // transform the attributes to a string.
+      return ` ${Object.entries(leaf.attributes)
+        .map(
+          ([attributeName, attributeValue]) =>
+            `${attributeName}="${attributeValue}"`
+        )
+        .join(' ')}`;
+    }
+
+    return '';
+  }
+
+  protected static leafValue(leaf: Tag): string {
+    if (typeof leaf === 'object' && 'content' in leaf) {
+      // transform the attributes to a string.
+      return leaf.content;
+    }
+    return leaf;
+  }
 
   protected recursiveXMLGeneration(node: Node): string {
     // there are only three cases, which might happen here.
     // node represents a leaf, or node is an object.
     return Object.entries(node)
       .map(([tagName, value]) => {
-        if (value instanceof XInvoiceTag) {
+        if (value instanceof Array) {
+          // if the value is an array we have to duplicate this node for each child.
+          return value
+            .map((val) => {
+              return this.recursiveXMLGeneration({ [tagName]: val });
+            })
+            .join('');
+        }
+        if (XInvoice.isLeaf(value)) {
           // we are reached the leaf
-          return value.toXMLTag(tagName);
+          // check if it has attributes.
+          return `<cbc:${tagName}${XInvoice.attributeString(
+            value as Tag
+          )}>${XInvoice.leafValue(value as Tag)}</cbc:${tagName}>`;
         }
         return `<cac:${tagName}>${this.recursiveXMLGeneration(
           value

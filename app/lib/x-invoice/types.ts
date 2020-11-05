@@ -1,72 +1,59 @@
-import XInvoiceEnumTag from './XInvoiceEnumTag';
-import XInvoiceStringTag from './XInvoiceStringTag';
-import XInvoiceNumberTag from './XInvoiceNumberTag';
-import XInvoiceDateTag from './XInvoiceDateTag';
-import XInvoiceBinaryObjectTag from './XInvoiceBinaryObjectTag';
-import XInvoiceURITag from './XInvoiceURITag';
-import XInvoiceTag from './XInvoiceTag';
-import XInvoiceEMailTag from './XInvoiceEMailTag';
-
-export interface TagWithAttributes {
-  attributes?: Record<string, string>[];
+export interface TagWithAttributes<Attributes extends object> {
+  attributes: Attributes;
   content: string;
 }
 
+export type Tag = TagWithAttributes<any> | string;
+
 export interface InvoicePeriod {
-  StartDate?: XInvoiceDateTag;
-  EndDate?: XInvoiceDateTag;
-  DescriptionCode?: XInvoiceEnumTag<
-    | '3' // Invoice document issue date time
-    | '35' // Delivery date/time, actual
-    | '432' // Paid to date>
-  >;
+  StartDate?: string;
+  EndDate?: string;
+  DescriptionCode?: string;
 }
 
-export interface OrderReference extends Identification<XInvoiceStringTag> {
-  SalesOrderID?: XInvoiceStringTag;
+export interface OrderReference extends Identification {
+  SalesOrderID?: string;
 }
 
 export interface BillingReference {
   InvoiceDocumentReference: InvoiceDocumentReference;
 }
 
-export interface InvoiceDocumentReference
-  extends Identification<XInvoiceNumberTag> {
-  IssueDate?: XInvoiceDateTag;
+export interface InvoiceDocumentReference extends Identification {
+  IssueDate?: string;
 }
 
-export type DespatchDocumentReference = Identification<XInvoiceStringTag>;
+export type DespatchDocumentReference = Identification;
 
-export type ReceiptDocumentReference = Identification<XInvoiceStringTag>;
+export type ReceiptDocumentReference = Identification;
 
-export type OriginatorDocumentReference = Identification<XInvoiceStringTag>;
+export type OriginatorDocumentReference = Identification;
 
-export type ContractDocumentReference = Identification<XInvoiceStringTag>;
+export type ContractDocumentReference = Identification;
 
-export interface AdditionalDocumentReference
-  extends Identification<XInvoiceStringTag> {
+export interface AdditionalDocumentReference extends Identification {
   DocumentTypeCode?: '130';
-  DocumentDescription?: XInvoiceStringTag;
+  DocumentDescription?: string;
   Attachment?: Attachment;
 }
 
 export interface Attachment {
-  EmbeddedDocumentBinaryObject?: XInvoiceBinaryObjectTag;
+  EmbeddedDocumentBinaryObject?: string;
   ExternalReference?: ExternalReference;
 }
 
 export interface ExternalReference {
-  URI: XInvoiceURITag;
+  URI: string;
 }
 
-export type ProjectReference = Identification<XInvoiceStringTag>;
+export type ProjectReference = Identification;
 
 export interface AccountingSupplierParty {
   Party: Party;
 }
 
 export interface Party {
-  EndpointID: XInvoiceStringTag<{ schemeID: string }>;
+  EndpointID: TagWithAttributes<{ schemeID: string }>;
   PartyIdentification?: PartyIdentification[];
   PartyName?: PartyName;
   PostalAddress: PostalAddress;
@@ -76,45 +63,45 @@ export interface Party {
 }
 
 export interface PartyIdentification {
-  ID: XInvoiceStringTag<{ schemeID: string }>;
+  ID: TagWithAttributes<{ schemeID: string }>;
 }
 
 export interface PartyName {
-  Name: XInvoiceStringTag;
+  Name: string;
 }
 
 export interface PostalAddress {
-  StreetName?: XInvoiceStringTag;
-  AdditionalStreetName?: XInvoiceStringTag;
-  CityName?: XInvoiceStringTag;
-  PostalZone?: XInvoiceStringTag;
-  CountrySubentity?: XInvoiceStringTag;
+  StreetName?: string;
+  AdditionalStreetName?: string;
+  CityName?: string;
+  PostalZone?: string;
+  CountrySubentity?: string;
   AddressLine?: AddressLine;
   Country: Country;
 }
 
 export interface AddressLine {
-  Line: XInvoiceStringTag;
+  Line: string;
 }
 
 export interface Country {
-  IdentificationCode: XInvoiceEnumTag<IdentificationCode>;
+  IdentificationCode: string;
 }
 
 export interface PartyTaxScheme {
-  CompanyID: XInvoiceStringTag;
+  CompanyID: string;
   TaxScheme: TaxScheme;
 }
 
 export interface PartyLegalEntity {
-  RegistrationName: XInvoiceStringTag;
-  CompanyID?: XInvoiceStringTag<{ schemeID: string }>;
-  ComapnyLegalForm?: XInvoiceStringTag;
+  RegistrationName: string;
+  CompanyID?: TagWithAttributes<{ schemeID: string }>;
+  ComapnyLegalForm?: string;
 }
 export interface Contact {
-  Name?: XInvoiceStringTag;
-  Telephone?: XInvoiceStringTag;
-  ElectronicMail?: XInvoiceEMailTag;
+  Name?: string;
+  Telephone?: string;
+  ElectronicMail?: string;
 }
 export type PayeeParty = Party;
 export interface AccountingCustomerParty {
@@ -130,110 +117,108 @@ export interface DeliveryParty {
   Name: PartyName;
 }
 export interface DeliveryLocation {
-  ID: XInvoiceNumberTag<{ schemeID: string }>;
+  ID: TagWithAttributes<{ schemeID: string }>;
   Address: PostalAddress;
   DeliveryParty: DeliveryParty;
 }
 export interface Delivery {
-  ActualDeliveryDate: XInvoiceDateTag;
+  ActualDeliveryDate: string;
   DeliveryLocation: DeliveryLocation;
 }
 export interface CardAccount {
-  PrimaryAccountNumberID: XInvoiceNumberTag;
-  NetworkID: XInvoiceStringTag;
-  HolderName?: XInvoiceStringTag;
+  PrimaryAccountNumberID: string;
+  NetworkID: string;
+  HolderName?: string;
 }
-export type FinancialInstitutionBranch = Identification<XInvoiceNumberTag>;
-export interface PayeeFinancialAccount
-  extends Identification<XInvoiceNumberTag> {
-  Name: XInvoiceStringTag;
+export type FinancialInstitutionBranch = Identification;
+export interface PayeeFinancialAccount extends Identification {
+  Name: string;
   FinancialInstitutionBranch?: FinancialInstitutionBranch;
 }
-export type PayerFinancialAccount = Identification<XInvoiceNumberTag>;
-export interface PaymentMandate extends Identification<XInvoiceNumberTag> {
+export type PayerFinancialAccount = Identification;
+export interface PaymentMandate extends Identification {
   PayerFinancialAccount: PayerFinancialAccount;
 }
 export interface PaymentMeans {
-  PaymentMeansCode: XInvoiceNumberTag<{ name: string }>;
-  PaymentID: XInvoiceNumberTag;
+  PaymentMeansCode: TagWithAttributes<{ name: string }>;
+  PaymentID: string;
   CardAccount?: CardAccount;
   PayeeFinancialAccount?: PayeeFinancialAccount;
   PaymentMandate?: PaymentMandate;
 }
 export interface PaymentTerms {
-  Note: XInvoiceStringTag;
+  Note: string;
 }
-export interface TaxCategory extends Identification<XInvoiceNumberTag> {
-  Percent?: XInvoiceNumberTag;
-  TaxExemptionReasonCode?: XInvoiceNumberTag;
-  TaxExemptionReason?: XInvoiceStringTag;
+export interface TaxCategory extends Identification {
+  Percent?: string;
+  TaxExemptionReasonCode?: string;
+  TaxExemptionReason?: string;
   TaxScheme: TaxScheme;
 }
 export interface TaxSubtotal {
-  TaxableAmount: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
-  TaxAmount: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
+  TaxableAmount: TagWithAttributes<{ currencyID: CurrencyCodes }>;
+  TaxAmount: TagWithAttributes<{ currencyID: CurrencyCodes }>;
   TaxCategory: TaxCategory;
 }
 export interface TaxTotal {
-  TaxAmount: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
+  TaxAmount: TagWithAttributes<{ currencyID: CurrencyCodes }>;
   TaxSubtotal?: TaxSubtotal[];
 }
 export interface LegalMonetaryTotal {
-  LineExtensionAmount: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
-  TaxExclusiveAmount: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
-  TaxInclusiveAmount: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
-  AllowanceTotalAmount?: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
-  ChargeTotalAmount?: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
-  PrepaidAmount?: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
-  PayableRoundingAmount?: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
-  PayableAmount?: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
+  LineExtensionAmount: TagWithAttributes<{ currencyID: CurrencyCodes }>;
+  TaxExclusiveAmount: TagWithAttributes<{ currencyID: CurrencyCodes }>;
+  TaxInclusiveAmount: TagWithAttributes<{ currencyID: CurrencyCodes }>;
+  AllowanceTotalAmount?: TagWithAttributes<{ currencyID: CurrencyCodes }>;
+  ChargeTotalAmount?: TagWithAttributes<{ currencyID: CurrencyCodes }>;
+  PrepaidAmount?: TagWithAttributes<{ currencyID: CurrencyCodes }>;
+  PayableRoundingAmount?: TagWithAttributes<{ currencyID: CurrencyCodes }>;
+  PayableAmount?: TagWithAttributes<{ currencyID: CurrencyCodes }>;
 }
 export interface OrderLineReference {
-  LineId: XInvoiceNumberTag;
+  LineId: string;
 }
 
 export interface DocumentReference {
-  ID: XInvoiceStringTag<{ schemeID: string }>;
+  ID: TagWithAttributes<{ schemeID: string }>;
   DocumentTypeCode: 130;
 }
 export enum Bool {
   true,
   false,
 }
-export interface Identification<T extends XInvoiceTag<any, undefined>> {
-  ID: T;
+export interface Identification {
+  ID: string;
 }
 export enum IdentificationCode {
   CN,
 }
 export interface OriginCountry {
-  IdentificationCode: XInvoiceEnumTag<IdentificationCode>;
+  IdentificationCode: string;
 }
 export interface CommodityClassification {
-  ItemClassificationCode: XInvoiceNumberTag;
+  ItemClassificationCode: string;
 }
 
 export enum TaxSchemeID {
   VAT,
 }
-export type TaxScheme = Identification<XInvoiceEnumTag<TaxSchemeID>>;
-export interface ClassifiedTaxCategory
-  extends Identification<XInvoiceNumberTag> {
-  Percent?: XInvoiceNumberTag;
+export type TaxScheme = Identification;
+export interface ClassifiedTaxCategory extends Identification {
+  Percent?: string;
   TaxScheme: TaxScheme;
 }
 export interface AdditionalItemProperty {
-  Name: XInvoiceTag<any, undefined>;
-  Value: XInvoiceTag<any, undefined>;
+  Name: string;
+  Value: string;
 }
 export interface StandardItemIdentification {
-  ID: XInvoiceNumberTag<{ schemeID: string }>;
+  ID: TagWithAttributes<{ schemeID: string }>;
 }
 export interface Item {
-  Description?: XInvoiceStringTag;
-  Name: XInvoiceStringTag;
-  BuyersItemIdentification?: Identification<XInvoiceNumberTag>;
-  SellersItemIdentification?: Identification<XInvoiceNumberTag>;
+  Description?: string;
+  Name: string;
+  BuyersItemIdentification?: Identification;
+  SellersItemIdentification?: Identification;
   StandardItemIdentification?: StandardItemIdentification;
   OriginCountry?: OriginCountry;
   CommodityClassification?: CommodityClassification;
@@ -241,52 +226,52 @@ export interface Item {
   AdditionalItemProperty?: AdditionalItemProperty[];
 }
 export interface AllowanceCharge {
-  ChargeIndicator: XInvoiceEnumTag<Bool>;
-  AllowanceChargeReasonCode?: XInvoiceNumberTag;
-  AllowanceChargeReason?: XInvoiceStringTag;
-  MultiplierFactorNumeric: XInvoiceNumberTag;
-  Amount: XInvoiceNumberTag<{ currencyId: CurrencyCodes }>;
-  BaseAmount?: XInvoiceNumberTag<{ currencyId: CurrencyCodes }>;
+  ChargeIndicator: string;
+  AllowanceChargeReasonCode?: string;
+  AllowanceChargeReason?: string;
+  MultiplierFactorNumeric: string;
+  Amount: TagWithAttributes<{ currencyId: CurrencyCodes }>;
+  BaseAmount?: TagWithAttributes<{ currencyId: CurrencyCodes }>;
   Item: Item;
 }
 export interface Price {
-  PriceAmount: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
-  BaseQuantity?: XInvoiceNumberTag<{ unitCode: string }>;
+  PriceAmount: TagWithAttributes<{ currencyID: CurrencyCodes }>;
+  BaseQuantity?: TagWithAttributes<{ unitCode: string }>;
   AllowanceCharge?: AllowanceCharge;
 }
 export interface InvoiceLine {
-  ID: XInvoiceNumberTag;
-  Note?: XInvoiceStringTag;
-  InvoicedQuantity: XInvoiceNumberTag<{ unitCode: string }>;
-  LineExtensionAmount: XInvoiceNumberTag<{ currencyID: CurrencyCodes }>;
-  AccountingCost?: XInvoiceStringTag;
+  ID: string;
+  Note?: string;
+  InvoicedQuantity: TagWithAttributes<{ unitCode: string }>;
+  LineExtensionAmount: TagWithAttributes<{ currencyID: CurrencyCodes }>;
+  AccountingCost?: string;
   InvoicePeriod?: InvoicePeriod;
   OrderLineReference?: OrderLineReference;
   DocumentReference?: DocumentReference;
-  AllowanceCharge?: AllowanceCharge;
+  AllowanceCharge?: AllowanceCharge[];
   Item: Item;
   Price: Price;
 }
 
 export enum CurrencyCodes {
-  EUR,
+  EUR = 'EUR',
 }
 
 export enum TaxCurrencyCode {}
 
 export interface Invoice extends Node {
-  CustomizationID: XInvoiceStringTag;
-  ProfileId: XInvoiceStringTag;
-  ID: XInvoiceNumberTag;
-  IssueDate: XInvoiceDateTag;
-  DueDate?: XInvoiceDateTag;
-  InvoiceTypeCode: XInvoiceNumberTag;
-  Note?: XInvoiceStringTag;
-  TaxPointDate?: XInvoiceDateTag;
-  DocumentCurrencyCode: XInvoiceEnumTag<CurrencyCodes>;
-  TaxCurrencyCode?: XInvoiceEnumTag<TaxCurrencyCode>;
-  AccountingCost?: XInvoiceStringTag;
-  BuyerReference?: XInvoiceStringTag;
+  CustomizationID: string;
+  ProfileId: string;
+  ID: string;
+  IssueDate: string;
+  DueDate?: string;
+  InvoiceTypeCode: string;
+  Note?: string;
+  TaxPointDate?: string;
+  DocumentCurrencyCode: string;
+  TaxCurrencyCode?: string;
+  AccountingCost?: string;
+  BuyerReference?: string;
   InvoicePeriod?: InvoicePeriod;
   BillingsReference?: BillingReference[];
   DespatchDocumentReference?: DespatchDocumentReference;
@@ -308,8 +293,6 @@ export interface Invoice extends Node {
   InvoiceLine: InvoiceLine[];
 }
 
-export type Leaf = XInvoiceTag<any, undefined> | XInvoiceTag<any, undefined>[];
-
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-export type Node = Record<string, Leaf | Node>;
+export type Node = Record<string, Tag | Node>;
