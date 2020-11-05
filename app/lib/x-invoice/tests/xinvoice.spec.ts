@@ -139,4 +139,7 @@ describe('XInvoice test suite', () => {
       new XInvoice((await XInvoice.fromXML(xmlString)) as Invoice).toXML()
     ).toEqual(xmlString);
   });
+  it.skip('should validate a xml string by using the schematron definitions from itplr', async () => {
+    // await XInvoice.validateXInvoice(xmlString);
+  });
 });

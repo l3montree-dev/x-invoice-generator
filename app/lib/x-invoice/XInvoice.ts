@@ -1,8 +1,43 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { parseStringPromise } from 'xml2js';
+import { promises as fs } from 'fs';
+import { join } from 'path';
+import { validate } from 'schematron-runner';
 import { Invoice, Node, Tag } from './types';
 
 export default class XInvoice {
   constructor(protected invoice: Invoice) {}
+
+  public static validateURI(uri: string): boolean {
+    return /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g.test(
+      uri
+    );
+  }
+
+  public static validateEMail(email: string): boolean {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  public static validateDateString(date: string) {
+    return /\d{4}-\d{2}-\d{2}/.test(date);
+  }
+
+  public static async validateXInvoice(xml: string) {
+    const schematron = await fs.readFile(
+      join(
+        __dirname,
+        'schematron',
+        'ubl-inv',
+        'XRechnung-UBL-validation-Invoice.sch'
+      ),
+      'utf8'
+    );
+    const results = await validate(xml, schematron, {
+      resourceDir: join(__dirname, 'schematron', 'ubl-inv', 'empty'),
+    });
+    console.log(results);
+  }
 
   protected static isLeaf(obj: Node | Tag): boolean {
     switch (typeof obj) {
