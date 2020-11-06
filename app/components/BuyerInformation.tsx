@@ -1,12 +1,7 @@
 import React from 'react';
-import { Col, Form, Input, Row, Select } from 'antd';
-import Countries from '../lib/x-invoice/constants';
+import { Col, Form, Input, Row } from 'antd';
+import CountrySelect from './CountrySelect';
 
-const style = {
-  datePicker: {
-    width: '100%',
-  },
-};
 const BuyerInformation = () => {
   return (
     <>
@@ -92,21 +87,7 @@ const BuyerInformation = () => {
             name="AccountingCustomerParty.Party.PostalAddress.Country.IdentificationCode"
             label="Land"
           >
-            <Select
-              showSearch
-              style={style.datePicker}
-              placeholder="Land auswählen"
-              optionFilterProp="children"
-              filterOption={(input, option) =>
-                option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
-            >
-              {Object.entries(Countries).map(([value, readableName]) => (
-                <Select.Option key={value} value={value}>
-                  {readableName}
-                </Select.Option>
-              ))}
-            </Select>
+            <CountrySelect />
           </Form.Item>
         </Col>
       </Row>

@@ -1,11 +1,8 @@
 import React from 'react';
-import { Col, DatePicker, Form, Input, Row } from 'antd';
+import { Col, Form, Input, Row } from 'antd';
+import PostCodeFormItem from './PostCodeFormItem';
+import CountrySelect from './CountrySelect';
 
-const style = {
-  datePicker: {
-    width: '100%',
-  },
-};
 const SellerInformation = () => {
   return (
     <>
@@ -33,6 +30,7 @@ const SellerInformation = () => {
           <Form.Item
             name="AccountingSupplierParty.Party.PartyIdentification.ID"
             label="Kennung"
+            tooltip="Eine (i.d.R. vom Erwerber vergebene) Kennung des Verkäufers, wie z. B. die Kreditorennummer für das Mittelbewirtschaftungsverfahren oder die Lieferantennummer für das Bestellsystem."
           >
             <Input placeholder="1234567" />
           </Form.Item>
@@ -52,81 +50,82 @@ const SellerInformation = () => {
             name="AccountingSupplierParty.Party.PartyTaxScheme.CompanyID"
             label="Steuernummer"
           >
-            <DatePicker style={style.datePicker} picker="date" />
+            <Input placeholder="1234567" />
           </Form.Item>
         </Col>
       </Row>
       <Row gutter={16}>
         <Col span={12}>
           <Form.Item
-            name="AccountingSupplierParty -> Party -> PostalAddress -> StreetName"
+            name="AccountingSupplierParty.Party.PostalAddress.StreetName"
             label="Straße & Hausnummer"
           >
-            <DatePicker style={style.datePicker} />
+            <Input placeholder="1234567" />
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item
-            name="AccountingSupplierParty -> Party -> PostalAddress -> AdditionalStreetName"
+            name="AccountingSupplierParty.Party.PostalAddress.AdditionalStreetName"
             label="Postfach"
           >
-            <DatePicker style={style.datePicker} />
+            <Input placeholder="1234567" />
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item
-            name="AccountingSupplierParty -> Party -> PostalAddress -> PostalZone"
-            label="PLZ"
-          >
-            <DatePicker style={style.datePicker} />
-          </Form.Item>
+          <PostCodeFormItem name="AccountingSupplierParty.Party.PostalAddress.PostalZone" />
         </Col>
         <Col span={12}>
           <Form.Item
-            name="AccountingSupplierParty -> Party -> PostalAddress -> CityName"
+            name="AccountingSupplierParty.Party.PostalAddress.CityName"
             label="Ort"
           >
-            <DatePicker style={style.datePicker} />
+            <Input placeholder="1234567" />
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item
-            name="AccountingSupplierParty -> Party -> PostalAddress -> CountrySubentity"
+            name="AccountingSupplierParty.Party.PostalAddress.CountrySubentity"
             label="Bundesland"
           >
-            <DatePicker style={style.datePicker} />
+            <Input placeholder="1234567" />
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item
-            name="AccountingSupplierParty -> Party -> PostalAddress -> Country -> IdentificationCode"
+            required
+            name="AccountingSupplierParty.Party.PostalAddress.Country.IdentificationCode"
             label="Land"
           >
-            <DatePicker style={style.datePicker} />
+            <CountrySelect />
           </Form.Item>
         </Col>
-        <Col span={12}>
+      </Row>
+      <Row gutter={16}>
+        <Col span={8}>
           <Form.Item
-            name="AccountingSupplierParty -> Party -> Contact -> Name"
+            required
+            name="AccountingSupplierParty.Party.Contact.Name"
             label="Name"
           >
-            <DatePicker style={style.datePicker} />
+            <Input placeholder="1234567" />
           </Form.Item>
         </Col>
-        <Col span={12}>
+        <Col span={8}>
           <Form.Item
-            name="AccountingSupplierParty -> Party -> Contact -> ElectronicMail"
+            required
+            name="AccountingSupplierParty.Party.Contact.ElectronicMail"
             label="E-Mail Adresse"
           >
-            <DatePicker style={style.datePicker} />
+            <Input placeholder="1234567" />
           </Form.Item>
         </Col>
-        <Col span={12}>
+        <Col span={8}>
           <Form.Item
-            name="AccountingSupplierParty -> Party -> Contact -> Telephone"
+            required
+            name="AccountingSupplierParty.Party.Contact.Telephone"
             label="Telefon"
           >
-            <DatePicker style={style.datePicker} />
+            <Input placeholder="1234567" />
           </Form.Item>
         </Col>
       </Row>
