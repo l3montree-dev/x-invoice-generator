@@ -53,8 +53,8 @@ export interface AccountingSupplierParty {
 }
 
 export interface Party {
-  EndpointID: TagWithAttributes<{ schemeID: string }>;
-  PartyIdentification?: PartyIdentification[];
+  EndpointID?: TagWithAttributes<{ schemeID: string }>;
+  PartyIdentification?: PartyIdentification | PartyIdentification[];
   PartyName?: PartyName;
   PostalAddress: PostalAddress;
   PartyTaxScheme?: PartyTaxScheme | [PartyTaxScheme, PartyTaxScheme];
@@ -63,7 +63,7 @@ export interface Party {
 }
 
 export interface PartyIdentification {
-  ID: TagWithAttributes<{ schemeID: string }>;
+  ID: TagWithAttributes<{ schemeID: string }> | string;
 }
 
 export interface PartyName {
@@ -140,7 +140,7 @@ export interface PaymentMandate extends Identification {
   PayerFinancialAccount: PayerFinancialAccount;
 }
 export interface PaymentMeans {
-  PaymentMeansCode: TagWithAttributes<{ name: string }>;
+  PaymentMeansCode: TagWithAttributes<{ name: string }> | string;
   PaymentID: string;
   CardAccount?: CardAccount;
   PayeeFinancialAccount?: PayeeFinancialAccount;
@@ -162,7 +162,7 @@ export interface TaxSubtotal {
 }
 export interface TaxTotal {
   TaxAmount: TagWithAttributes<{ currencyID: CurrencyCodes }>;
-  TaxSubtotal?: TaxSubtotal[];
+  TaxSubtotal?: TaxSubtotal | TaxSubtotal[];
 }
 export interface LegalMonetaryTotal {
   LineExtensionAmount: TagWithAttributes<{ currencyID: CurrencyCodes }>;
@@ -253,15 +253,12 @@ export interface InvoiceLine {
   Price: Price;
 }
 
-export enum CurrencyCodes {
-  EUR = 'EUR',
-}
+export type CurrencyCodes = 'EUR';
 
 export enum TaxCurrencyCode {}
 
 export interface Invoice extends Node {
   CustomizationID: string;
-  ProfileId: string;
   ID: string;
   IssueDate: string;
   DueDate?: string;
@@ -271,7 +268,7 @@ export interface Invoice extends Node {
   DocumentCurrencyCode: string;
   TaxCurrencyCode?: string;
   AccountingCost?: string;
-  BuyerReference?: string;
+  BuyerReference: string;
   InvoicePeriod?: InvoicePeriod;
   BillingsReference?: BillingReference[];
   DespatchDocumentReference?: DespatchDocumentReference;
@@ -285,8 +282,9 @@ export interface Invoice extends Node {
   PayeeParty?: PayeeParty;
   TaxRepresentativeParty?: TaxRepresentativeParty;
   Delivery?: Delivery;
-  PaymentMeans?: PaymentMeans[];
-  PaymentTerms?: PaymentTerms[];
+  PaymentMeans?: PaymentMeans | PaymentMeans[];
+  OrderReference: OrderReference;
+  PaymentTerms?: PaymentTerms | PaymentTerms[];
   AllowanceCharge?: AllowanceCharge[];
   TaxTotal: TaxTotal | TaxTotal[];
   LegalMonetaryTotal: LegalMonetaryTotal;
