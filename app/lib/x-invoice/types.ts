@@ -260,20 +260,21 @@ export enum CurrencyCodes {
 export enum TaxCurrencyCode {}
 
 export interface Invoice extends Node {
+  ID: string;
+  BuyerReference: string;
+  IssueDate: string;
+  OrderReference?: OrderReference;
+  DueDate?: string;
+  InvoicePeriod: InvoicePeriod;
   CustomizationID: string;
   ProfileId: string;
-  ID: string;
-  IssueDate: string;
-  DueDate?: string;
   InvoiceTypeCode: string;
   Note?: string;
   TaxPointDate?: string;
   DocumentCurrencyCode: string;
   TaxCurrencyCode?: string;
   AccountingCost?: string;
-  BuyerReference?: string;
-  InvoicePeriod?: InvoicePeriod;
-  BillingsReference?: BillingReference[];
+  BillingReference?: BillingReference[];
   DespatchDocumentReference?: DespatchDocumentReference;
   ReceiptDocumentReference?: ReceiptDocumentReference;
   OriginatorDocumentReference?: OriginatorDocumentReference;
