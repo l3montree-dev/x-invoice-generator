@@ -18,8 +18,15 @@ const PaymentDetails = () => {
           required
           name="PaymentMeans.PayeeFinancialAccount.ID "
           label="IBAN"
+          rules={[
+            {
+              required: true,
+              pattern: /^[A-Z]{2}(?:[ ]?[0-9]){18,20}$/,
+              message: 'Keine korrekte IBAN',
+            },
+          ]}
         >
-          <Input placeholder="1234567" />
+          <Input placeholder="DE12345678912345678" />
         </Form.Item>
       </Col>
     </Row>
