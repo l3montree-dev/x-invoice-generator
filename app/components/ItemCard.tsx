@@ -1,11 +1,14 @@
 import React, { FunctionComponent } from 'react';
-import { Card, Col, Form, Input, Row, Typography } from 'antd';
+import { Card, Col, Form, Input, InputNumber, Row, Typography } from 'antd';
 import { FormListFieldData } from 'antd/lib/form/FormList';
 
 const style = {
   card: {
     backgroundColor: '#fafafa',
     marginBottom: '10px',
+  },
+  input: {
+    width: '100%',
   },
 };
 interface Props {
@@ -27,19 +30,45 @@ const ItemCard: FunctionComponent<Props> = (props) => {
       key={field.key}
     >
       <Row gutter={16}>
-        <Col span={3}>
+        <Col span={2}>
           <Form.Item
-            {...field}
-            label="Menge"
-            fieldKey={[field.fieldKey, 'InvoiceQuantity']}
-            name={[field.name, 'InvoiceQuantity']}
+            name="Item.SellerItemIdentification.ID"
+            label="Artikelnummer"
           >
             <Input />
           </Form.Item>
         </Col>
-        <Col span={12}>
+        <Col span={3}>
+          <Form.Item
+            required
+            tooltip="Eindeutige Bezeichnung für die betreffende Rechnungsposition."
+            rules={[
+              {
+                pattern: /[0-9]{*}/,
+                message: 'Ausschließlich Zahlen sind erlaubt',
+              },
+            ]}
+            name="Item.SellerItemIdentification.ID"
+            label="Positionsnummer"
+          >
+            <Input />
+          </Form.Item>
+        </Col>
+        <Col span={2}>
           <Form.Item
             {...field}
+            required
+            label="Menge"
+            fieldKey={[field.fieldKey, 'InvoiceQuantity']}
+            name={[field.name, 'InvoiceQuantity']}
+          >
+            <InputNumber style={style.input} />
+          </Form.Item>
+        </Col>
+        <Col span={8}>
+          <Form.Item
+            {...field}
+            required
             label="Bezeichnung"
             fieldKey={[field.fieldKey, 'Item.Name']}
             name={[field.name, 'Item.Name']}
@@ -51,6 +80,7 @@ const ItemCard: FunctionComponent<Props> = (props) => {
         <Col span={3}>
           <Form.Item
             {...field}
+            required
             label="Preis pro Einheit netto"
             fieldKey={[field.fieldKey, 'Price.PriceAmount']}
             name={[field.name, 'Price.PriceAmount']}
@@ -61,6 +91,7 @@ const ItemCard: FunctionComponent<Props> = (props) => {
         <Col span={3}>
           <Form.Item
             {...field}
+            required
             label="Umsatzsteuer"
             fieldKey={[field.fieldKey, 'Item.ClassifiedTaxCategory.ID']}
             name={[field.name, 'Item.ClassifiedTaxCategory.ID']}
