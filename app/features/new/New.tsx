@@ -34,7 +34,7 @@ const New: FunctionComponent<Props> = (props) => {
         form={props.formHandler}
         layout="vertical"
       >
-        <Collapse defaultActiveKey={['1']}>
+        <Collapse bordered={false} defaultActiveKey={['1']}>
           <Collapse.Panel key="1" header="Allgemeine Rechnungsinformationen">
             <GeneralInformation />
           </Collapse.Panel>
