@@ -15,7 +15,7 @@ const BuyerInformation = () => {
             name="AccountingCustomerParty.Party.PartyLegalEntity.RegistrationName"
             label="Name"
           >
-            <Input />
+            <Input placeholder="Firma XY GmbH" />
           </Form.Item>
         </Col>
         <Col span={8}>
@@ -31,7 +31,7 @@ const BuyerInformation = () => {
             name="AccountingCustomerParty.Party.PartyTaxScheme.CompanyID"
             label="Umsatzsteuer-ID"
           >
-            <Input />
+            <Input placeholder="DE123456789" />
           </Form.Item>
         </Col>
       </Row>
@@ -41,7 +41,7 @@ const BuyerInformation = () => {
             name="AccountingCustomerParty.Party.PostalAddress.StreetName"
             label="Straße & Hausnummer"
           >
-            <Input />
+            <Input placeholder="In der Muster Allee 24" />
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -49,7 +49,7 @@ const BuyerInformation = () => {
             name="AccountingCustomerParty.Party.PostalAddress.AdditionalStreetName"
             label="Postfach"
           >
-            <Input />
+            <Input placeholder="8 15" />
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -64,7 +64,7 @@ const BuyerInformation = () => {
             name="AccountingCustomerParty.Party.PostalAddress.PostalZone"
             label="PLZ"
           >
-            <Input />
+            <Input placeholder="53127" />
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -76,7 +76,7 @@ const BuyerInformation = () => {
             ]}
             label="Ort"
           >
-            <Input />
+            <Input placeholder="Bonn" />
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -84,13 +84,14 @@ const BuyerInformation = () => {
             name="AccountingCustomerParty.Party.PostalAddress.CountrySubentity"
             label="Bundesland"
           >
-            <Input />
+            <Input placeholder="Nordrhein-Westfalen" />
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item
             required
             name="AccountingCustomerParty.Party.PostalAddress.Country.IdentificationCode"
+            tooltip="Die zugrundeliegende genormte Liste ist momentan nur in englischer Sprache verfügbar."
             label="Land"
           >
             <CountrySelect />
@@ -103,7 +104,7 @@ const BuyerInformation = () => {
             name="AccountingCustomerParty.Party.Contact.Name"
             label="Name"
           >
-            <Input />
+            <Input placeholder="Marianne Musterfrau" />
           </Form.Item>
         </Col>
         <Col span={8}>
@@ -111,7 +112,7 @@ const BuyerInformation = () => {
             name="AccountingCustomerParty.Party.Contact.ElectronicMail"
             label="E-Mail Adresse"
           >
-            <Input />
+            <Input placeholder="marianne.musterfrau@musterxy.de" type="email" />
           </Form.Item>
         </Col>
         <Col span={8}>
@@ -119,7 +120,7 @@ const BuyerInformation = () => {
             name="AccountingCustomerParty.Party.Contact.Telephone"
             label="Telefon"
           >
-            <Input type="email" />
+            <Input placeholder="0228 32424911" />
           </Form.Item>
         </Col>
       </Row>
