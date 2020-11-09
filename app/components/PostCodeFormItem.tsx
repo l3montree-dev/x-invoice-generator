@@ -17,7 +17,7 @@ const PostCodeFormItem: FunctionComponent<Props> = (props) => {
       name={props.name}
       label="PLZ"
     >
-      <Input placeholder="1234567" />
+      <Input placeholder="53127" />
     </Form.Item>
   );
 };

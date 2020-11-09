@@ -24,7 +24,7 @@ const GeneralInformation = () => {
         </Col>
         <Col span={8}>
           <Form.Item
-            tooltip="Ein vom Erwerber zugewiesener und für interne Lenkungszwecke benutzter Bezeichner."
+            tooltip="Ein vom Erwerber zugewiesener und für interne Lenkungszwecke benutzter Bezeichner. (BT-10)"
             required
             rules={[
               { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
@@ -32,12 +32,12 @@ const GeneralInformation = () => {
             name="BuyerReference"
             label="Leitweg-ID"
           >
-            <Input placeholder="1234567" />
+            <Input placeholder="991-01514-71" />
           </Form.Item>
         </Col>
         <Col span={8}>
           <Form.Item
-            tooltip="Eine vom Erwerber ausgegebene Kennung für eine referenzierte Bestellung."
+            tooltip="Eine vom Erwerber ausgegebene Kennung für eine referenzierte Bestellung. (BT-13)"
             name="OrderReference.ID"
             label="Bestellnummer"
           >
@@ -86,7 +86,7 @@ const GeneralInformation = () => {
             rules={[
               { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
             ]}
-            tooltip="Das Datum, an dem der Rechnungszeitraum beginnt."
+            tooltip="Das Datum, an dem der Rechnungszeitraum beginnt. (BT-73)"
             name="StartDate"
             label="Abrechnungszeitraum vom"
           >
@@ -102,7 +102,7 @@ const GeneralInformation = () => {
             rules={[
               { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
             ]}
-            tooltip="Das Datum, an dem der Rechnungszeitraum endet."
+            tooltip="Das Datum, an dem der Rechnungszeitraum endet. (BT-74)"
             name="EndDate"
             label="Abrechnungszeitraum bis"
           >
