@@ -6,7 +6,8 @@ import { Invoice } from '../lib/x-invoice/types';
 
 const NewPage: FunctionComponent = () => {
   const [form] = Form.useForm<Invoice>();
-  const handleSubmit = (values) => {
+  const handleSubmit = (values: object): void => {
+    // we have to transform the values, since this is flatten object.
     console.log(values);
   };
   return (

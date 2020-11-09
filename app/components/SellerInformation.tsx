@@ -10,6 +10,9 @@ const SellerInformation = () => {
         <Col span={12}>
           <Form.Item
             required
+            rules={[
+              { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
+            ]}
             name="AccountingSupplierParty.Party.PartyLegalEntity.RegistrationName"
             label="Firmenname"
           >
@@ -38,7 +41,10 @@ const SellerInformation = () => {
         <Col span={8}>
           <Form.Item
             required
-            name="AccountingSupplierParty.Party.PartyTaxScheme.CompanyID"
+            rules={[
+              { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
+            ]}
+            name="AccountingSupplierParty.Party.PartyLegalEntity.ID"
             label="Umsatzsteuer-ID"
           >
             <Input placeholder="1234567" />
@@ -47,6 +53,9 @@ const SellerInformation = () => {
         <Col span={8}>
           <Form.Item
             required
+            rules={[
+              { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
+            ]}
             name="AccountingSupplierParty.Party.PartyTaxScheme.CompanyID"
             label="Steuernummer"
           >
@@ -77,6 +86,10 @@ const SellerInformation = () => {
         <Col span={12}>
           <Form.Item
             name="AccountingSupplierParty.Party.PostalAddress.CityName"
+            required
+            rules={[
+              { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
+            ]}
             label="Ort"
           >
             <Input placeholder="1234567" />
@@ -104,6 +117,9 @@ const SellerInformation = () => {
         <Col span={8}>
           <Form.Item
             required
+            rules={[
+              { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
+            ]}
             name="AccountingSupplierParty.Party.Contact.Name"
             label="Name"
           >
@@ -113,6 +129,9 @@ const SellerInformation = () => {
         <Col span={8}>
           <Form.Item
             required
+            rules={[
+              { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
+            ]}
             name="AccountingSupplierParty.Party.Contact.ElectronicMail"
             label="E-Mail Adresse"
           >
@@ -122,6 +141,9 @@ const SellerInformation = () => {
         <Col span={8}>
           <Form.Item
             required
+            rules={[
+              { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
+            ]}
             name="AccountingSupplierParty.Party.Contact.Telephone"
             label="Telefon"
           >

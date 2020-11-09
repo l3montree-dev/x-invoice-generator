@@ -7,6 +7,9 @@ const PaymentDetails = () => {
       <Col span={12}>
         <Form.Item
           required
+          rules={[
+            { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
+          ]}
           name="PaymentMeans.PaymentMeansCode@name"
           label="Zahlungsmittel"
         >

@@ -44,11 +44,12 @@ const ItemCard: FunctionComponent<Props> = (props) => {
             tooltip="Eindeutige Bezeichnung für die betreffende Rechnungsposition."
             rules={[
               {
+                required: true,
                 pattern: /[0-9]{*}/,
                 message: 'Ausschließlich Zahlen sind erlaubt',
               },
             ]}
-            name="Item.SellerItemIdentification.ID"
+            name="ID"
             label="Positionsnummer"
           >
             <Input />
@@ -58,6 +59,9 @@ const ItemCard: FunctionComponent<Props> = (props) => {
           <Form.Item
             {...field}
             required
+            rules={[
+              { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
+            ]}
             label="Menge"
             fieldKey={[field.fieldKey, 'InvoiceQuantity']}
             name={[field.name, 'InvoiceQuantity']}
@@ -69,6 +73,9 @@ const ItemCard: FunctionComponent<Props> = (props) => {
           <Form.Item
             {...field}
             required
+            rules={[
+              { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
+            ]}
             label="Bezeichnung"
             fieldKey={[field.fieldKey, 'Item.Name']}
             name={[field.name, 'Item.Name']}
@@ -81,6 +88,9 @@ const ItemCard: FunctionComponent<Props> = (props) => {
           <Form.Item
             {...field}
             required
+            rules={[
+              { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
+            ]}
             label="Preis pro Einheit netto"
             fieldKey={[field.fieldKey, 'Price.PriceAmount']}
             name={[field.name, 'Price.PriceAmount']}
@@ -92,6 +102,9 @@ const ItemCard: FunctionComponent<Props> = (props) => {
           <Form.Item
             {...field}
             required
+            rules={[
+              { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
+            ]}
             label="Umsatzsteuer"
             fieldKey={[field.fieldKey, 'Item.ClassifiedTaxCategory.ID']}
             name={[field.name, 'Item.ClassifiedTaxCategory.ID']}

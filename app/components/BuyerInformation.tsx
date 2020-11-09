@@ -9,6 +9,9 @@ const BuyerInformation = () => {
         <Col span={8}>
           <Form.Item
             required
+            rules={[
+              { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
+            ]}
             name="AccountingCustomerParty.Party.PartyLegalEntity.RegistrationName"
             label="Name"
           >
@@ -68,6 +71,9 @@ const BuyerInformation = () => {
           <Form.Item
             name="AccountingCustomerParty.Party.PostalAddress.CityName"
             required
+            rules={[
+              { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
+            ]}
             label="Ort"
           >
             <Input />
