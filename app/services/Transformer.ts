@@ -10,8 +10,8 @@ export default class Transformer {
    * @param {object} obj
    * @returns {Partial<Invoice>} We cannot be sure to return a correct invoice.
    */
-  public static object2Invoice(obj: object): Partial<Invoice> {
-    const invoice: object & { [key in string]: Node } = {};
+  public static object2Invoice(obj: object): Node {
+    const invoice: Node = {};
     Object.entries(obj).forEach(([tagName, value]) => {
       this.safelySet(invoice, tagName.split('.') as (keyof Invoice)[], value);
     });
@@ -30,6 +30,25 @@ export default class Transformer {
         destination[key] = {};
       }
       this.safelySet(destination[key], rest, value);
+    } else if (key.includes('@')) {
+      const [tagName, attributeName] = key.split('@');
+      // the content might already be defined.
+      let content = destination[tagName];
+      if (typeof destination[tagName] === 'object') {
+        content = destination[tagName].content;
+      }
+      destination[tagName] = {
+        content,
+        attributes: {
+          ...destination[tagName]?.attributes,
+          [attributeName]: value,
+        },
+      };
+    } else if (typeof destination[key] === 'object') {
+      destination[key] = {
+        ...destination[key],
+        content: value,
+      };
     } else {
       destination[key] = value;
     }

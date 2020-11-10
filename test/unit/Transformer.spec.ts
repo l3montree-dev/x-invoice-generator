@@ -43,4 +43,34 @@ describe('Transformer test suite', () => {
       },
     });
   });
+  it('should handle attributes correctly', () => {
+    expect(
+      Transformer.object2Invoice({
+        'Foo@attr': 'foo',
+        Foo: 'bar',
+      })
+    ).toEqual({
+      Foo: {
+        content: 'bar',
+        attributes: {
+          attr: 'foo',
+        },
+      },
+    });
+  });
+  it('should handle attributes correctly - no matter the order', () => {
+    expect(
+      Transformer.object2Invoice({
+        Foo: 'bar',
+        'Foo@attr': 'foo',
+      })
+    ).toEqual({
+      Foo: {
+        content: 'bar',
+        attributes: {
+          attr: 'foo',
+        },
+      },
+    });
+  });
 });
