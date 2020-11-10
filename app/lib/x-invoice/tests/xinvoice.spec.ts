@@ -289,5 +289,6 @@ describe('XInvoice test suite', () => {
     expect(
       await XInvoice.validateXInvoice(new XInvoice(xinvoice).toXML())
     ).toBeTruthy();
+    expect(await XInvoice.validateXInvoice(xmlString)).toBeTruthy();
   });
 });

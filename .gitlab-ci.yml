@@ -1,0 +1,39 @@
+image: node:14
+
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - build
+  - test
+  - publish
+
+build:
+  stage: build
+  script:
+    - npm ci
+  artifacts:
+    expire_in: 10 days
+    paths:
+      - node_modules/
+
+unit-test:
+  stage: test
+  script:
+    - npm run test
+
+publish:
+  image: electronuserland/electron-builder
+  stage: publish
+  artifacts:
+    expire_in: 10 days
+    paths:
+      - release/
+  allow_failure: false
+  script:
+    - npm run package-all
+  only:
+    - master
+    - dev
+  when: manual
