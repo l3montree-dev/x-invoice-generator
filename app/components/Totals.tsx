@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Form, Input, Row } from 'antd';
+import { Col, Form, Input, InputNumber, Row } from 'antd';
 
 const Totals = () => {
   return (
@@ -38,10 +38,17 @@ const Totals = () => {
         </Col>
         <Col span={12}>
           <Form.Item
+            required
+            rules={[
+              {
+                required: true,
+                message: 'Dieses Feld muss ausgefüllt werden',
+              },
+            ]}
             name="LegalMonetaryTotal.PayableAmount"
             label="Fälliger Betrag"
           >
-            <Input disabled />
+            <InputNumber precision={2} step={0.01} />
           </Form.Item>
         </Col>
       </Row>

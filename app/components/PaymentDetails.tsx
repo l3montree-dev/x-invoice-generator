@@ -13,7 +13,7 @@ const PaymentDetails = () => {
           name="PaymentMeans.PaymentMeansCode@name"
           label="Zahlungsmittel"
         >
-          <Input placeholder="1234567" />
+          <Input placeholder="Überweisung" />
         </Form.Item>
       </Col>
       <Col span={12}>
