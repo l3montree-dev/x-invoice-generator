@@ -1,0 +1,23 @@
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - build
+  - test
+
+build:
+  stage: build
+  script:
+    - npm install
+    - npm build
+  artifacts:
+    expire_in: 10 days
+    paths:
+      - node_modules/
+
+test:
+  stage: test
+  script:
+    - npm install
+    - npm run test
