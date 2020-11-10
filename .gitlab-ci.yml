@@ -30,6 +30,8 @@ publish:
     expire_in: 10 days
     paths:
       - release/
+  before_script:
+    - npm rebuild node-sass
   allow_failure: false
   script:
     - npm run package-all
