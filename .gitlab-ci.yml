@@ -24,7 +24,7 @@ unit-test:
     - npm run test
 
 publish:
-  image: electronuserland/electron-builder
+  image: electronuserland/builder:wine
   stage: publish
   artifacts:
     expire_in: 10 days
