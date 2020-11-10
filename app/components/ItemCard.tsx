@@ -20,7 +20,7 @@ const ItemCard: FunctionComponent<Props> = (props) => {
   const { field, index, remove } = props;
   return (
     <Card
-      title={`${index + 1}. Rechnungselement`}
+      title={`${index + 1}. Rechnungselement (Nur Personenstunden)`}
       extra={
         <Typography.Link type="danger" onClick={remove}>
           Löschen
@@ -30,14 +30,6 @@ const ItemCard: FunctionComponent<Props> = (props) => {
       key={field.key}
     >
       <Row gutter={16}>
-        <Col span={2}>
-          <Form.Item
-            name="Item.SellerItemIdentification.ID"
-            label="Artikelnummer"
-          >
-            <Input />
-          </Form.Item>
-        </Col>
         <Col span={3}>
           <Form.Item
             required
@@ -50,12 +42,17 @@ const ItemCard: FunctionComponent<Props> = (props) => {
               },
             ]}
             name="ID"
-            label="Positionsnummer"
+            label="Positionsnr."
           >
             <Input />
           </Form.Item>
         </Col>
         <Col span={2}>
+          <Form.Item name="Item.SellerItemIdentification.ID" label="Artiklnr.">
+            <Input />
+          </Form.Item>
+        </Col>
+        <Col span={3}>
           <Form.Item
             {...field}
             required
@@ -66,7 +63,7 @@ const ItemCard: FunctionComponent<Props> = (props) => {
             fieldKey={[field.fieldKey, 'InvoiceQuantity']}
             name={[field.name, 'InvoiceQuantity']}
           >
-            <InputNumber style={style.input} />
+            <InputNumber precision={2} step={0.25} style={style.input} />
           </Form.Item>
         </Col>
         <Col span={8}>
@@ -84,7 +81,7 @@ const ItemCard: FunctionComponent<Props> = (props) => {
           </Form.Item>
         </Col>
 
-        <Col span={3}>
+        <Col span={6}>
           <Form.Item
             {...field}
             required
@@ -95,33 +92,44 @@ const ItemCard: FunctionComponent<Props> = (props) => {
             fieldKey={[field.fieldKey, 'Price.PriceAmount']}
             name={[field.name, 'Price.PriceAmount']}
           >
-            <Input />
+            <InputNumber precision={2} step={0.01} />
           </Form.Item>
         </Col>
-        <Col span={3}>
-          <Form.Item
-            {...field}
-            required
-            rules={[
-              { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
-            ]}
-            label="Umsatzsteuer"
-            fieldKey={[field.fieldKey, 'Item.ClassifiedTaxCategory.ID']}
-            name={[field.name, 'Item.ClassifiedTaxCategory.ID']}
-          >
-            <Input />
-          </Form.Item>
-        </Col>
-        <Col span={3}>
-          <Form.Item
-            {...field}
-            label="Gesamtsumme netto"
-            fieldKey={[field.fieldKey, 'LineExtensionAmount']}
-            name={[field.name, 'LineExtensionAmount']}
-          >
-            <Input disabled />
-          </Form.Item>
-        </Col>
+        <Row gutter={16}>
+          <Col span={12}>
+            <Form.Item
+              {...field}
+              required
+              rules={[
+                {
+                  required: true,
+                  message: 'Dieses Feld muss ausgefüllt werden',
+                },
+              ]}
+              label="Umsatzsteuer"
+              fieldKey={[field.fieldKey, 'Item.ClassifiedTaxCategory.ID']}
+              name={[field.name, 'Item.ClassifiedTaxCategory.ID']}
+            >
+              <InputNumber
+                placeholder="19"
+                min={16}
+                precision={1}
+                step={0.5}
+                max={25}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              {...field}
+              label="Gesamtsumme netto"
+              fieldKey={[field.fieldKey, 'LineExtensionAmount']}
+              name={[field.name, 'LineExtensionAmount']}
+            >
+              <Input disabled />
+            </Form.Item>
+          </Col>
+        </Row>
       </Row>
     </Card>
   );
