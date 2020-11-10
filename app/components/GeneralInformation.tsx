@@ -12,7 +12,6 @@ const GeneralInformation = () => {
       <Row gutter={16}>
         <Col span={8}>
           <Form.Item
-            required
             rules={[
               { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
             ]}

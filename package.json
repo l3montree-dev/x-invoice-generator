@@ -269,6 +269,7 @@
     "electron-log": "^4.2.4",
     "electron-updater": "^4.3.4",
     "history": "^4.7.2",
+    "lodash": "^4.17.20",
     "moment": "^2.29.1",
     "react": "^16.13.1",
     "react-dom": "^16.12.0",
