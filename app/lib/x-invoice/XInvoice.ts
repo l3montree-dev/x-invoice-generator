@@ -23,7 +23,7 @@ export default class XInvoice {
     return /\d{4}-\d{2}-\d{2}/.test(date);
   }
 
-  public static async validateXInvoice(xml: string) {
+  public static async validateXInvoice(xml: string): Promise<boolean> {
     const schematron = await fs.readFile(
       join(
         __dirname,
@@ -36,7 +36,7 @@ export default class XInvoice {
     const results = await validate(xml, schematron, {
       resourceDir: join(__dirname, 'schematron', 'ubl-inv', 'empty'),
     });
-    console.log(results);
+    return results.errors.length === 0 && results.passed.length > 0;
   }
 
   protected static isLeaf(obj: Node | Tag): boolean {
@@ -147,16 +147,16 @@ export default class XInvoice {
             value as Tag
           )}>${XInvoice.leafValue(value as Tag)}</cbc:${tagName}>`;
         }
-        return `<cac:${tagName}>${this.recursiveXMLGeneration(
-          value
-        )}</cac:${tagName}>`;
+        return `<cac:${tagName}>
+${this.recursiveXMLGeneration(value)}
+</cac:${tagName}>`;
       })
       .join('\n');
   }
 
   public toXML(): string {
-    return `<ubl:Invoice xmlns:ubl="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2.xsd">${this.recursiveXMLGeneration(
-      this.invoice
-    )}</ubl:Invoice>`;
+    return `<ubl:Invoice xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:cec="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2" xmlns:ns0="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2">
+${this.recursiveXMLGeneration(this.invoice)}
+</ubl:Invoice>`;
   }
 }

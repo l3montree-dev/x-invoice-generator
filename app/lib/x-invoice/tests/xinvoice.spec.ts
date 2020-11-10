@@ -11,9 +11,29 @@ describe('XInvoice test suite', () => {
 <cbc:Note>keine</cbc:Note>
 <cbc:DocumentCurrencyCode>EUR</cbc:DocumentCurrencyCode>
 <cbc:BuyerReference>991-01514-71</cbc:BuyerReference>
-<cac:InvoicePeriod><cbc:StartDate>2020-07-14</cbc:StartDate><cbc:EndDate>2020-08-15</cbc:EndDate></cac:InvoicePeriod><cac:OrderReference><cbc:ID>41876654</cbc:ID></cac:OrderReference>
-<cac:AccountingSupplierParty><cac:Party><cac:PartyIdentification><cbc:ID>0000123456</cbc:ID></cac:PartyIdentification><cac:PartyName><cbc:Name>test</cbc:Name></cac:PartyName><cac:PostalAddress><cbc:StreetName>Park Tauberfranken 9</cbc:StreetName><cbc:CityName>Lauda-Königshofen</cbc:CityName><cbc:PostalZone>97922</cbc:PostalZone>
-<cbc:CountrySubentity>Baden-Württemberg</cbc:CountrySubentity><cac:Country><cbc:IdentificationCode>DE</cbc:IdentificationCode></cac:Country>
+<cac:InvoicePeriod>
+<cbc:StartDate>2020-07-14</cbc:StartDate>
+<cbc:EndDate>2020-08-15</cbc:EndDate>
+</cac:InvoicePeriod>
+<cac:OrderReference>
+<cbc:ID>41876654</cbc:ID>
+</cac:OrderReference>
+<cac:AccountingSupplierParty>
+<cac:Party>
+<cac:PartyIdentification>
+<cbc:ID>0000123456</cbc:ID>
+</cac:PartyIdentification>
+<cac:PartyName>
+<cbc:Name>test</cbc:Name>
+</cac:PartyName>
+<cac:PostalAddress>
+<cbc:StreetName>Park Tauberfranken 9</cbc:StreetName>
+<cbc:CityName>Lauda-Königshofen</cbc:CityName>
+<cbc:PostalZone>97922</cbc:PostalZone>
+<cbc:CountrySubentity>Baden-Württemberg</cbc:CountrySubentity>
+<cac:Country>
+<cbc:IdentificationCode>DE</cbc:IdentificationCode>
+</cac:Country>
 </cac:PostalAddress>
 <cac:PartyTaxScheme>
 <cbc:CompanyID>DE123456789</cbc:CompanyID>
@@ -107,8 +127,7 @@ describe('XInvoice test suite', () => {
 <cac:Price>
 <cbc:PriceAmount currencyID="EUR">1000</cbc:PriceAmount>
 </cac:Price>
-</cac:InvoiceLine>
-<cac:InvoiceLine>
+</cac:InvoiceLine><cac:InvoiceLine>
 <cbc:ID>20</cbc:ID>
 <cbc:InvoicedQuantity unitCode="C62">1</cbc:InvoicedQuantity>
 <cbc:LineExtensionAmount currencyID="EUR">1500.00</cbc:LineExtensionAmount>
@@ -267,6 +286,6 @@ describe('XInvoice test suite', () => {
     ).toEqual(xmlString);
   });
   it('should validate a xml string by using the schematron definitions from itplr', async () => {
-    await XInvoice.validateXInvoice(new XInvoice(xinvoice).toXML());
+    expect(await XInvoice.validateXInvoice(xmlString)).toBeTruthy();
   });
 });
