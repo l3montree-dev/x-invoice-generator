@@ -28,9 +28,9 @@ const style = {
 };
 
 const New: FunctionComponent<Props> = (props) => {
-  console.log(PersistentStorage.getInstance().get('formData'));
   return (
     <div>
+      <h2>Neue Rechnung erstellen</h2>
       <Form
         initialValues={PersistentStorage.getInstance().get('formData')}
         onFinish={props.onSubmit}

@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { Invoice, Node, Tag } from '../lib/x-invoice/types';
 import Calculator, { FormInvoiceLine } from './Calculator';
+import XInvoice from '../lib/x-invoice/XInvoice';
 
 export default class Transformer {
   /**
@@ -18,6 +19,39 @@ export default class Transformer {
       this.safelySet(invoice, tagName.split('.') as (keyof Invoice)[], value);
     });
     return invoice;
+  }
+
+  public static invoice2Object(invoice: Node): object {
+    return this.flatObject(invoice);
+  }
+
+  private static flatObject(obj: object): object {
+    const result: object & { [key: string]: any } = {};
+    Object.entries(obj).forEach(([key, value]) => {
+      if (XInvoice.isLeaf(value)) {
+        // lets check if the value contains an attribute
+        if (typeof value === 'object' && 'content' in value) {
+          result[key] = value.content;
+          Object.entries(value.attributes).forEach(([attr, attrVal]) => {
+            result[`${key}@${attr}`] = attrVal;
+          });
+        } else {
+          result[key] = value;
+        }
+      } else if (value instanceof Array) {
+        // we need to handle arrays a bit different.
+        // they should be kept - even after flatting.
+        result[key] = value.map(Transformer.flatObject);
+      } else {
+        // it has to be an object now.
+        // we have to recursively call this merge method.
+        const flatObject = Transformer.flatObject(value);
+        Object.entries(flatObject).forEach(([k, v]) => {
+          result[`${key}.${k}`] = v;
+        });
+      }
+    });
+    return result;
   }
 
   private static prepare(obj: object): object {
