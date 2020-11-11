@@ -1,4 +1,6 @@
+import moment from 'moment';
 import { Invoice, Node, Tag } from '../lib/x-invoice/types';
+import Calculator, { FormInvoiceLine } from './Calculator';
 
 export default class Transformer {
   /**
@@ -12,10 +14,41 @@ export default class Transformer {
    */
   public static object2Invoice(obj: object): Node {
     const invoice: Node = {};
-    Object.entries(obj).forEach(([tagName, value]) => {
+    Object.entries(this.prepare(obj)).forEach(([tagName, value]) => {
       this.safelySet(invoice, tagName.split('.') as (keyof Invoice)[], value);
     });
     return invoice;
+  }
+
+  private static prepare(obj: object): object {
+    const result: Node = {};
+    Object.entries(obj).forEach(([tagName, value]) => {
+      if (moment.isMoment(value)) {
+        result[tagName] = value.format('YYYY-MM-DD');
+      } else if (value !== undefined) {
+        result[tagName] = value;
+      }
+      // we skip undefined values.
+    });
+    return this.transformInvoiceLine(result);
+  }
+
+  private static transformInvoiceLine(obj: Node): Node {
+    if ('InvoiceLine' in obj && obj.InvoiceLine instanceof Array) {
+      // yes we can do the calculation.
+      obj.InvoiceLine = obj.InvoiceLine.map(
+        (
+          line: FormInvoiceLine
+        ): FormInvoiceLine & { LineExtensionAmount: number } => {
+          const { beforeTax } = Calculator.getTotalsOfInvoiceLine(line);
+          return {
+            ...line,
+            LineExtensionAmount: beforeTax,
+          };
+        }
+      );
+    }
+    return obj;
   }
 
   private static safelySet(
@@ -50,6 +83,7 @@ export default class Transformer {
         content: value,
       };
     } else {
+      // might even be an array
       destination[key] = value;
     }
   }

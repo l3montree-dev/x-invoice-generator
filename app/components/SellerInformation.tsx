@@ -29,7 +29,7 @@ const SellerInformation = () => {
         </Col>
       </Row>
       <Row gutter={16}>
-        <Col span={8}>
+        <Col span={12}>
           <Form.Item
             name="AccountingSupplierParty.Party.PartyIdentification.ID"
             label="Kennung"
@@ -38,7 +38,7 @@ const SellerInformation = () => {
             <Input placeholder="0000123456" />
           </Form.Item>
         </Col>
-        <Col span={8}>
+        <Col span={12}>
           <Form.Item
             required
             rules={[
@@ -48,18 +48,6 @@ const SellerInformation = () => {
             label="Umsatzsteuer-ID"
           >
             <Input placeholder="DE123456789" />
-          </Form.Item>
-        </Col>
-        <Col span={8}>
-          <Form.Item
-            required
-            rules={[
-              { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
-            ]}
-            name="AccountingSupplierParty.Party.PartyTaxScheme.CompanyID"
-            label="Steuernummer"
-          >
-            <Input placeholder="0000123456" />
           </Form.Item>
         </Col>
       </Row>

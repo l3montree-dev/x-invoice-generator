@@ -1,14 +1,16 @@
 import React, { FunctionComponent } from 'react';
 import { Form } from 'antd';
-import New from '../features/new/New';
 import Page from '../components/Page';
-import { Invoice } from '../lib/x-invoice/types';
+import XInvoice from '../lib/x-invoice/XInvoice';
+import Transformer from '../services/Transformer';
+import New from '../features/new/New';
 
 const NewPage: FunctionComponent = () => {
-  const [form] = Form.useForm<Invoice>();
-  const handleSubmit = (values: object): void => {
+  const [form] = Form.useForm();
+  const handleSubmit = async (values: object): Promise<void> => {
     // we have to transform the values, since this is flatten object.
-    console.log(values);
+    const xml = new XInvoice(Transformer.object2Invoice(values)).toXML();
+    console.log(await XInvoice.validateXInvoice(xml));
   };
   return (
     <Page>

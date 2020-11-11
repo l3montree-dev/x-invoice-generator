@@ -291,4 +291,55 @@ describe('XInvoice test suite', () => {
     ).toBeTruthy();
     expect(await XInvoice.validateXInvoice(xmlString)).toBeTruthy();
   });
+  it('should handle arrays correctly', () => {
+    expect(
+      new XInvoice({
+        InvoiceLine: [
+          {
+            InvoicedQuantity: { content: '2', attributes: { unitCode: 'VAT' } },
+            ID: '123',
+            Item: {
+              Name: 'abc',
+              ClassifiedTaxCategory: {
+                ID: 'a',
+                TaxScheme: {
+                  ID: 'VAT',
+                },
+              },
+            },
+            LineExtensionAmount: {
+              content: '2',
+              attributes: {
+                currencyID: 'EUR',
+              },
+            },
+            Price: {
+              PriceAmount: { content: '2', attributes: { currencyID: 'EUR' } },
+              BaseQuantity: { content: '1', attributes: { unitCode: 't' } },
+            },
+          },
+        ],
+      } as Invoice).toXML()
+    )
+      .toEqual(`<ubl:Invoice xmlns:ubl="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2.xsd">
+<cac:InvoiceLine>
+<cbc:InvoicedQuantity unitCode="VAT">2</cbc:InvoicedQuantity>
+<cbc:ID>123</cbc:ID>
+<cac:Item>
+<cbc:Name>abc</cbc:Name>
+<cac:ClassifiedTaxCategory>
+<cbc:ID>a</cbc:ID>
+<cac:TaxScheme>
+<cbc:ID>VAT</cbc:ID>
+</cac:TaxScheme>
+</cac:ClassifiedTaxCategory>
+</cac:Item>
+<cbc:LineExtensionAmount currencyID="EUR">2</cbc:LineExtensionAmount>
+<cac:Price>
+<cbc:PriceAmount currencyID="EUR">2</cbc:PriceAmount>
+<cbc:BaseQuantity unitCode="t">1</cbc:BaseQuantity>
+</cac:Price>
+</cac:InvoiceLine>
+</ubl:Invoice>`);
+  });
 });

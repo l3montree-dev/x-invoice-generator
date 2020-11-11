@@ -1,6 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { Card, Col, Form, Input, InputNumber, Row, Typography } from 'antd';
 import { FormListFieldData } from 'antd/lib/form/FormList';
+import { FormInstance } from 'antd/es/form';
+import EventEmitter, { EventKeys } from '../services/EventEmitter';
+import { FormInvoiceLine } from '../services/Calculator';
 
 const style = {
   card: {
@@ -13,11 +16,25 @@ const style = {
 };
 interface Props {
   field: FormListFieldData;
+  formHandler: FormInstance;
   index: number;
   remove: () => void;
 }
 const ItemCard: FunctionComponent<Props> = (props) => {
   const { field, index, remove } = props;
+
+  const [total, setTotal] = useState(0);
+
+  const handleChange = () => {
+    const formValues: FormInvoiceLine[] = props.formHandler.getFieldValue(
+      'InvoiceLine'
+    );
+    if (formValues.length <= field.key + 1) {
+      const values = formValues[field.key];
+      setTotal(values['Price.PriceAmount'] * values.InvoicedQuantity);
+    }
+    EventEmitter.dispatchEvent(EventKeys.PRICE_CHANGE);
+  };
   return (
     <Card
       title={`${index + 1}. Rechnungselement (Nur Personenstunden)`}
@@ -31,23 +48,6 @@ const ItemCard: FunctionComponent<Props> = (props) => {
     >
       <Row gutter={16}>
         <Col span={3}>
-          <Form.Item
-            required
-            tooltip="Eindeutige Bezeichnung für die betreffende Rechnungsposition."
-            rules={[
-              {
-                required: true,
-                pattern: /[0-9]{*}/,
-                message: 'Ausschließlich Zahlen sind erlaubt',
-              },
-            ]}
-            name="ID"
-            label="Positionsnr."
-          >
-            <Input />
-          </Form.Item>
-        </Col>
-        <Col span={2}>
           <Form.Item name="Item.SellerItemIdentification.ID" label="Artiklnr.">
             <Input />
           </Form.Item>
@@ -60,13 +60,18 @@ const ItemCard: FunctionComponent<Props> = (props) => {
               { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
             ]}
             label="Menge"
-            fieldKey={[field.fieldKey, 'InvoiceQuantity']}
-            name={[field.name, 'InvoiceQuantity']}
+            fieldKey={[field.fieldKey, 'InvoicedQuantity']}
+            name={[field.name, 'InvoicedQuantity']}
           >
-            <InputNumber precision={2} step={0.25} style={style.input} />
+            <InputNumber
+              onChange={handleChange}
+              precision={2}
+              step={0.25}
+              style={style.input}
+            />
           </Form.Item>
         </Col>
-        <Col span={8}>
+        <Col span={18}>
           <Form.Item
             {...field}
             required
@@ -80,56 +85,60 @@ const ItemCard: FunctionComponent<Props> = (props) => {
             <Input />
           </Form.Item>
         </Col>
-
-        <Col span={6}>
+      </Row>
+      <Row gutter={16}>
+        <Col span={8}>
           <Form.Item
             {...field}
             required
             rules={[
-              { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
+              {
+                required: true,
+                message: 'Dieses Feld muss ausgefüllt werden',
+              },
             ]}
             label="Preis pro Einheit netto"
             fieldKey={[field.fieldKey, 'Price.PriceAmount']}
             name={[field.name, 'Price.PriceAmount']}
           >
-            <InputNumber precision={2} step={0.01} />
+            <InputNumber
+              onChange={handleChange}
+              style={style.input}
+              precision={2}
+              step={0.01}
+            />
           </Form.Item>
         </Col>
-        <Row gutter={16}>
-          <Col span={12}>
-            <Form.Item
-              {...field}
-              required
-              rules={[
-                {
-                  required: true,
-                  message: 'Dieses Feld muss ausgefüllt werden',
-                },
-              ]}
-              label="Umsatzsteuer"
-              fieldKey={[field.fieldKey, 'Item.ClassifiedTaxCategory.ID']}
-              name={[field.name, 'Item.ClassifiedTaxCategory.ID']}
-            >
-              <InputNumber
-                placeholder="19"
-                min={16}
-                precision={1}
-                step={0.5}
-                max={25}
-              />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              {...field}
-              label="Gesamtsumme netto"
-              fieldKey={[field.fieldKey, 'LineExtensionAmount']}
-              name={[field.name, 'LineExtensionAmount']}
-            >
-              <Input disabled />
-            </Form.Item>
-          </Col>
-        </Row>
+        <Col span={8}>
+          <Form.Item
+            {...field}
+            required
+            rules={[
+              {
+                required: true,
+                message: 'Dieses Feld muss ausgefüllt werden',
+              },
+            ]}
+            label="Umsatzsteuer"
+            fieldKey={[field.fieldKey, 'Item.ClassifiedTaxCategory.Percent']}
+            name={[field.name, 'Item.ClassifiedTaxCategory.Percent']}
+          >
+            <InputNumber
+              style={style.input}
+              placeholder="19"
+              min={16}
+              onChange={handleChange}
+              precision={1}
+              step={0.5}
+              max={25}
+            />
+          </Form.Item>
+        </Col>
+        <Col span={8}>
+          <Form.Item label="Gesamtsumme netto">
+            <Input value={total} style={style.input} disabled />
+          </Form.Item>
+        </Col>
       </Row>
     </Card>
   );

@@ -96,7 +96,7 @@ export interface PartyTaxScheme {
 export interface PartyLegalEntity {
   RegistrationName: string;
   CompanyID?: TagWithAttributes<{ schemeID: string }>;
-  ComapnyLegalForm?: string;
+  CompanyLegalForm?: string;
 }
 export interface Contact {
   Name?: string;

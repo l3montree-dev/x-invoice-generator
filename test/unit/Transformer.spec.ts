@@ -73,4 +73,18 @@ describe('Transformer test suite', () => {
       },
     });
   });
+  it('should calculate the correct totals of an invoice line when object is transformed to Invoice', () => {
+    // the correct LineExtensionAmount is 20.
+    const testData = {
+      InvoiceLine: [
+        {
+          'Price.PriceAmount': 10,
+          'Item.ClassifiedTaxCategory.Percent': 19,
+          InvoicedQuantity: 2,
+        },
+      ],
+    };
+    const result = Transformer.object2Invoice(testData);
+    expect(result.InvoiceLine[0].LineExtensionAmount).toEqual(20);
+  });
 });

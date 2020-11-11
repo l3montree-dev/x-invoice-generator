@@ -50,6 +50,7 @@ const New: FunctionComponent<Props> = (props) => {
                 <>
                   {fields.map((field, index) => (
                     <ItemCard
+                      formHandler={props.formHandler}
                       key={field.key}
                       remove={() => remove(index)}
                       index={index}
@@ -74,7 +75,7 @@ const New: FunctionComponent<Props> = (props) => {
             <SalesTaxBreakdown />
           </Collapse.Panel>
           <Collapse.Panel key="6" header="Summen">
-            <Totals />
+            <Totals formHandler={props.formHandler} />
           </Collapse.Panel>
           <Collapse.Panel key="7" header="Zahlungsinformationen">
             <PaymentDetails />
