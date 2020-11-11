@@ -39,7 +39,7 @@ export default class XInvoice {
     return results.errors.length === 0 && results.passed.length > 0;
   }
 
-  protected static isLeaf(obj: Node | Tag): boolean {
+  public static isLeaf(obj: Node | Tag): boolean {
     switch (typeof obj) {
       // it is always a leaf, if it is a scalar value.
       case 'object':
