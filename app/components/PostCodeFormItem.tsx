@@ -3,13 +3,14 @@ import { Form, Input } from 'antd';
 
 interface Props {
   name: string;
+  required: boolean;
 }
 const PostCodeFormItem: FunctionComponent<Props> = (props) => {
   return (
     <Form.Item
       rules={[
         {
-          required: true,
+          required: props.required,
           pattern: /[0-9]{5}/,
           message: 'Postleitzahl muss aus mindestens 5 Zahlen bestehen',
         },

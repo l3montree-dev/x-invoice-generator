@@ -2,12 +2,14 @@ import { readFileSync, writeFileSync } from 'fs';
 import * as electron from 'electron';
 import { join } from 'path';
 
-interface PersistentStore {}
+interface PersistentStore {
+  formData: object;
+}
 /**
  * @Singleton
  */
-class PersistentStorage {
-  public getInstance(): PersistentStorage {
+export default class PersistentStorage {
+  public static getInstance(): PersistentStorage {
     if (this.instance) {
       return this.instance;
     }
@@ -23,9 +25,7 @@ class PersistentStorage {
     writeFileSync(this.path, JSON.stringify(this.store));
   }
 
-  private static DEFAULTS: PersistentStore = {};
-
-  private instance?: PersistentStorage;
+  private static instance?: PersistentStorage;
 
   private readonly path: string;
 
@@ -49,7 +49,7 @@ class PersistentStorage {
       return JSON.parse(readFileSync(this.path).toString());
     } catch (error) {
       // if there was some kind of error, return the passed in defaults instead.
-      return PersistentStorage.DEFAULTS;
+      return { formData: {} } as PersistentStore;
     }
   }
 }

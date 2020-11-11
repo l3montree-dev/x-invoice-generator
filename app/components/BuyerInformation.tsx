@@ -1,7 +1,8 @@
 import React from 'react';
-import { Col, Form, Input, Row } from 'antd';
-import CountrySelect from './CountrySelect';
+import { Col, Form, Input, Row, Select } from 'antd';
+import Countries from '../lib/x-invoice/constants';
 
+const style = { width: '100%' };
 const BuyerInformation = () => {
   return (
     <>
@@ -94,7 +95,21 @@ const BuyerInformation = () => {
             tooltip="Die zugrundeliegende genormte Liste ist momentan nur in englischer Sprache verfügbar."
             label="Land"
           >
-            <CountrySelect />
+            <Select
+              showSearch
+              style={style}
+              placeholder="Land auswählen"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {Object.entries(Countries).map(([value, readableName]) => (
+                <Select.Option key={value} value={value}>
+                  {readableName}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
         </Col>
       </Row>

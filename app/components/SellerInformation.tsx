@@ -1,17 +1,23 @@
-import React from 'react';
-import { Col, Form, Input, Row } from 'antd';
+import React, { FunctionComponent } from 'react';
+import { Col, Form, Input, Row, Select } from 'antd';
 import PostCodeFormItem from './PostCodeFormItem';
-import CountrySelect from './CountrySelect';
+import Countries from '../lib/x-invoice/constants';
 
-const SellerInformation = () => {
+interface Props {
+  requireFields: boolean;
+}
+const style = { width: '100%' };
+const SellerInformation: FunctionComponent<Props> = (props) => {
   return (
     <>
       <Row gutter={16}>
         <Col span={12}>
           <Form.Item
-            required
             rules={[
-              { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
+              {
+                required: props.requireFields,
+                message: 'Dieses Feld muss ausgefüllt werden',
+              },
             ]}
             name="AccountingSupplierParty.Party.PartyLegalEntity.RegistrationName"
             label="Firmenname"
@@ -40,9 +46,11 @@ const SellerInformation = () => {
         </Col>
         <Col span={12}>
           <Form.Item
-            required
             rules={[
-              { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
+              {
+                required: props.requireFields,
+                message: 'Dieses Feld muss ausgefüllt werden',
+              },
             ]}
             name="AccountingSupplierParty.Party.PartyTaxScheme.CompanyID"
             label="Umsatzsteuer-ID"
@@ -69,14 +77,19 @@ const SellerInformation = () => {
           </Form.Item>
         </Col>
         <Col span={12}>
-          <PostCodeFormItem name="AccountingSupplierParty.Party.PostalAddress.PostalZone" />
+          <PostCodeFormItem
+            required={props.requireFields}
+            name="AccountingSupplierParty.Party.PostalAddress.PostalZone"
+          />
         </Col>
         <Col span={12}>
           <Form.Item
             name="AccountingSupplierParty.Party.PostalAddress.CityName"
-            required
             rules={[
-              { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
+              {
+                required: props.requireFields,
+                message: 'Dieses Feld muss ausgefüllt werden',
+              },
             ]}
             label="Ort"
           >
@@ -93,21 +106,36 @@ const SellerInformation = () => {
         </Col>
         <Col span={12}>
           <Form.Item
-            required
             name="AccountingSupplierParty.Party.PostalAddress.Country.IdentificationCode"
             tooltip="Die zugrundeliegende genormte Liste ist momentan nur in englischer Sprache verfügbar."
             label="Land"
           >
-            <CountrySelect />
+            <Select
+              showSearch
+              style={style}
+              placeholder="Land auswählen"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {Object.entries(Countries).map(([value, readableName]) => (
+                <Select.Option key={value} value={value}>
+                  {readableName}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
         </Col>
       </Row>
       <Row gutter={16}>
         <Col span={8}>
           <Form.Item
-            required
             rules={[
-              { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
+              {
+                required: props.requireFields,
+                message: 'Dieses Feld muss ausgefüllt werden',
+              },
             ]}
             name="AccountingSupplierParty.Party.Contact.Name"
             label="Name"
@@ -117,9 +145,11 @@ const SellerInformation = () => {
         </Col>
         <Col span={8}>
           <Form.Item
-            required
             rules={[
-              { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
+              {
+                required: props.requireFields,
+                message: 'Dieses Feld muss ausgefüllt werden',
+              },
             ]}
             name="AccountingSupplierParty.Party.Contact.ElectronicMail"
             label="E-Mail Adresse"
@@ -131,7 +161,10 @@ const SellerInformation = () => {
           <Form.Item
             required
             rules={[
-              { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
+              {
+                required: props.requireFields,
+                message: 'Dieses Feld muss ausgefüllt werden',
+              },
             ]}
             name="AccountingSupplierParty.Party.Contact.Telephone"
             label="Telefon"

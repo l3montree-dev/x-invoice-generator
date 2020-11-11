@@ -10,6 +10,7 @@ import SalesTaxBreakdown from '../../components/SalesTaxBreakdown';
 import Totals from '../../components/Totals';
 import PaymentDetails from '../../components/PaymentDetails';
 import BuyerInformation from '../../components/BuyerInformation';
+import PersistentStorage from '../../services/PersistentStorage';
 
 interface Props {
   formHandler: FormInstance<Invoice>;
@@ -27,9 +28,11 @@ const style = {
 };
 
 const New: FunctionComponent<Props> = (props) => {
+  console.log(PersistentStorage.getInstance().get('formData'));
   return (
     <div>
       <Form
+        initialValues={PersistentStorage.getInstance().get('formData')}
         onFinish={props.onSubmit}
         form={props.formHandler}
         layout="vertical"
@@ -38,8 +41,8 @@ const New: FunctionComponent<Props> = (props) => {
           <Collapse.Panel key="1" header="Allgemeine Rechnungsinformationen">
             <GeneralInformation />
           </Collapse.Panel>
-          <Collapse.Panel key="2" header="Rechnungssteller">
-            <SellerInformation />
+          <Collapse.Panel forceRender key="2" header="Rechnungssteller">
+            <SellerInformation requireFields />
           </Collapse.Panel>
           <Collapse.Panel key="3" header="Rechnungsempfänger">
             <BuyerInformation />
