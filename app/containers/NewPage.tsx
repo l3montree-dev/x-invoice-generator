@@ -27,14 +27,19 @@ const NewPage: FunctionComponent = () => {
         ...values,
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        InvoiceLine: values.InvoiceLine.map((line: FormInvoiceLine) => {
-          return {
-            InvoicedQuantity: line.InvoicedQuantity,
-            'Price.PriceAmount': line['Price.PriceAmount'],
-            'Item.ClassifiedTaxCategory.Percent':
-              line['Item.ClassifiedTaxCategory.Percent'],
-          };
-        }),
+        InvoiceLine: values.InvoiceLine.map(
+          (line: FormInvoiceLine): FormInvoiceLine => {
+            return {
+              'Item.SellerItemIdentification.ID':
+                line['Item.SellerItemIdentification.ID'],
+              'Item.Name': line['Item.Name'],
+              InvoicedQuantity: line.InvoicedQuantity,
+              'Price.PriceAmount': line['Price.PriceAmount'],
+              'Item.ClassifiedTaxCategory.Percent':
+                line['Item.ClassifiedTaxCategory.Percent'],
+            };
+          }
+        ),
       });
       const xml = new XInvoice(invoice).toXML();
       const isValid = await XInvoice.validateXInvoice(
@@ -73,9 +78,8 @@ const NewPage: FunctionComponent = () => {
     const [filePath] = path.filePaths;
     if (filePath) {
       const xml = readFileSync(filePath).toString();
-      form.setFieldsValue(
-        Transformer.invoice2Object(await XInvoice.fromXML(xml))
-      );
+      const obj = Transformer.invoice2Object(await XInvoice.fromXML(xml));
+      form.setFieldsValue(obj);
     }
   };
 

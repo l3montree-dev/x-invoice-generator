@@ -10,6 +10,8 @@ export interface FormInvoiceLine {
   InvoicedQuantity: number;
   'Price.PriceAmount': number;
   'Item.ClassifiedTaxCategory.Percent': number;
+  'Item.SellerItemIdentification.ID': string;
+  'Item.Name': string;
 }
 
 export default class Calculator {

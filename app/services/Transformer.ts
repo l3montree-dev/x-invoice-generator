@@ -11,6 +11,8 @@ export default class Transformer {
     'DueDate',
   ];
 
+  private static saveAsArrayKeys = ['InvoiceLine'];
+
   /**
    * Transformation rules to create from a flat object an invoice object.
    *
@@ -55,7 +57,10 @@ export default class Transformer {
       } else if (value instanceof Array) {
         // we need to handle arrays a bit different.
         // they should be kept - even after flatting.
-        result[key] = value.map(Transformer.flatObject);
+        result[key] = value.map((el) => Transformer.flatObject(el));
+      } else if (Transformer.saveAsArrayKeys.includes(key)) {
+        const r = Transformer.flatObject(value);
+        result[key] = [r];
       } else {
         // it has to be an object now.
         // we have to recursively call this merge method.

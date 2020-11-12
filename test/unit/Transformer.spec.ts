@@ -140,6 +140,25 @@ describe('Transformer test suite', () => {
         } as unknown) as Invoice)
       ).toEqual({ 'test.foo': 'bar', 'test.bar': 'test' });
     });
+    it('should flatten the invoice line element correctly - even though there is only one element', () => {
+      expect(
+        Transformer.invoice2Object(({
+          InvoiceLine: {
+            Price: { PriceAmount: 10 },
+            Item: { ClassifiedTaxCategory: { Percent: 19 } },
+            InvoicedQuantity: 2,
+          },
+        } as unknown) as Invoice)
+      ).toEqual({
+        InvoiceLine: [
+          {
+            'Price.PriceAmount': 10,
+            'Item.ClassifiedTaxCategory.Percent': 19,
+            InvoicedQuantity: 2,
+          },
+        ],
+      });
+    });
     it('should not change the behaviour, when seeing an array', () => {
       expect(
         Transformer.invoice2Object(({
