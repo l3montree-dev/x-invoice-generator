@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { Col, Form, Input, Row } from 'antd';
 
-const PaymentDetails = () => {
+interface Props {
+  requireFields: boolean;
+}
+const PaymentDetails: FunctionComponent<Props> = (props) => {
   return (
     <Row gutter={16}>
       <Col span={12}>
         <Form.Item
           required
           rules={[
-            { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
+            {
+              required: props.requireFields,
+              message: 'Dieses Feld muss ausgefüllt werden',
+            },
           ]}
           name="PaymentMeans.PaymentID"
           label="Verwendungszweck"
@@ -23,7 +29,7 @@ const PaymentDetails = () => {
           label="IBAN"
           rules={[
             {
-              required: true,
+              required: props.requireFields,
               pattern: /^[A-Z]{2}(?:[ ]?[0-9]){18,20}$/,
               message: 'Keine korrekte IBAN',
             },

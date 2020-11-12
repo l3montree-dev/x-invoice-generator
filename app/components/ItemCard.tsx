@@ -134,7 +134,6 @@ const ItemCard: FunctionComponent<Props> = (props) => {
             <InputNumber
               style={style.input}
               placeholder="19"
-              min={16}
               onChange={handleChange}
               precision={1}
               step={0.5}

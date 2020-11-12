@@ -15,31 +15,46 @@ import ItemCard from '../components/ItemCard';
 import SalesTaxBreakdown from '../components/SalesTaxBreakdown';
 import Totals from '../components/Totals';
 import PaymentDetails from '../components/PaymentDetails';
+import { FormInvoiceLine } from '../services/Calculator';
 
 const NewPage: FunctionComponent = () => {
   const [form] = Form.useForm();
   const handleSubmit = async (values: object): Promise<void> => {
     // we have to transform the values, since this is flatten object.
-    const invoice = Transformer.object2Invoice(values);
-    const xml = new XInvoice(invoice).toXML();
-    const isValid = await XInvoice.validateXInvoice(
-      xml,
-      join(__dirname, 'lib', 'x-invoice')
-    );
-    if (!isValid) {
-      message.error(
-        'Die generierte Rechnung entspricht nicht dem X-Rechnung Standard'
+    if ('InvoiceLine' in values) {
+      const invoice = Transformer.object2Invoice({
+        ...values,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        InvoiceLine: values.InvoiceLine.map((line: FormInvoiceLine) => {
+          return {
+            InvoicedQuantity: line.InvoicedQuantity,
+            'Price.PriceAmount': line['Price.PriceAmount'],
+            'Item.ClassifiedTaxCategory.Percent':
+              line['Item.ClassifiedTaxCategory.Percent'],
+          };
+        }),
+      });
+      const xml = new XInvoice(invoice).toXML();
+      const isValid = await XInvoice.validateXInvoice(
+        xml,
+        join(__dirname, 'lib', 'x-invoice')
       );
-      return;
-    }
-    const savePath = await electron.remote.dialog.showSaveDialog({
-      defaultPath: `${electron.remote.app.getPath('documents')}/Rechnung_${
-        invoice.ID
-      }.xml`,
-    });
-    if (savePath.filePath) {
-      writeFileSync(savePath.filePath, xml);
-      message.success('Rechnung erfolgreich gespeichert');
+      if (!isValid) {
+        message.error(
+          'Die generierte Rechnung entspricht nicht dem X-Rechnung Standard'
+        );
+        return;
+      }
+      const savePath = await electron.remote.dialog.showSaveDialog({
+        defaultPath: `${electron.remote.app.getPath('documents')}/Rechnung_${
+          invoice.ID
+        }.xml`,
+      });
+      if (savePath.filePath) {
+        writeFileSync(savePath.filePath, XInvoice.formatXml(xml));
+        message.success('Rechnung erfolgreich gespeichert');
+      }
     }
   };
 
@@ -122,7 +137,7 @@ const NewPage: FunctionComponent = () => {
               <Totals formHandler={form} />
             </Collapse.Panel>
             <Collapse.Panel forceRender key="7" header="Zahlungsinformationen">
-              <PaymentDetails />
+              <PaymentDetails requireFields />
             </Collapse.Panel>
           </Collapse>
           <Form.Item className="button-container">

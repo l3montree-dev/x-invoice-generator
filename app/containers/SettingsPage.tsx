@@ -4,6 +4,7 @@ import { useForm } from 'antd/es/form/Form';
 import SellerInformation from '../components/SellerInformation';
 import PersistentStorage from '../services/PersistentStorage';
 import Page from '../components/Page';
+import PaymentDetails from '../components/PaymentDetails';
 
 const style = {
   buttonContainer: {
@@ -28,6 +29,7 @@ const SettingsPage = () => {
         form={form}
       >
         <SellerInformation requireFields={false} />
+        <PaymentDetails requireFields={false} />
         <Form.Item style={style.buttonContainer}>
           <Button type="primary" htmlType="submit">
             Speichern

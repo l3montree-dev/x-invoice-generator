@@ -34,7 +34,7 @@ export default class Calculator {
     const beforeTax = price * quantity;
     percent /= 100;
     const taxAmount = beforeTax * percent;
-    const afterTax = beforeTax - taxAmount;
+    const afterTax = beforeTax + taxAmount;
     return { beforeTax, afterTax, taxAmount };
   }
 

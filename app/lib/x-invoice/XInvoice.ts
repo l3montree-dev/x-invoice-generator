@@ -56,6 +56,9 @@ export default class XInvoice {
       case 'object':
         // either it is a node or a TagWithAttributes
         // TagWithAttributes contain the content property.
+        if (obj === null) {
+          return true;
+        }
         return 'content' in obj;
       default:
         return true;
@@ -117,7 +120,7 @@ export default class XInvoice {
   }
 
   protected static attributeString(leaf: Tag): string {
-    if (typeof leaf === 'object' && 'content' in leaf) {
+    if (typeof leaf === 'object' && leaf !== null && 'content' in leaf) {
       // transform the attributes to a string.
       return ` ${Object.entries(leaf.attributes)
         .map(
@@ -131,11 +134,23 @@ export default class XInvoice {
   }
 
   protected static leafValue(leaf: Tag): string {
-    if (typeof leaf === 'object' && 'content' in leaf) {
+    if (typeof leaf === 'object' && leaf !== null && 'content' in leaf) {
       // transform the attributes to a string.
       return leaf.content;
     }
     return leaf;
+  }
+
+  public static formatXml(xml: string) {
+    let formatted = '';
+    let indent = '';
+    const tab = '\t';
+    xml.split(/>\s*</).forEach((node) => {
+      if (node.match(/^\/\w/)) indent = indent.substring(tab.length); // decrease indent by one 'tab'
+      formatted += `${indent}<${node}>\r\n`;
+      if (node.match(/^<?\w[^>]*[^/]$/)) indent += tab; // increase indent
+    });
+    return formatted.substring(1, formatted.length - 3);
   }
 
   protected recursiveXMLGeneration(node: Node): string {
@@ -168,7 +183,7 @@ ${this.recursiveXMLGeneration(value)}
   }
 
   public toXML(): string {
-    return `<ubl:Invoice xmlns:ubl="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2.xsd">
+    return `<?xml version="1.0" encoding="UTF-8"?><ubl:Invoice xmlns:ubl="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2.xsd">
 ${this.recursiveXMLGeneration(this.invoice)}
 </ubl:Invoice>`;
   }
