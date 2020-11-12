@@ -20,7 +20,7 @@ export default class Transformer {
    * @param {object} obj
    * @returns {Partial<Invoice>} We cannot be sure to return a correct invoice.
    */
-  public static object2Invoice(obj: object): Node {
+  public static object2Invoice(obj: object): Invoice {
     const invoice: Node = {};
     Object.entries(this.prepare(obj)).forEach(([tagName, value]) => {
       this.safelySet(invoice, tagName.split('.') as (keyof Invoice)[], value);

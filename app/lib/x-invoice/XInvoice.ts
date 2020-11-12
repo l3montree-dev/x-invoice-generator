@@ -23,10 +23,13 @@ export default class XInvoice {
     return /\d{4}-\d{2}-\d{2}/.test(date);
   }
 
-  public static async validateXInvoice(xml: string): Promise<boolean> {
+  public static async validateXInvoice(
+    xml: string,
+    path: string = __dirname
+  ): Promise<boolean> {
     const schematron = await fs.readFile(
       join(
-        __dirname,
+        path,
         'schematron',
         'ubl-inv',
         'XRechnung-UBL-validation-Invoice.sch'
@@ -34,8 +37,9 @@ export default class XInvoice {
       'utf8'
     );
     const results = await validate(xml, schematron, {
-      resourceDir: join(__dirname, 'schematron', 'ubl-inv', 'empty'),
+      resourceDir: join(path, 'schematron', 'ubl-inv', 'empty'),
     });
+    console.log(results);
     return results.errors.length === 0 && results.passed.length > 0;
   }
 
@@ -143,9 +147,11 @@ export default class XInvoice {
         if (XInvoice.isLeaf(value)) {
           // we are reached the leaf
           // check if it has attributes.
-          return `<cbc:${tagName}${XInvoice.attributeString(
+          return `<cbc:${tagName.split('@')[0]}${XInvoice.attributeString(
             value as Tag
-          )}>${XInvoice.leafValue(value as Tag)}</cbc:${tagName}>`;
+          )}>${XInvoice.leafValue(value as Tag)}</cbc:${
+            tagName.split('@')[0]
+          }>`;
         }
         return `<cac:${tagName}>
 ${this.recursiveXMLGeneration(value)}

@@ -10,8 +10,8 @@ const PaymentDetails = () => {
           rules={[
             { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
           ]}
-          name="PaymentMeans.PaymentMeansCode@name"
-          label="Zahlungsmittel"
+          name="PaymentMeans.PaymentID"
+          label="Verwendungszweck"
         >
           <Input placeholder="Überweisung" />
         </Form.Item>
@@ -19,7 +19,7 @@ const PaymentDetails = () => {
       <Col span={12}>
         <Form.Item
           required
-          name="PaymentMeans.PayeeFinancialAccount.ID "
+          name="PaymentMeans.PayeeFinancialAccount.ID"
           label="IBAN"
           rules={[
             {
