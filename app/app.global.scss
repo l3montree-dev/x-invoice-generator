@@ -7,21 +7,31 @@
 
 $header-height: 74px;
 $sidebar-width: 256px;
+
+$primary: #0c1f5f;
+$secondary: #091132;
+
 html,
 body {
   padding: 0;
+  overflow-y: hidden;
 }
 
 .main {
   overflow-y: scroll;
-  height: calc(100vh - 74px);
+  height: calc(100vh - 72px);
   padding: 10px 20px 10px 10px;
-  background-color: #fafafa;
+  // background-color: #fafafa;
   max-width: calc(100% - 256px);
 }
 
 .ant-page-header {
-  border: 1px solid #eeee;
+  background-color: $primary;
+  border-bottom: 1px solid $secondary;
+  color: white;
+  .ant-page-header-heading-title {
+    color: white;
+  }
 }
 
 .ant-menu {
@@ -31,13 +41,55 @@ body {
   }
 }
 
+.ant-collapse-borderless {
+  background-color: white;
+}
 .menu-container {
-  border-right: 1px solid #eeee;
+  border-right: 1px solid $secondary;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   .notes {
     padding: 10px 16px;
     text-align: right;
+  }
+
+  background-color: $primary;
+  color: white;
+  .ant-menu {
+    background-color: $primary;
+    color: white;
+    .ant-menu-item {
+      width: 100% !important;
+      &::after {
+        display: none;
+      }
+      &:hover {
+        background-color: #243472 !important;
+        color: white;
+        &::after {
+          display: none;
+        }
+      }
+    }
+    .ant-menu-item-selected {
+      &:hover {
+        background-color: white !important;
+        color: black;
+      }
+
+      background-color: white !important;
+      color: black;
+    }
+  }
+}
+.ant-upload.ant-upload-drag p.ant-upload-drag-icon .anticon {
+  color: $primary;
+}
+.ant-btn-primary {
+  background-color: $primary;
+  border: none;
+  &:focus {
+    background-color: $primary;
   }
 }
