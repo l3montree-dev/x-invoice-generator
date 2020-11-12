@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Button, Collapse, Form } from 'antd';
+import { Button, Collapse, Form, message } from 'antd';
 import { FormInstance } from 'antd/lib/form/hooks/useForm';
 import { PlusOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -38,10 +38,14 @@ const New: FunctionComponent<Props> = (props) => {
   if (initialFormData) {
     dispatch({ type: 'RESET_INITIAL_DATA' });
   }
+  const handleFinishFailed = () => {
+    message.error('Nicht alle Felder wurden korrekt ausgefüllt');
+  };
   return (
     <div>
       <h2>Neue Rechnung erstellen</h2>
       <Form
+        onFinishFailed={handleFinishFailed}
         initialValues={
           initialFormData
             ? Transformer.invoice2Object(initialFormData)

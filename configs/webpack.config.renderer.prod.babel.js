@@ -21,7 +21,10 @@ export default merge(baseConfig, {
 
   mode: 'production',
 
-  target: process.env.E2E_BUILD || process.env.ERB_SECURE !== 'true' ? 'electron-renderer' : 'electron-preload',
+  target:
+    process.env.E2E_BUILD || process.env.ERB_SECURE !== 'true'
+      ? 'electron-renderer'
+      : 'electron-preload',
 
   entry: [
     'core-js',
@@ -69,6 +72,29 @@ export default merge(baseConfig, {
                 localIdentName: '[name]__[local]__[hash:base64:5]',
               },
               sourceMap: true,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.less$/,
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+              importLoaders: 1,
+            },
+          },
+          {
+            loader: 'less-loader',
+            options: {
+              lessOptions: {
+                javascriptEnabled: true,
+              },
             },
           },
         ],

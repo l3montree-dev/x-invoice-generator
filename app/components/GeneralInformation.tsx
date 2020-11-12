@@ -86,7 +86,7 @@ const GeneralInformation = () => {
               { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
             ]}
             tooltip="Das Datum, an dem der Rechnungszeitraum beginnt. (BT-73)"
-            name="StartDate"
+            name="InvoicePeriod.StartDate"
             label="Abrechnungszeitraum vom"
           >
             <DatePicker
@@ -102,7 +102,7 @@ const GeneralInformation = () => {
               { required: true, message: 'Dieses Feld muss ausgefüllt werden' },
             ]}
             tooltip="Das Datum, an dem der Rechnungszeitraum endet. (BT-74)"
-            name="EndDate"
+            name="InvoicePeriod.EndDate"
             label="Abrechnungszeitraum bis"
           >
             <DatePicker

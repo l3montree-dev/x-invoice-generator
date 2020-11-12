@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { render } from 'react-dom';
 import { AppContainer as ReactHotAppContainer } from 'react-hot-loader';
 import { history, configuredStore } from './redux/store';
+import './theme.global.less';
 import './app.global.scss';
 
 const store = configuredStore();

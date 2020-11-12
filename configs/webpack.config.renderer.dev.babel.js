@@ -95,6 +95,29 @@ export default merge(baseConfig, {
           },
         ],
       },
+      {
+        test: /\.less$/,
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+              importLoaders: 1,
+            },
+          },
+          {
+            loader: 'less-loader',
+            options: {
+              lessOptions: {
+                javascriptEnabled: true,
+              },
+            },
+          },
+        ],
+      },
       // SASS support - compile all .global.scss files and pipe it to style.css
       {
         test: /\.global\.(scss|sass)$/,

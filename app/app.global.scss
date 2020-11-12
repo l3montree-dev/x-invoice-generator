@@ -3,7 +3,6 @@
  *        See https://github.com/webpack-contrib/sass-loader#imports
  */
 @import '~@fortawesome/fontawesome-free/css/all.css';
-@import '~antd/dist/antd.css';
 
 $header-height: 74px;
 $sidebar-width: 256px;
@@ -20,7 +19,7 @@ body {
 .main {
   overflow-y: scroll;
   height: calc(100vh - 72px);
-  padding: 10px 20px 10px 10px;
+  padding: 20px;
   // background-color: #fafafa;
   max-width: calc(100% - 256px);
 }
@@ -81,15 +80,5 @@ body {
       background-color: white !important;
       color: black;
     }
-  }
-}
-.ant-upload.ant-upload-drag p.ant-upload-drag-icon .anticon {
-  color: $primary;
-}
-.ant-btn-primary {
-  background-color: $primary;
-  border: none;
-  &:focus {
-    background-color: $primary;
   }
 }
