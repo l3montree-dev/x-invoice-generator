@@ -16,7 +16,7 @@ body {
   overflow-y: hidden;
 }
 .wrapper {
-  max-width: calc(100% - 256px);
+  max-width: calc(100% - 256px) !important;
 }
 .main {
   overflow-y: scroll;
@@ -29,17 +29,17 @@ body {
   background-color: #eeee;
   border-bottom: 1px solid rgba(184, 184, 184, 0.93);
   color: white;
-  padding: 10px 24px;
+  padding: 10px 24px !important;
   .ant-page-header-heading-title {
     // color: white;
   }
 }
 .button-container {
-  margin-top: 10px;
+  margin-top: 10px !important;
   float: right;
 }
 .ant-menu {
-  border-right: none;
+  border-right: none !important;
   li:nth-child(1) {
     margin-top: 0;
   }

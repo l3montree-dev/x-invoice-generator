@@ -7,7 +7,7 @@ const Navigation: FunctionComponent = () => {
   return (
     <div>
       <div className="logo-wrapper">
-        <img width={30} alt="Logo" src={`${__dirname}/../resources/icon.png`} />{' '}
+        <img width={30} alt="Logo" src="./../resources/icon.png" />{' '}
         <h3>- Rechnung Generator</h3>
       </div>
       <Menu defaultSelectedKeys={['new']} mode="inline">

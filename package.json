@@ -16,7 +16,7 @@
     "lint-styles": "stylelint --ignore-path .eslintignore '**/*.*(css|scss)' --syntax scss",
     "lint-styles-fix": "yarn --silent lint-styles --fix; exit 0",
     "package": "yarn build && electron-builder build --publish always",
-    "package-all": "yarn build && electron-builder build -mwl",
+    "package-all": "yarn build && electron-builder build -mwl --publish always",
     "package-ci": "yarn postinstall && yarn build && electron-builder --publish always",
     "package-mac": "yarn build && electron-builder build --mac",
     "package-linux": "yarn build && electron-builder build --linux",
@@ -52,11 +52,11 @@
     ]
   },
   "build": {
-    "productName": "X-Rechnung Generator",
+    "productName": "X-Invoice Generator",
     "appId": "com.l3montree.x-invoice",
     "publish": {
       "provider": "generic",
-      "url": "https://www.yourServer.com/software/${os}",
+      "url": "https://media.seeds.l3montree.com/m/xinvoice-releases",
       "channel": "latest"
     },
     "files": [

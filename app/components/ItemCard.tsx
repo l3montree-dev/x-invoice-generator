@@ -45,7 +45,7 @@ const ItemCard: FunctionComponent<Props> = (props) => {
   }, [handleChange, props.formHandler]);
   return (
     <Card
-      title={`${index + 1}. Rechnungselement (Nur Personenstunden)`}
+      title={`${index + 1}. Rechnungselement`}
       extra={
         <Typography.Link type="danger" onClick={remove}>
           Löschen
