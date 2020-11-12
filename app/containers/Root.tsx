@@ -3,8 +3,8 @@ import { Provider } from 'react-redux';
 import { hot } from 'react-hot-loader/root';
 import { ConnectedRouter } from 'connected-react-router';
 import { History } from 'history';
-import { Store } from '../store';
 import App from './App';
+import { Store } from '../redux/store';
 
 type Props = {
   store: Store;

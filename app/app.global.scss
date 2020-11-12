@@ -15,35 +15,51 @@ body {
   padding: 0;
   overflow-y: hidden;
 }
-
+.wrapper {
+  max-width: calc(100% - 256px);
+}
 .main {
   overflow-y: scroll;
-  height: calc(100vh - 72px);
+  height: calc(100vh - 61px);
   padding: 20px;
   // background-color: #fafafa;
-  max-width: calc(100% - 256px);
 }
 
 .ant-page-header {
-  background-color: $primary;
-  border-bottom: 1px solid $secondary;
+  background-color: #eeee;
+  border-bottom: 1px solid rgba(184, 184, 184, 0.93);
   color: white;
+  padding: 10px 24px;
   .ant-page-header-heading-title {
-    color: white;
+    // color: white;
   }
 }
-
+.button-container {
+  margin-top: 10px;
+  float: right;
+}
 .ant-menu {
   border-right: none;
   li:nth-child(1) {
     margin-top: 0;
   }
 }
-
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  padding-left: 12px;
+  margin-bottom: 11px;
+  height: 40px;
+  h3 {
+    color: white;
+    margin: 0;
+  }
+}
 .ant-collapse-borderless {
   background-color: white;
 }
 .menu-container {
+  padding-top: 10px;
   border-right: 1px solid $secondary;
   display: flex;
   justify-content: space-between;

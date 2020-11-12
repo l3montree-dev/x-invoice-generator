@@ -4,6 +4,7 @@ import { parseStringPromise } from 'xml2js';
 import { promises as fs } from 'fs';
 import { join } from 'path';
 import { validate } from 'schematron-runner';
+import { ICompletedValidation } from 'schematron-runner/esm/validator';
 import { Invoice, Node, Tag } from './types';
 
 export default class XInvoice {
@@ -27,6 +28,14 @@ export default class XInvoice {
     xml: string,
     path: string = __dirname
   ): Promise<boolean> {
+    const results = await this.validateXInvoiceWithResults(xml, path);
+    return results.errors.length === 0 && results.passed.length > 0;
+  }
+
+  public static async validateXInvoiceWithResults(
+    xml: string,
+    path: string = __dirname
+  ): Promise<ICompletedValidation> {
     const schematron = await fs.readFile(
       join(
         path,
@@ -36,11 +45,9 @@ export default class XInvoice {
       ),
       'utf8'
     );
-    const results = await validate(xml, schematron, {
+    return validate(xml, schematron, {
       resourceDir: join(path, 'schematron', 'ubl-inv', 'empty'),
     });
-    console.log(results);
-    return results.errors.length === 0 && results.passed.length > 0;
   }
 
   public static isLeaf(obj: Node | Tag): boolean {

@@ -3,6 +3,7 @@ import { Button, Form, message } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import SellerInformation from '../components/SellerInformation';
 import PersistentStorage from '../services/PersistentStorage';
+import Page from '../components/Page';
 
 const style = {
   buttonContainer: {
@@ -18,7 +19,7 @@ const SettingsPage = () => {
     message.success('Speichern erfolgreich!');
   };
   return (
-    <div>
+    <Page title="Einstellungen">
       <h2>Informationen speichern</h2>
       <Form
         initialValues={PersistentStorage.getInstance().get('formData')}
@@ -33,7 +34,7 @@ const SettingsPage = () => {
           </Button>
         </Form.Item>
       </Form>
-    </div>
+    </Page>
   );
 };
 

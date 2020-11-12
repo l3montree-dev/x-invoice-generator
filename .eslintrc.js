@@ -9,6 +9,7 @@ module.exports = {
     'react/jsx-props-no-spreading': 0,
     'react/jsx-curly-newline': 0,
     'react/jsx-wrap-multilines': 0,
+    'react/jsx-one-expression-per-line': 0,
   },
   parserOptions: {
     ecmaVersion: 2020,

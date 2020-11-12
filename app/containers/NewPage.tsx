@@ -1,12 +1,20 @@
 import React, { FunctionComponent } from 'react';
-import { Form, message } from 'antd';
+import { Button, Collapse, Form, message } from 'antd';
 import { join } from 'path';
 import * as electron from 'electron';
-import { writeFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
+import { PlusOutlined } from '@ant-design/icons';
 import Page from '../components/Page';
 import XInvoice from '../lib/x-invoice/XInvoice';
 import Transformer from '../services/Transformer';
-import New from '../features/new/New';
+import PersistentStorage from '../services/PersistentStorage';
+import GeneralInformation from '../components/GeneralInformation';
+import SellerInformation from '../components/SellerInformation';
+import BuyerInformation from '../components/BuyerInformation';
+import ItemCard from '../components/ItemCard';
+import SalesTaxBreakdown from '../components/SalesTaxBreakdown';
+import Totals from '../components/Totals';
+import PaymentDetails from '../components/PaymentDetails';
 
 const NewPage: FunctionComponent = () => {
   const [form] = Form.useForm();
@@ -35,9 +43,95 @@ const NewPage: FunctionComponent = () => {
     }
   };
 
+  const handleFinishFailed = () => {
+    message.error('Nicht alle Felder wurden korrekt ausgefüllt');
+  };
+
+  const handleOpen = async () => {
+    const path = await electron.remote.dialog.showOpenDialog({
+      properties: ['openFile'],
+      filters: [{ name: 'XML', extensions: ['xml'] }],
+    });
+    const [filePath] = path.filePaths;
+    if (filePath) {
+      const xml = readFileSync(filePath).toString();
+      form.setFieldsValue(
+        Transformer.invoice2Object(await XInvoice.fromXML(xml))
+      );
+    }
+  };
+
   return (
-    <Page>
-      <New formHandler={form} onSubmit={handleSubmit} />
+    <Page
+      extra={<Button onClick={handleOpen}>Rechnung öffnen</Button>}
+      title="Neue Rechnung erstellen"
+    >
+      <div>
+        <Form
+          onFinishFailed={handleFinishFailed}
+          initialValues={PersistentStorage.getInstance().get('formData')}
+          onFinish={handleSubmit}
+          form={form}
+          layout="vertical"
+        >
+          <Collapse bordered={false} defaultActiveKey={['1']}>
+            <Collapse.Panel key="1" header="Allgemeine Rechnungsinformationen">
+              <GeneralInformation />
+            </Collapse.Panel>
+            <Collapse.Panel forceRender key="2" header="Rechnungssteller">
+              <SellerInformation requireFields />
+            </Collapse.Panel>
+            <Collapse.Panel forceRender key="3" header="Rechnungsempfänger">
+              <BuyerInformation />
+            </Collapse.Panel>
+            <Collapse.Panel forceRender key="4" header="Rechnungselemente">
+              <Form.List name="InvoiceLine">
+                {(fields, { add, remove }) => (
+                  <>
+                    {fields.map((field, index) => (
+                      <ItemCard
+                        formHandler={form}
+                        key={field.key}
+                        remove={() => remove(index)}
+                        index={index}
+                        field={field}
+                      />
+                    ))}
+                    <Form.Item>
+                      <Button
+                        type="dashed"
+                        onClick={add}
+                        block
+                        icon={<PlusOutlined />}
+                      >
+                        Element hinzufügen
+                      </Button>
+                    </Form.Item>
+                  </>
+                )}
+              </Form.List>
+            </Collapse.Panel>
+            <Collapse.Panel
+              forceRender
+              key="5"
+              header="Umsatzsteueraufschlüsselung"
+            >
+              <SalesTaxBreakdown formHandler={form} />
+            </Collapse.Panel>
+            <Collapse.Panel forceRender key="6" header="Summen">
+              <Totals formHandler={form} />
+            </Collapse.Panel>
+            <Collapse.Panel forceRender key="7" header="Zahlungsinformationen">
+              <PaymentDetails />
+            </Collapse.Panel>
+          </Collapse>
+          <Form.Item className="button-container">
+            <Button type="primary" htmlType="submit">
+              Exportieren
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
     </Page>
   );
 };
