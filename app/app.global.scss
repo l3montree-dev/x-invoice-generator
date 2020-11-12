@@ -30,6 +30,7 @@ body {
   border-bottom: 1px solid rgba(184, 184, 184, 0.93);
   color: white;
   padding: 15px 24px !important;
+  -webkit-app-region: drag;
   .ant-page-header-heading-title {
     // color: white;
   }
@@ -50,7 +51,8 @@ body {
   padding-left: 12px;
   margin-bottom: 11px;
   height: 40px;
-  margin-top: 10px;
+  padding-top: 10px;
+  -webkit-app-region: drag;
   h3 {
     color: white;
     margin: 0;
