@@ -89,6 +89,21 @@ describe('Transformer test suite', () => {
       const result = Transformer.object2Invoice(testData);
       expect(result.InvoiceLine[0].LineExtensionAmount).toEqual(20);
     });
+    it('should handle arrays correctly', () => {
+      const testData = {
+        InvoiceLine: [
+          {
+            'Price.PriceAmount': 10,
+            'Item.ClassifiedTaxCategory.Percent': 19,
+            InvoicedQuantity: 2,
+          },
+        ],
+      };
+      const result = Transformer.object2Invoice(testData);
+      expect(result.InvoiceLine[0].Item.ClassifiedTaxCategory.Percent).toEqual(
+        19
+      );
+    });
   });
 
   describe('Transformer#invoice2Object', () => {

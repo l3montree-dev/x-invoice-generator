@@ -22,9 +22,14 @@ export default class Transformer {
    */
   public static object2Invoice(obj: object): Invoice {
     const invoice: Node = {};
-    Object.entries(this.prepare(obj)).forEach(([tagName, value]) => {
-      this.safelySet(invoice, tagName.split('.') as (keyof Invoice)[], value);
+    Object.entries(Transformer.prepare(obj)).forEach(([tagName, value]) => {
+      Transformer.safelySet(
+        invoice,
+        tagName.split('.') as (keyof Invoice)[],
+        value
+      );
     });
+
     return invoice;
   }
 
@@ -105,7 +110,7 @@ export default class Transformer {
       if (!destination[key]) {
         destination[key] = {};
       }
-      this.safelySet(destination[key], rest, value);
+      Transformer.safelySet(destination[key], rest, value);
     } else if (key.includes('@')) {
       const [tagName, attributeName] = key.split('@');
       // the content might already be defined.
@@ -125,6 +130,9 @@ export default class Transformer {
         ...destination[key],
         content: value,
       };
+    } else if (value instanceof Array) {
+      // we have to recursively do it for all members.
+      destination[key] = value.map(Transformer.object2Invoice);
     } else {
       // might even be an array
       destination[key] = value;
