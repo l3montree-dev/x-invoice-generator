@@ -4,6 +4,7 @@ import { join } from 'path';
 import * as electron from 'electron';
 import { readFileSync, writeFileSync } from 'fs';
 import { PlusOutlined } from '@ant-design/icons';
+import { remote } from 'electron';
 import Page from '../components/Page';
 import XInvoice from '../lib/x-invoice/XInvoice';
 import Transformer from '../services/Transformer';
@@ -38,7 +39,9 @@ const NewPage: FunctionComponent = () => {
       const xml = new XInvoice(invoice).toXML();
       const isValid = await XInvoice.validateXInvoice(
         xml,
-        join(__dirname, 'lib', 'x-invoice')
+        remote.app.isPackaged
+          ? join(process.resourcesPath, 'resources')
+          : join(__dirname, '..', 'resources')
       );
       if (!isValid) {
         message.error(

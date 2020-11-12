@@ -1,3 +1,4 @@
+import { join } from 'path';
 import { Invoice } from '../types';
 import XInvoice from '../XInvoice';
 
@@ -287,9 +288,17 @@ describe('XInvoice test suite', () => {
   });
   it('should validate a xml string by using the schematron definitions from itplr', async () => {
     expect(
-      await XInvoice.validateXInvoice(new XInvoice(xinvoice).toXML())
+      await XInvoice.validateXInvoice(
+        new XInvoice(xinvoice).toXML(),
+        join(__dirname, '..', '..', '..', '..', 'resources')
+      )
     ).toBeTruthy();
-    expect(await XInvoice.validateXInvoice(xmlString)).toBeTruthy();
+    expect(
+      await XInvoice.validateXInvoice(
+        xmlString,
+        join(__dirname, '..', '..', '..', '..', 'resources')
+      )
+    ).toBeTruthy();
   });
   it('should handle arrays correctly', () => {
     expect(

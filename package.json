@@ -61,6 +61,7 @@
     },
     "files": [
       "dist/",
+      "lib/",
       "node_modules/",
       "app.html",
       "main.prod.js",
@@ -100,7 +101,7 @@
       "output": "release"
     },
     "extraResources": [
-      "./resources/**"
+      "resources/**"
     ]
   },
   "repository": {

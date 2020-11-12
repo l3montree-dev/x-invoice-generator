@@ -5,6 +5,7 @@ import { join } from 'path';
 import { Modal, Result, Upload } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { ICompletedValidation } from 'schematron-runner/esm/validator';
+import { remote } from 'electron';
 import XInvoice from '../lib/x-invoice/XInvoice';
 import Page from '../components/Page';
 
@@ -15,7 +16,9 @@ export default function ValidatePage() {
   const customRequest = async (file: RcCustomRequestOptions) => {
     const res = await XInvoice.validateXInvoiceWithResults(
       readFileSync(file.file.path).toString(),
-      join(__dirname, 'lib', 'x-invoice')
+      remote.app.isPackaged
+        ? join(process.resourcesPath, 'resources')
+        : join(__dirname, '..', 'resources')
     );
 
     setResults(res);
