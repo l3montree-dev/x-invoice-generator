@@ -2,6 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { Button, Collapse, Form } from 'antd';
 import { FormInstance } from 'antd/lib/form/hooks/useForm';
 import { PlusOutlined } from '@ant-design/icons';
+import { useDispatch, useSelector } from 'react-redux';
 import { Invoice } from '../../lib/x-invoice/types';
 import ItemCard from '../../components/ItemCard';
 import GeneralInformation from '../../components/GeneralInformation';
@@ -11,6 +12,8 @@ import Totals from '../../components/Totals';
 import PaymentDetails from '../../components/PaymentDetails';
 import BuyerInformation from '../../components/BuyerInformation';
 import PersistentStorage from '../../services/PersistentStorage';
+import { AppDispatch, CombinedState } from '../../redux/rootReducer';
+import Transformer from '../../services/Transformer';
 
 interface Props {
   formHandler: FormInstance<Invoice>;
@@ -28,11 +31,22 @@ const style = {
 };
 
 const New: FunctionComponent<Props> = (props) => {
+  const dispatch: AppDispatch = useDispatch();
+  const initialFormData = useSelector(
+    (state: CombinedState) => state.form.initialFormData
+  );
+  if (initialFormData) {
+    dispatch({ type: 'RESET_INITIAL_DATA' });
+  }
   return (
     <div>
       <h2>Neue Rechnung erstellen</h2>
       <Form
-        initialValues={PersistentStorage.getInstance().get('formData')}
+        initialValues={
+          initialFormData
+            ? Transformer.invoice2Object(initialFormData)
+            : PersistentStorage.getInstance().get('formData')
+        }
         onFinish={props.onSubmit}
         form={props.formHandler}
         layout="vertical"
@@ -44,10 +58,10 @@ const New: FunctionComponent<Props> = (props) => {
           <Collapse.Panel forceRender key="2" header="Rechnungssteller">
             <SellerInformation requireFields />
           </Collapse.Panel>
-          <Collapse.Panel key="3" header="Rechnungsempfänger">
+          <Collapse.Panel forceRender key="3" header="Rechnungsempfänger">
             <BuyerInformation />
           </Collapse.Panel>
-          <Collapse.Panel key="4" header="Rechnungselemente">
+          <Collapse.Panel forceRender key="4" header="Rechnungselemente">
             <Form.List name="InvoiceLine">
               {(fields, { add, remove }) => (
                 <>
@@ -74,13 +88,17 @@ const New: FunctionComponent<Props> = (props) => {
               )}
             </Form.List>
           </Collapse.Panel>
-          <Collapse.Panel key="5" header="Umsatzsteueraufschlüsselung">
-            <SalesTaxBreakdown />
+          <Collapse.Panel
+            forceRender
+            key="5"
+            header="Umsatzsteueraufschlüsselung"
+          >
+            <SalesTaxBreakdown formHandler={props.formHandler} />
           </Collapse.Panel>
-          <Collapse.Panel key="6" header="Summen">
+          <Collapse.Panel forceRender key="6" header="Summen">
             <Totals formHandler={props.formHandler} />
           </Collapse.Panel>
-          <Collapse.Panel key="7" header="Zahlungsinformationen">
+          <Collapse.Panel forceRender key="7" header="Zahlungsinformationen">
             <PaymentDetails />
           </Collapse.Panel>
         </Collapse>

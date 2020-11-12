@@ -12,6 +12,7 @@ const NewPage: FunctionComponent = () => {
     const xml = new XInvoice(Transformer.object2Invoice(values)).toXML();
     console.log(await XInvoice.validateXInvoice(xml));
   };
+
   return (
     <Page>
       <New formHandler={form} onSubmit={handleSubmit} />

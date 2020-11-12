@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, useCallback, useEffect } from 'react';
 import { Col, Form, Input, InputNumber, Row } from 'antd';
 import { FormInstance } from 'antd/es/form';
 import Calculator, { FormInvoiceLine } from '../services/Calculator';
@@ -10,7 +10,7 @@ interface Props {
 const Totals: FunctionComponent<Props> = (props) => {
   // the totals need to be calculated live.
   // therefore we need to get the invoice line value.
-  const priceChangeListener = () => {
+  const priceChangeListener = useCallback(() => {
     const invoiceLine: FormInvoiceLine[] = props.formHandler.getFieldValue(
       'InvoiceLine'
     );
@@ -27,7 +27,7 @@ const Totals: FunctionComponent<Props> = (props) => {
       'LegalMonetaryTotal.TaxInclusiveAmount': afterTax,
       'LegalMonetaryTotal.PayableAmount': afterTax,
     });
-  };
+  }, [props.formHandler]);
 
   useEffect(() => {
     EventEmitter.registerListener(EventKeys.PRICE_CHANGE, priceChangeListener);

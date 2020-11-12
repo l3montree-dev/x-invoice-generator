@@ -4,6 +4,13 @@ import Calculator, { FormInvoiceLine } from './Calculator';
 import XInvoice from '../lib/x-invoice/XInvoice';
 
 export default class Transformer {
+  private static transformToMomentKeys = [
+    'StartDate',
+    'IssueDate',
+    'EndDate',
+    'DueDate',
+  ];
+
   /**
    * Transformation rules to create from a flat object an invoice object.
    *
@@ -35,6 +42,8 @@ export default class Transformer {
           Object.entries(value.attributes).forEach(([attr, attrVal]) => {
             result[`${key}@${attr}`] = attrVal;
           });
+        } else if (Transformer.transformToMomentKeys.includes(key)) {
+          result[key] = moment(value, 'YYYY-MM-DD');
         } else {
           result[key] = value;
         }

@@ -1,4 +1,9 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { Card, Col, Form, Input, InputNumber, Row, Typography } from 'antd';
 import { FormListFieldData } from 'antd/lib/form/FormList';
 import { FormInstance } from 'antd/es/form';
@@ -25,16 +30,19 @@ const ItemCard: FunctionComponent<Props> = (props) => {
 
   const [total, setTotal] = useState(0);
 
-  const handleChange = () => {
+  const handleChange = useCallback(() => {
     const formValues: FormInvoiceLine[] = props.formHandler.getFieldValue(
       'InvoiceLine'
     );
-    if (formValues.length <= field.key + 1) {
-      const values = formValues[field.key];
-      setTotal(values['Price.PriceAmount'] * values.InvoicedQuantity);
-    }
+    const values = formValues[field.key];
+    setTotal(values['Price.PriceAmount'] * values.InvoicedQuantity);
+
     EventEmitter.dispatchEvent(EventKeys.PRICE_CHANGE);
-  };
+  }, [field.key, props.formHandler]);
+
+  useEffect(() => {
+    handleChange();
+  }, [handleChange, props.formHandler]);
   return (
     <Card
       title={`${index + 1}. Rechnungselement (Nur Personenstunden)`}

@@ -4,7 +4,6 @@ import { useHistory } from 'react-router';
 
 const Navigation: FunctionComponent = () => {
   const history = useHistory();
-  console.log(window.location);
   return (
     <Menu defaultSelectedKeys={['new']} mode="inline">
       <Menu.Item onClick={() => history.replace('/')} key="new">

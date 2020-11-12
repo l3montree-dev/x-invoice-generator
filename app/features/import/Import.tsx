@@ -1,32 +1,37 @@
 import React from 'react';
 import { InboxOutlined } from '@ant-design/icons';
 import { Upload } from 'antd';
-import { DraggerProps } from 'antd/lib/upload/Dragger';
 import { RcCustomRequestOptions } from 'antd/es/upload/interface';
 import { readFileSync } from 'fs';
-import Transformer from '../../services/Transformer';
+import { useHistory } from 'react-router';
+import { useDispatch } from 'react-redux';
 import XInvoice from '../../lib/x-invoice/XInvoice';
-
-const props: DraggerProps = {
-  name: 'file',
-  multiple: false,
-  accept: 'text/xml',
-  customRequest: async (file: RcCustomRequestOptions) => {
-    console.log(file);
-    console.log(
-      Transformer.invoice2Object(
-        await XInvoice.fromXML(readFileSync(file.file.path).toString())
-      )
-    );
-    file.onSuccess({}, file.file);
-    return 'test';
-  },
-};
+import { AppDispatch } from '../../redux/rootReducer';
 
 const Import = () => {
+  const history = useHistory();
+  const dispatch: AppDispatch = useDispatch();
+  const customRequest = async (file: RcCustomRequestOptions) => {
+    const formData = await XInvoice.fromXML(
+      readFileSync(file.file.path).toString()
+    );
+
+    file.onSuccess({}, file.file);
+    dispatch({
+      type: 'SET_INITIAL_DATA',
+      payload: { initialFormData: formData },
+    });
+    history.replace(`/`, { formData });
+  };
   return (
     <div>
-      <Upload.Dragger {...props}>
+      <h2>Rechnung öffnen</h2>
+      <Upload.Dragger
+        name="file"
+        multiple={false}
+        accept="text/xml"
+        customRequest={customRequest}
+      >
         <p className="ant-upload-drag-icon">
           <InboxOutlined />
         </p>
