@@ -52,8 +52,13 @@
     ]
   },
   "build": {
-    "productName": "X-Invoice Generator",
-    "appId": "com.l3montree.xinvoice",
+    "productName": "X-Rechnung Generator",
+    "appId": "com.l3montree.x-invoice",
+    "publish": {
+      "provider": "generic",
+      "url": "https://www.yourServer.com/software/${os}",
+      "channel": "latest"
+    },
     "files": [
       "dist/",
       "node_modules/",
