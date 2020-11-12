@@ -14,7 +14,13 @@ import path from 'path';
 import { app, BrowserWindow } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import * as Sentry from '@sentry/electron';
 import MenuBuilder from './menu';
+
+Sentry.init({
+  dsn:
+    'https://3232fcc1cc174d5c963354466e17f645@o336218.ingest.sentry.io/5500400',
+});
 
 export default class AppUpdater {
   constructor() {

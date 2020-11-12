@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { Col, Row } from 'antd';
 import { Switch, Route } from 'react-router-dom';
 import NewPage from './NewPage';
