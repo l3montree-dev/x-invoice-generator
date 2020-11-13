@@ -9,6 +9,10 @@ The used syntax is UBL (Universal Business Language). Basically there is still t
 This software is developed by [l3montree](https://l3montree.com), on the initiative of [Neuland@Homeland GmbH](https://neuland-homeland.de), open to contributions and input from anyone.
 
 
+### Download and install
+
+You can download the software from the [release](https://gitlab.com/l3montree/x-invoice/x-invoice-generator/-/releases) page. There are packed installers for Windows (64-bit exe), Linux (amd64 for Debian) and OS X (dmg) available.
+
 
 ### Table of content:
 
