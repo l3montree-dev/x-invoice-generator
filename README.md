@@ -1,4 +1,10 @@
-## X-Invoice-Generator
+<div align="center">
+<a href="https://l3montree.com"><img align="center" width="150" src=https://l3montree.com/_next/image?url=https%3A%2F%2Fcms.l3montree.com%2Fuploads%2FX_Invoice_Logo_abc7b64e24.svg&w=48&q=75 /></a>
+<div align="left">
+
+# X-Invoice-Generator
+
+_Eine deutschsprachige [README](https://gitlab.com/l3montree/x-invoice/x-invoice-generator/-/blob/master/README_DE.md) kann hier gefunden werden._
 
 Welcome! This is the place where an open and free generator for X-Invoices is created. According to the decision of the IT Planning Council of June 22nd, 2017, X-Invoices are decisive for the implementation of Directive 2014/55/EU in Germany. This generator tries to implement the specifications in a simple and open way and to make them easy to use for everyone.
 
@@ -9,7 +15,7 @@ The used syntax is UBL (Universal Business Language). Basically there is still t
 This software is developed by [l3montree](https://l3montree.com), on the initiative of [Neuland@Homeland GmbH](https://neuland-homeland.de), open to contributions and input from anyone.
 
 
-### Download and install
+## Download and install
 
 You can download the software from the [release](https://gitlab.com/l3montree/x-invoice/x-invoice-generator/-/releases) page. There are packed installers for Windows (64-bit exe), Linux (amd64 for Debian) and OS X (dmg) available.
 
@@ -37,7 +43,7 @@ If you need more details just have a look at the `package.json` file.
 
 ### Mapping of a specific invoice template 
 
-The structure of the project is intended to make it easy to adopt the basic standard for specific cases. In the project, the specifications of the standard are therefore mapped in UBL syntax. Since different organizations or companies usually only need specific fields of an invoice they can be used easily from the basic standard. An example for the specifications of the "Deutsche Bahn" can be found in the [Wiki](https://gitlab.com/l3montree/x-invoice-generator/-/wikis/documentation/specific_requirements_XInvoice/Deutsche_Bahn/Deutsche_Bahn_XInvoice_Requirements_(UBL)).
+The structure of the project is intended to make it easy to adopt the basic standard for specific cases. In the project, the specifications of the standard are therefore mapped in UBL syntax. Since different organizations or companies usually only need specific fields of an invoice they can be used easily from the basic standard. An example for the specifications of the **"Deutsche Bahn"** can be found in the [Wiki](https://gitlab.com/l3montree/x-invoice-generator/-/wikis/documentation/specific_requirements_XInvoice/Deutsche_Bahn/Deutsche_Bahn_XInvoice_Requirements_(UBL)). The current version [v0.0.1](https://gitlab.com/l3montree/x-invoice/x-invoice-generator/-/releases) is especially designed to fit the requirements of the **"Deutsche Bahn"**. Further information regarding X-Invoices and **"Deutsche Bahn"** can be found at their [FAQ](https://www.deutschebahn.com/de/geschaefte/lieferantenportal/informationsservice/FAQs-rund-um-das-Thema-Rechnungsstellung-5570102).
 
 
 
@@ -47,19 +53,6 @@ You can download example X-Invoices in UBL and CII Standard [here](https://baske
 
 
 
-### Design/ UI
-
-You can download a mockup as Adobe XD file [here](https://basket.l3montree.com/s/icJAQEAgT8nCNTS) or as PDF [here](https://basket.l3montree.com/s/gSR2PnYjYC9tQJk).
-
-| Functionality        | Color Code |
-| -------------------- | ---------- |
-| Primary              | #369EFF    |
-| Secondary/ undefined | #BABABA    |
-| Danger               | #F5576C    |
-| Success              | #43D97D    |
-| Background           | #123F65    |
-
-
 
 ### Credits
 
@@ -67,7 +60,7 @@ The starting basis for the development was the [Electron React Boilerplate](http
 
 
 
-### License
+## License
 
 X-Invoice-Generator
 Copyright (C) 2020 l3montree
