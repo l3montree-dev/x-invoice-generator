@@ -35,7 +35,13 @@ const ItemCard: FunctionComponent<Props> = (props) => {
       'InvoiceLine'
     );
     const values = formValues[field.key];
-    setTotal(values['Price.PriceAmount'] * values.InvoicedQuantity);
+    setTotal(
+      Math.round(
+        (values['Price.PriceAmount'] * values.InvoicedQuantity +
+          Number.EPSILON) *
+          100
+      ) / 100
+    );
 
     EventEmitter.dispatchEvent(EventKeys.PRICE_CHANGE);
   }, [field.key, props.formHandler]);

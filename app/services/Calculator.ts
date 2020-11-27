@@ -33,9 +33,11 @@ export default class Calculator {
       percent = +(line.Item?.ClassifiedTaxCategory.Percent ?? 0);
       quantity = +(line.InvoicedQuantity ?? 0);
     }
-    const beforeTax = price * quantity;
+    const beforeTax =
+      Math.round((price * quantity + Number.EPSILON) * 100) / 100;
     percent /= 100;
-    const taxAmount = beforeTax * percent;
+    const taxAmount =
+      Math.round((beforeTax * percent + Number.EPSILON) * 100) / 100;
     const afterTax = beforeTax + taxAmount;
     return { beforeTax, afterTax, taxAmount };
   }
