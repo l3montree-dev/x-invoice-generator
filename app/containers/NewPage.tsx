@@ -34,9 +34,11 @@ const NewPage: FunctionComponent = () => {
                 line['Item.SellerItemIdentification.ID'],
               'Item.Name': line['Item.Name'],
               InvoicedQuantity: line.InvoicedQuantity,
+              'Item.ClassifiedTaxCategory.ID': 'S',
               'Price.PriceAmount': line['Price.PriceAmount'],
               'Item.ClassifiedTaxCategory.Percent':
                 line['Item.ClassifiedTaxCategory.Percent'],
+              'Item.ClassifiedTaxCategory.TaxScheme.ID': 'VAT',
             };
           }
         ),

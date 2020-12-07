@@ -12,6 +12,8 @@ export interface FormInvoiceLine {
   'Item.ClassifiedTaxCategory.Percent': number;
   'Item.SellerItemIdentification.ID': string;
   'Item.Name': string;
+  'Item.ClassifiedTaxCategory.ID': string;
+  'Item.ClassifiedTaxCategory.TaxScheme.ID': string;
 }
 
 export default class Calculator {
