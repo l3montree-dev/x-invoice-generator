@@ -184,6 +184,7 @@ ${this.recursiveXMLGeneration(value)}
 
   public toXML(): string {
     return `<?xml version="1.0" encoding="UTF-8"?><ubl:Invoice xmlns:ubl="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2.xsd">
+    <cbc:InvoiceTypeCode>380</cbc:InvoiceTypeCode>
 ${this.recursiveXMLGeneration(this.invoice)}
 </ubl:Invoice>`;
   }
