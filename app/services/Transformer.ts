@@ -96,6 +96,7 @@ export default class Transformer {
           return {
             ...line,
             LineExtensionAmount: beforeTax,
+            'LineExtensionAmount@currencyID': 'EUR',
           };
         }
       );
@@ -104,6 +105,8 @@ export default class Transformer {
         (line: FormInvoiceLine & { LineExtensionAmount: number }) => {
           return {
             TaxableAmount: line['Price.PriceAmount'],
+            'TaxableAmount@currencyID': 'EUR',
+            'TaxAmount@currencyID': 'EUR',
             TaxAmount: (
               line['Price.PriceAmount'] *
               (line['Item.ClassifiedTaxCategory.Percent'] / 100)
