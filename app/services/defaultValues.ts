@@ -1,5 +1,5 @@
 const defaultValues = {
-  'TaxTotal.TaxAmount@currenyID': 'EUR',
+  'TaxTotal.TaxAmount@currencyID': 'EUR',
   'LegalMonetaryTotal.LineExtensionAmount@currencyID': 'EUR',
   'LegalMonetaryTotal.TaxExclusiveAmount@currencyID': 'EUR',
   'LegalMonetaryTotal.TaxInclusiveAmount@currencyID': 'EUR',
