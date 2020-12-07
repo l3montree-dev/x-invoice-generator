@@ -31,7 +31,6 @@ export default class Transformer {
         value
       );
     });
-
     return invoice;
   }
 
@@ -100,6 +99,23 @@ export default class Transformer {
           };
         }
       );
+
+      obj['TaxTotal.TaxSubtotal'] = obj.InvoiceLine.map(
+        (line: FormInvoiceLine & { LineExtensionAmount: number }) => {
+          return {
+            TaxableAmount: line['Price.PriceAmount'],
+            TaxAmount: (
+              line['Price.PriceAmount'] *
+              (line['Item.ClassifiedTaxCategory.Percent'] / 100)
+            ).toFixed(2),
+            'TaxCategory.ID': 'S',
+            'TaxCategory.TaxScheme.ID': 'VAT',
+            'TaxCategory.Percent': line[
+              'Item.ClassifiedTaxCategory.Percent'
+            ].toFixed(2),
+          };
+        }
+      );
     }
     return obj;
   }
@@ -136,6 +152,7 @@ export default class Transformer {
         content: value,
       };
     } else if (value instanceof Array) {
+      console.log(value);
       // we have to recursively do it for all members.
       destination[key] = value.map(Transformer.object2Invoice);
     } else {

@@ -5,6 +5,7 @@ import * as electron from 'electron';
 import { readFileSync, writeFileSync } from 'fs';
 import { PlusOutlined } from '@ant-design/icons';
 import { remote } from 'electron';
+import * as Sentry from '@sentry/electron';
 import Page from '../components/Page';
 import XInvoice from '../lib/x-invoice/XInvoice';
 import Transformer from '../services/Transformer';
@@ -13,7 +14,6 @@ import GeneralInformation from '../components/GeneralInformation';
 import SellerInformation from '../components/SellerInformation';
 import BuyerInformation from '../components/BuyerInformation';
 import ItemCard from '../components/ItemCard';
-import SalesTaxBreakdown from '../components/SalesTaxBreakdown';
 import Totals from '../components/Totals';
 import PaymentDetails from '../components/PaymentDetails';
 import { FormInvoiceLine } from '../services/Calculator';
@@ -23,47 +23,52 @@ const NewPage: FunctionComponent = () => {
   const handleSubmit = async (values: object): Promise<void> => {
     // we have to transform the values, since this is flatten object.
     if ('InvoiceLine' in values) {
-      const invoice = Transformer.object2Invoice({
-        ...values,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        InvoiceLine: values.InvoiceLine.map(
-          (line: FormInvoiceLine): FormInvoiceLine => {
-            return {
-              'Item.SellerItemIdentification.ID':
-                line['Item.SellerItemIdentification.ID'],
-              'Item.Name': line['Item.Name'],
-              InvoicedQuantity: line.InvoicedQuantity,
-              'Item.ClassifiedTaxCategory.ID': 'S',
-              'Price.PriceAmount': line['Price.PriceAmount'],
-              'Item.ClassifiedTaxCategory.Percent':
-                line['Item.ClassifiedTaxCategory.Percent'],
-              'Item.ClassifiedTaxCategory.TaxScheme.ID': 'VAT',
-            };
-          }
-        ),
-      });
-      const xml = new XInvoice(invoice).toXML();
-      const isValid = await XInvoice.validateXInvoice(
-        xml,
-        remote.app.isPackaged
-          ? join(process.resourcesPath, 'resources')
-          : join(__dirname, '..', 'resources')
-      );
-      if (!isValid) {
-        message.error(
-          'Die generierte Rechnung entspricht nicht dem X-Rechnung Standard'
+      try {
+        const invoice = Transformer.object2Invoice({
+          ...values,
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          InvoiceLine: values.InvoiceLine.map(
+            (line: FormInvoiceLine): FormInvoiceLine => {
+              return {
+                'Item.SellerItemIdentification.ID':
+                  line['Item.SellerItemIdentification.ID'],
+                'Item.Name': line['Item.Name'],
+                InvoicedQuantity: line.InvoicedQuantity,
+                'Item.ClassifiedTaxCategory.ID': 'S',
+                'Price.PriceAmount': line['Price.PriceAmount'],
+                'Item.ClassifiedTaxCategory.Percent':
+                  line['Item.ClassifiedTaxCategory.Percent'],
+                'Item.ClassifiedTaxCategory.TaxScheme.ID': 'VAT',
+              };
+            }
+          ),
+        });
+        const xml = new XInvoice(invoice).toXML();
+        const isValid = await XInvoice.validateXInvoice(
+          xml,
+          remote.app.isPackaged
+            ? join(process.resourcesPath, 'resources')
+            : join(__dirname, '..', 'resources')
         );
-        return;
-      }
-      const savePath = await electron.remote.dialog.showSaveDialog({
-        defaultPath: `${electron.remote.app.getPath('documents')}/Rechnung_${
-          invoice.ID
-        }.xml`,
-      });
-      if (savePath.filePath) {
-        writeFileSync(savePath.filePath, XInvoice.formatXml(xml));
-        message.success('Rechnung erfolgreich gespeichert');
+        if (!isValid) {
+          message.error(
+            'Die generierte Rechnung entspricht nicht dem X-Rechnung Standard'
+          );
+          return;
+        }
+        const savePath = await electron.remote.dialog.showSaveDialog({
+          defaultPath: `${electron.remote.app.getPath('documents')}/Rechnung_${
+            invoice.ID
+          }.xml`,
+        });
+        if (savePath.filePath) {
+          writeFileSync(savePath.filePath, XInvoice.formatXml(xml));
+          message.success('Rechnung erfolgreich gespeichert');
+        }
+      } catch (e) {
+        message.error('Ein Fehler ist aufgetreten.');
+        Sentry.captureException(e);
       }
     }
   };
@@ -134,13 +139,6 @@ const NewPage: FunctionComponent = () => {
                   </>
                 )}
               </Form.List>
-            </Collapse.Panel>
-            <Collapse.Panel
-              forceRender
-              key="5"
-              header="Umsatzsteueraufschlüsselung"
-            >
-              <SalesTaxBreakdown formHandler={form} />
             </Collapse.Panel>
             <Collapse.Panel forceRender key="6" header="Summen">
               <Totals formHandler={form} />

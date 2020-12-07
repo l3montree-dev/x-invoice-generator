@@ -31,7 +31,7 @@ const SalesTaxBreakdown: FunctionComponent<Props> = (props) => {
   }, [priceChangeListener]);
   return (
     <Row gutter={16}>
-      <Col span={8}>
+      <Col span={12}>
         <Form.Item
           name="TaxTotal.TaxSubtotal.TaxableAmount"
           label="Gesamtsumme netto"
@@ -39,21 +39,12 @@ const SalesTaxBreakdown: FunctionComponent<Props> = (props) => {
           <Input disabled placeholder="xx.yy" />
         </Form.Item>
       </Col>
-      <Col span={8}>
+      <Col span={12}>
         <Form.Item
           name="TaxTotal.TaxSubtotal.TaxAmount"
           label="Umsatzsteuerbetrag"
         >
           <Input disabled placeholder="aa.bb" />
-        </Form.Item>
-      </Col>
-      <Col span={8}>
-        <Form.Item
-          name="TaxTotal.TaxSubtotal.TaxCategory.TaxExemptionReason"
-          label="Befreiungsgrund"
-          tooltip="In Textform angegebener Grund für die Ausnahme des Betrages von der Umsatzsteuerpflicht."
-        >
-          <Input />
         </Form.Item>
       </Col>
     </Row>
