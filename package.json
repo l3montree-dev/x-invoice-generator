@@ -1,7 +1,7 @@
 {
   "name": "xinvoice",
   "productName": "X-Invoice Generator",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "According to the decision of the IT Planning Council of June 22nd, 2017, X-Invoices are decisive for the implementation of Directive 2014/55/EU in Germany. This Generator tries to implement the specifications in a simple and open way.",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
