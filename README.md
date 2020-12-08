@@ -78,6 +78,6 @@ If you download, install and execute the X-Invoice Generator as build and releas
 - Device architecture and family (e.g. "x64, Desktop")
 - Runtime information (e.g. "Node 12.12.0, Electron 8.5.3")
 
-You also agree that we are allowed to may temporary store meta connection data (used OS, version of this software, date and time of request and IPv4/ IPv6 address). We collect this data when you start the application, and it is checking for updates. Our webserver and proxy infrastructure that serves information about the latest version and the latest binaries needs to process this information to be able to communicate with your device.
+You also agree that we are allowed to may temporarily store meta connection data (used OS, version of this software, date and time of request and IPv4/ IPv6 address). We collect this data when you start the application, and it is checking for updates. Our webserver and proxy infrastructure that serves information about the latest version and the latest binaries needs to process this information to be able to communicate with your device.
 
 If you have any question regarding this topic, please feel free to contact us: info@l3montree.com
