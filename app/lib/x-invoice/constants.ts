@@ -246,3 +246,15 @@ const Countries = {
   ZW: 'Zimbabwe',
 };
 export default Countries;
+
+export const vatCategoryCode = {
+  S: 'Standard Rate',
+  Z: 'Zero rated goods',
+  E: 'Exempt from tax',
+  AE: 'VAT Reverse Charge',
+  K: 'VAT exempt for EEA intra-community supply of goods and services',
+  G: 'Free export item, tax not charged',
+  O: 'Services outside scope of tax',
+  L: 'Canary Islands general indirect tax',
+  M: 'Tax for production, services and importation in Ceuta and Melilla',
+};
