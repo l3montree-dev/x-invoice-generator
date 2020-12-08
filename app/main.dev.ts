@@ -20,6 +20,15 @@ import MenuBuilder from './menu';
 Sentry.init({
   dsn:
     'https://3232fcc1cc174d5c963354466e17f645@o336218.ingest.sentry.io/5500400',
+  beforeSend(event) {
+    // Modify the captured event
+    if (event.user) {
+      // Just to ensure no critical user related data is send
+      delete event.user.ip_address;
+      delete event.user.id;
+    }
+    return event;
+  },
 });
 
 export default class AppUpdater {
