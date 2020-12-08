@@ -104,11 +104,11 @@ export default class Transformer {
       obj['TaxTotal.TaxSubtotal'] = obj.InvoiceLine.map(
         (line: FormInvoiceLine & { LineExtensionAmount: number }) => {
           return {
-            TaxableAmount: line['Price.PriceAmount'],
+            TaxableAmount: line.LineExtensionAmount,
             'TaxableAmount@currencyID': 'EUR',
             'TaxAmount@currencyID': 'EUR',
             TaxAmount: (
-              line['Price.PriceAmount'] *
+              line.LineExtensionAmount *
               (line['Item.ClassifiedTaxCategory.Percent'] / 100)
             ).toFixed(2),
             'TaxCategory.ID': 'S',
