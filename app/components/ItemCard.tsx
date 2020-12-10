@@ -18,6 +18,7 @@ import { FormListFieldData } from 'antd/lib/form/FormList';
 import { FormInstance } from 'antd/es/form';
 import EventEmitter, { EventKeys } from '../services/EventEmitter';
 import { FormInvoiceLine } from '../services/Calculator';
+import { vatCategoryCode } from '../lib/x-invoice/constants';
 
 const style = {
   card: {
@@ -27,6 +28,7 @@ const style = {
   input: {
     width: '100%',
   },
+  width: '60%',
 };
 interface Props {
   field: FormListFieldData;
@@ -173,6 +175,30 @@ const ItemCard: FunctionComponent<Props> = (props) => {
         <Col span={8}>
           <Form.Item label="Gesamtsumme netto">
             <Input value={total} style={style.input} disabled />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            required
+            name="Item.ClassifiedTaxCategory.ID"
+            tooltip='Der Code der für den in Rechnung gestellten Posten geltenden Umsatzsteuerkategorie. Für die gängige Umsatzsteuer sollte "Standard Rate" gewählt werden. Die zugrundeliegende genormte Liste ist momentan nur in englischer Sprache verfügbar.'
+            label="Umsatzsteuerkategorie"
+          >
+            <Select
+              showSearch
+              style={style}
+              placeholder="Umsatzsteuerkategorie auswählen"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {Object.entries(vatCategoryCode).map(([value, readableName]) => (
+                <Select.Option key={value} value={value}>
+                  {readableName}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
         </Col>
       </Row>

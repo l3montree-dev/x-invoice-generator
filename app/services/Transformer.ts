@@ -133,7 +133,7 @@ export default class Transformer {
               line.LineExtensionAmount *
               (line['Item.ClassifiedTaxCategory.Percent'] / 100)
             ).toFixed(2),
-            'TaxCategory.ID': 'S',
+            'TaxCategory.ID': line['Item.ClassifiedTaxCategory.ID'],
             'TaxCategory.TaxScheme.ID': 'VAT',
             'TaxCategory.Percent': line[
               'Item.ClassifiedTaxCategory.Percent'
