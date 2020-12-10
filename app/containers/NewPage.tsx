@@ -16,8 +16,7 @@ import BuyerInformation from '../components/BuyerInformation';
 import ItemCard from '../components/ItemCard';
 import Totals from '../components/Totals';
 import PaymentDetails from '../components/PaymentDetails';
-import { FormInvoiceLine } from '../services/Calculator';
-import defaultValues from '../services/defaultValues';
+import DefaultValueProvider from '../services/DefaultValueProvider';
 
 const NewPage: FunctionComponent = () => {
   const [form] = Form.useForm();
@@ -26,26 +25,11 @@ const NewPage: FunctionComponent = () => {
     if ('InvoiceLine' in values) {
       try {
         const invoice = Transformer.object2Invoice({
-          ...defaultValues,
+          ...DefaultValueProvider.root,
           ...values,
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          InvoiceLine: values.InvoiceLine.map(
-            (line: FormInvoiceLine): FormInvoiceLine => {
-              return {
-                'Item.SellerItemIdentification.ID':
-                  line['Item.SellerItemIdentification.ID'],
-                'Item.Name': line['Item.Name'],
-                InvoicedQuantity: line.InvoicedQuantity,
-                'Item.ClassifiedTaxCategory.ID': 'S',
-                'Price.PriceAmount': line['Price.PriceAmount'],
-                'Price.PriceAmount@currencyID': 'EUR',
-                'Item.ClassifiedTaxCategory.Percent':
-                  line['Item.ClassifiedTaxCategory.Percent'],
-                'Item.ClassifiedTaxCategory.TaxScheme.ID': 'VAT',
-              };
-            }
-          ),
+          InvoiceLine: values.InvoiceLine.map(Transformer.serializeInvoiceLine),
         });
         const xml = new XInvoice(invoice).toXML();
         const isValid = await XInvoice.validateXInvoice(

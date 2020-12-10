@@ -2,6 +2,7 @@ import moment from 'moment';
 import { Invoice, Node, Tag } from '../lib/x-invoice/types';
 import Calculator, { FormInvoiceLine } from './Calculator';
 import XInvoice from '../lib/x-invoice/XInvoice';
+import DefaultValueProvider from './DefaultValueProvider';
 
 export default class Transformer {
   private static transformToMomentKeys = [
@@ -32,6 +33,26 @@ export default class Transformer {
       );
     });
     return invoice;
+  }
+
+  /**
+   * Serializes an invoice line element.
+   * The antd form handler does provide a lot more information for a single element than necessary.
+   * To remove the unused properties this method can be used.
+   * @param {FormInvoiceLine} line
+   * @returns {FormInvoiceLine}
+   */
+  public static serializeInvoiceLine(line: FormInvoiceLine): FormInvoiceLine {
+    return {
+      ...DefaultValueProvider.invoiceLine,
+      'Item.SellerItemIdentification.ID':
+        line['Item.SellerItemIdentification.ID'],
+      'Item.Name': line['Item.Name'],
+      InvoicedQuantity: line.InvoicedQuantity,
+      'Price.PriceAmount': line['Price.PriceAmount'],
+      'Item.ClassifiedTaxCategory.Percent':
+        line['Item.ClassifiedTaxCategory.Percent'],
+    };
   }
 
   public static invoice2Object(invoice: Node): object {
@@ -155,7 +176,6 @@ export default class Transformer {
         content: value,
       };
     } else if (value instanceof Array) {
-      console.log(value);
       // we have to recursively do it for all members.
       destination[key] = value.map(Transformer.object2Invoice);
     } else {

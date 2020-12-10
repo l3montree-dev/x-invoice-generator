@@ -79,7 +79,7 @@ const ItemCard: FunctionComponent<Props> = (props) => {
           >
             <InputNumber
               onChange={handleChange}
-              precision={6}
+              precision={2}
               step={0.25}
               style={style.input}
             />

@@ -75,8 +75,9 @@ describe('Transformer test suite', () => {
         },
       });
     });
-    it('should calculate the correct totals of an invoice line when object is transformed to Invoice', () => {
+    it('should calculate the correct totals of an invoice line when object is transformed to Invoice (default value)', () => {
       // the correct LineExtensionAmount is 20.
+      // but since it is a currency, a default value should be used to set the currency id.
       const testData = {
         InvoiceLine: [
           {
@@ -87,7 +88,10 @@ describe('Transformer test suite', () => {
         ],
       };
       const result = Transformer.object2Invoice(testData);
-      expect(result.InvoiceLine[0].LineExtensionAmount).toEqual(20);
+      expect(result.InvoiceLine[0].LineExtensionAmount).toEqual({
+        attributes: { currencyID: 'EUR' },
+        content: 20,
+      });
     });
     it('should handle arrays correctly', () => {
       const testData = {
