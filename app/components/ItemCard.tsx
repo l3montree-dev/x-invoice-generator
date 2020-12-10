@@ -73,7 +73,11 @@ const ItemCard: FunctionComponent<Props> = (props) => {
     >
       <Row gutter={16}>
         <Col span={3}>
-          <Form.Item name="Item.SellerItemIdentification.ID" label="Artiklnr.">
+          <Form.Item
+            fieldKey={[field.fieldKey, 'Item.SellerItemIdentification.ID']}
+            name={[field.name, 'Item.SellerItemIdentification.ID']}
+            label="Artiklnr."
+          >
             <Input />
           </Form.Item>
         </Col>
@@ -126,7 +130,7 @@ const ItemCard: FunctionComponent<Props> = (props) => {
         </Col>
       </Row>
       <Row gutter={16}>
-        <Col span={8}>
+        <Col span={6}>
           <Form.Item
             {...field}
             required
@@ -148,7 +152,7 @@ const ItemCard: FunctionComponent<Props> = (props) => {
             />
           </Form.Item>
         </Col>
-        <Col span={8}>
+        <Col span={6}>
           <Form.Item
             {...field}
             required
@@ -172,26 +176,18 @@ const ItemCard: FunctionComponent<Props> = (props) => {
             />
           </Form.Item>
         </Col>
-        <Col span={8}>
-          <Form.Item label="Gesamtsumme netto">
-            <Input value={total} style={style.input} disabled />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
+        <Col span={6}>
           <Form.Item
+            {...field}
             required
-            name="Item.ClassifiedTaxCategory.ID"
+            fieldKey={[field.fieldKey, 'Item.ClassifiedTaxCategory.ID']}
+            name={[field.name, 'Item.ClassifiedTaxCategory.ID']}
             tooltip='Der Code der für den in Rechnung gestellten Posten geltenden Umsatzsteuerkategorie. Für die gängige Umsatzsteuer sollte "Standard Rate" gewählt werden. Die zugrundeliegende genormte Liste ist momentan nur in englischer Sprache verfügbar.'
             label="Umsatzsteuerkategorie"
           >
             <Select
-              showSearch
-              style={style}
+              style={style.input}
               placeholder="Umsatzsteuerkategorie auswählen"
-              optionFilterProp="children"
-              filterOption={(input, option) =>
-                option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
             >
               {Object.entries(vatCategoryCode).map(([value, readableName]) => (
                 <Select.Option key={value} value={value}>
@@ -199,6 +195,11 @@ const ItemCard: FunctionComponent<Props> = (props) => {
                 </Select.Option>
               ))}
             </Select>
+          </Form.Item>
+        </Col>
+        <Col span={6}>
+          <Form.Item label="Gesamtsumme netto">
+            <Input value={total} style={style.input} disabled />
           </Form.Item>
         </Col>
       </Row>

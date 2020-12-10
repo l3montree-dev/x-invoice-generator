@@ -27,9 +27,9 @@ const NewPage: FunctionComponent = () => {
         const invoice = Transformer.object2Invoice({
           ...DefaultValueProvider.root,
           ...values,
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          InvoiceLine: values.InvoiceLine.map(Transformer.serializeInvoiceLine),
+          InvoiceLine: (values as any).InvoiceLine.map(
+            Transformer.serializeInvoiceLine
+          ),
         });
         const xml = new XInvoice(invoice).toXML();
         const isValid = await XInvoice.validateXInvoice(

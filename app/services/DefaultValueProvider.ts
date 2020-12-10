@@ -9,7 +9,6 @@ export default class DefaultValueProvider {
   };
 
   static invoiceLine = {
-    'Item.ClassifiedTaxCategory.ID': 'S',
     'Price.PriceAmount@currencyID': 'EUR',
     'Item.ClassifiedTaxCategory.TaxScheme.ID': 'VAT',
   };

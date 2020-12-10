@@ -53,6 +53,7 @@ export default class Transformer {
       'Price.PriceAmount': line['Price.PriceAmount'],
       'Item.ClassifiedTaxCategory.Percent':
         line['Item.ClassifiedTaxCategory.Percent'],
+      'Item.ClassifiedTaxCategory.ID': line['Item.ClassifiedTaxCategory.ID'],
     };
   }
 
