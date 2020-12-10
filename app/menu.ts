@@ -1,4 +1,10 @@
-import { app, BrowserWindow, Menu, MenuItemConstructorOptions } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  Menu,
+  MenuItemConstructorOptions,
+  shell,
+} from 'electron';
 
 interface DarwinMenuItemConstructorOptions extends MenuItemConstructorOptions {
   selector?: string;
@@ -54,9 +60,14 @@ export default class MenuBuilder {
           label: 'About X-Invoice Generator',
           selector: 'orderFrontStandardAboutPanel:',
         },
-        { type: 'separator' },
-        { label: 'Services', submenu: [] },
-        { type: 'separator' },
+        {
+          label: 'Privacy Notice',
+          click: () => {
+            shell.openExternal(
+              'https://gitlab.com/l3montree/x-invoice/x-invoice-generator#privacy-notice'
+            );
+          },
+        },
         {
           label: 'Hide X-Invoice Generator',
           accelerator: 'Command+H',
