@@ -79,7 +79,11 @@ const NewPage: FunctionComponent = () => {
 
   return (
     <Page
-      extra={<Button onClick={handleOpen}>Rechnung öffnen</Button>}
+      extra={
+        <Button type="primary" onClick={handleOpen}>
+          Rechnung öffnen
+        </Button>
+      }
       title="Neue Rechnung erstellen"
     >
       <div>
