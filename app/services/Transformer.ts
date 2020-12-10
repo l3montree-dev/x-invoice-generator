@@ -49,6 +49,7 @@ export default class Transformer {
         line['Item.SellerItemIdentification.ID'],
       'Item.Name': line['Item.Name'],
       InvoicedQuantity: line.InvoicedQuantity,
+      'InvoicedQuantity@unitCode': line['InvoicedQuantity@unitCode'],
       'Price.PriceAmount': line['Price.PriceAmount'],
       'Item.ClassifiedTaxCategory.Percent':
         line['Item.ClassifiedTaxCategory.Percent'],

@@ -16,6 +16,7 @@ export interface FormInvoiceLine {
   'Item.ClassifiedTaxCategory.TaxScheme.ID': string;
   'Price.PriceAmount@currencyID': string;
   'LineExtensionAmount@currencyID'?: string;
+  'InvoicedQuantity@unitCode': string;
 }
 
 export default class Calculator {

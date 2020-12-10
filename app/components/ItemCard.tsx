@@ -4,7 +4,16 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { Card, Col, Form, Input, InputNumber, Row, Typography } from 'antd';
+import {
+  Card,
+  Col,
+  Form,
+  Input,
+  InputNumber,
+  Row,
+  Select,
+  Typography,
+} from 'antd';
 import { FormListFieldData } from 'antd/lib/form/FormList';
 import { FormInstance } from 'antd/es/form';
 import EventEmitter, { EventKeys } from '../services/EventEmitter';
@@ -79,13 +88,27 @@ const ItemCard: FunctionComponent<Props> = (props) => {
           >
             <InputNumber
               onChange={handleChange}
-              precision={2}
+              precision={6}
               step={0.25}
               style={style.input}
             />
           </Form.Item>
         </Col>
-        <Col span={18}>
+        <Col span={5}>
+          <Form.Item
+            required
+            label="Einheit"
+            fieldKey={[field.fieldKey, 'InvoicedQuantity@unitCode']}
+            name={[field.name, 'InvoicedQuantity@unitCode']}
+          >
+            <Select style={style.input} placeholder="Einheit">
+              <Select.Option value="LH">Arbeitsstunde</Select.Option>
+              <Select.Option value="DAY">Tag</Select.Option>
+              <Select.Option value="EC">Stück</Select.Option>
+            </Select>
+          </Form.Item>
+        </Col>
+        <Col span={13}>
           <Form.Item
             {...field}
             required

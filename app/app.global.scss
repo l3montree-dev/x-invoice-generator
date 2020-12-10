@@ -101,3 +101,7 @@ body {
     }
   }
 }
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background-color: $primary !important;
+  color: white !important;
+}
