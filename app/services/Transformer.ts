@@ -65,7 +65,7 @@ export default class Transformer {
     public static serialize(obj: object & { [key: string]: any }) {
         Object.entries(obj).forEach(([key, value]) => {
             if (Transformer.transformToMomentKeys.includes(key)) {
-                obj[key] = moment(value, 'YYYY-MM-DD');
+                obj[key] = moment(value).format('YYYY-MM-DD');
             }
         });
         return obj;
