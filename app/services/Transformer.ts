@@ -62,6 +62,30 @@ export default class Transformer {
         return this.flatObject(invoice);
     }
 
+    public static serialize(obj: object & { [key: string]: any }) {
+        Object.entries(obj).forEach(([key, value]) => {
+            if (Transformer.transformToMomentKeys.includes(key)) {
+                obj[key] = moment(value, 'YYYY-MM-DD');
+            }
+        });
+        return obj;
+    }
+
+    public static inflate(obj: object & { [key: string]: any }) {
+        const res: object & { [key: string]: any } = {};
+        Object.entries(obj).forEach(([key, value]) => {
+            if (Transformer.transformToMomentKeys.includes(key)) {
+                const dateValue = moment(value, 'YYYY-MM-DD');
+                if (dateValue.isValid()) {
+                    res[key] = dateValue;
+                }
+            } else {
+                res[key] = value;
+            }
+        });
+        return res;
+    }
+
     private static flatObject(obj: object): object {
         const result: object & { [key: string]: any } = {};
         Object.entries(obj).forEach(([key, value]) => {

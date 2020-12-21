@@ -19,13 +19,25 @@ export default class FileHandle<T> {
         return JSON.parse(readFileSync(this.pathToFile).toString());
     }
 
-    public save(): void {
+    public save(): this {
         if (this.content)
             writeFileSync(this.pathToFile, JSON.stringify(this.content));
+        return this;
     }
 
-    public set(content: T) {
+    public set(content: T): this {
         this.content = content;
+        return this;
+    }
+
+    public setKey<K extends keyof T>(key: K, content: T[K]): this {
+        if (this.content) {
+            this.content[key] = content;
+        } else {
+            this.content = this.parseFile();
+            this.content[key] = content;
+        }
+        return this;
     }
 
     /**

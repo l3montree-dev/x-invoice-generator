@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { Button, Collapse, Form, message, Space } from 'antd';
 import { join } from 'path';
 import * as electron from 'electron';
@@ -19,6 +19,7 @@ import PaymentDetails from '../components/PaymentDetails';
 import DefaultValueProvider from '../services/DefaultValueProvider';
 import UserSettingsFileHandle from '../services/UserSettingsFileHandle';
 
+let interval: NodeJS.Timeout | undefined;
 const NewPage: FunctionComponent = () => {
     const [form] = Form.useForm();
     const handleSubmit = async (
@@ -89,6 +90,19 @@ const NewPage: FunctionComponent = () => {
         return handleSubmit(values, false);
     };
 
+    useEffect(() => {
+        interval = setInterval(() => {
+            UserSettingsFileHandle.get()
+                .setKey('draft', Transformer.serialize(form.getFieldsValue()))
+                .save();
+        }, 10000);
+        return () => {
+            if (interval) {
+                clearInterval(interval);
+            }
+        };
+    }, []);
+
     return (
         <Page
             extra={
@@ -101,7 +115,13 @@ const NewPage: FunctionComponent = () => {
             <div>
                 <Form
                     onFinishFailed={handleFinishFailed}
-                    initialValues={UserSettingsFileHandle.get().read().formData}
+                    initialValues={
+                        UserSettingsFileHandle.get().read(true).draft
+                            ? Transformer.inflate(
+                                  UserSettingsFileHandle.get().read(true).draft
+                              )
+                            : UserSettingsFileHandle.get().read().formData
+                    }
                     onFinish={handleSubmit}
                     form={form}
                     layout="vertical"
@@ -171,6 +191,9 @@ const NewPage: FunctionComponent = () => {
                     </Collapse>
                     <Form.Item className="button-container">
                         <Space>
+                            <Button onClick={() => form.resetFields()}>
+                                Felder zurücksetzen
+                            </Button>
                             <Button type="primary" onClick={handleSave}>
                                 Speichern
                             </Button>
