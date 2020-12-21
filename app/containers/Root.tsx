@@ -7,16 +7,16 @@ import App from './App';
 import { Store } from '../redux/store';
 
 type Props = {
-  store: Store;
-  history: History;
+    store: Store;
+    history: History;
 };
 
 const Root: FunctionComponent<Props> = (props) => (
-  <Provider store={props.store}>
-    <ConnectedRouter history={props.history}>
-      <App />
-    </ConnectedRouter>
-  </Provider>
+    <Provider store={props.store}>
+        <ConnectedRouter history={props.history}>
+            <App />
+        </ConnectedRouter>
+    </Provider>
 );
 
 export default hot(Root);

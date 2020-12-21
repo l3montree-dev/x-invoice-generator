@@ -3,7 +3,7 @@ import { Invoice } from '../types';
 import XInvoice from '../XInvoice';
 
 describe('XInvoice test suite', () => {
-  const xmlString = `<?xml version="1.0" encoding="UTF-8"?><ubl:Invoice xmlns:ubl="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2.xsd">
+    const xmlString = `<?xml version="1.0" encoding="UTF-8"?><ubl:Invoice xmlns:ubl="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2.xsd">
 <cbc:CustomizationID>urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_1.2</cbc:CustomizationID>
 <cbc:ID>RENr_Muster001</cbc:ID>
 <cbc:IssueDate>2020-08-31</cbc:IssueDate>
@@ -150,188 +150,227 @@ describe('XInvoice test suite', () => {
 </cac:Price>
 </cac:InvoiceLine>
 </ubl:Invoice>`;
-  const xinvoice: Invoice = {
-    CustomizationID:
-      'urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_1.2',
-    ID: 'RENr_Muster001',
-    IssueDate: '2020-08-31',
-    DueDate: '2020-09-04',
-    InvoiceTypeCode: '380',
-    Note: 'keine',
-    DocumentCurrencyCode: 'EUR',
-    BuyerReference: '991-01514-71',
-    InvoicePeriod: { StartDate: '2020-07-14', EndDate: '2020-08-15' },
-    OrderReference: { ID: '41876654' },
-    AccountingSupplierParty: {
-      Party: {
-        PartyIdentification: { ID: '0000123456' },
-        PartyName: { Name: 'test' },
-        PostalAddress: {
-          StreetName: 'Park Tauberfranken 9',
-          CityName: 'Lauda-Königshofen',
-          PostalZone: '97922',
-          CountrySubentity: 'Baden-Württemberg',
-          Country: { IdentificationCode: 'DE' },
-        },
-        PartyTaxScheme: { CompanyID: 'DE123456789', TaxScheme: { ID: 'AAA' } },
-        PartyLegalEntity: { RegistrationName: 'Testersteller XRE Rail GmbH' },
-        Contact: {
-          Name: 'Tina Tester',
-          Telephone: '01736363882',
-          ElectronicMail: 'danitram@web.de',
-        },
-      },
-    },
-    AccountingCustomerParty: {
-      Party: {
-        PostalAddress: {
-          StreetName: 'Theodor-Heuss-Allee / 7',
-          CityName: 'Frankfurt am Main',
-          PostalZone: '60486',
-          CountrySubentity: 'Hessen',
-          Country: { IdentificationCode: 'DE' },
-        },
-        PartyTaxScheme: { CompanyID: 'DE199861757', TaxScheme: { ID: 'VAT' } },
-        PartyLegalEntity: { RegistrationName: 'DB Netz AG' },
-      },
-    },
-    PaymentMeans: {
-      PaymentMeansCode: '30',
-      PaymentID: 'Rechnung mit Bitte um Bezahlung',
-      PayeeFinancialAccount: {
-        ID: 'DE12345678912345678900',
-        Name: 'Testersteller XRE Rail GmbH',
-        FinancialInstitutionBranch: { ID: 'DEUXXXXXXXX' },
-      },
-    },
-    PaymentTerms: { Note: 'keine' },
-    TaxTotal: {
-      TaxAmount: { content: '475.00', attributes: { currencyID: 'EUR' } },
-      TaxSubtotal: {
-        TaxableAmount: {
-          content: '2500.00',
-          attributes: { currencyID: 'EUR' },
-        },
-        TaxAmount: { content: '475.00', attributes: { currencyID: 'EUR' } },
-        TaxCategory: { ID: 'S', Percent: '19', TaxScheme: { ID: 'VAT' } },
-      },
-    },
-    LegalMonetaryTotal: {
-      LineExtensionAmount: {
-        content: '2500.00',
-        attributes: { currencyID: 'EUR' },
-      },
-      TaxExclusiveAmount: {
-        content: '2500.00',
-        attributes: { currencyID: 'EUR' },
-      },
-      TaxInclusiveAmount: {
-        content: '2975.00',
-        attributes: { currencyID: 'EUR' },
-      },
-      PayableAmount: { content: '2975.00', attributes: { currencyID: 'EUR' } },
-    },
-    InvoiceLine: [
-      {
-        ID: '10',
-        InvoicedQuantity: { content: '1', attributes: { unitCode: 'C62' } },
-        LineExtensionAmount: {
-          content: '1000.00',
-          attributes: { currencyID: 'EUR' },
-        },
-        Item: {
-          Name: 'XRE TEST RE Muster',
-          SellersItemIdentification: { ID: '4711' },
-          ClassifiedTaxCategory: {
-            ID: 'S',
-            Percent: '19',
-            TaxScheme: { ID: 'VAT' },
-          },
-        },
-        Price: {
-          PriceAmount: { content: '1000', attributes: { currencyID: 'EUR' } },
-        },
-      },
-      {
-        ID: '20',
-        InvoicedQuantity: { content: '1', attributes: { unitCode: 'C62' } },
-        LineExtensionAmount: {
-          content: '1500.00',
-          attributes: { currencyID: 'EUR' },
-        },
-        Item: {
-          Name: 'XRE TEST RE Muster',
-          SellersItemIdentification: { ID: '4712' },
-          ClassifiedTaxCategory: {
-            ID: 'S',
-            Percent: '19',
-            TaxScheme: { ID: 'VAT' },
-          },
-        },
-        Price: {
-          PriceAmount: { content: '1500', attributes: { currencyID: 'EUR' } },
-        },
-      },
-    ],
-  };
-
-  it('should generate a valid xml string from an x invoice (simple snapshot test.)', () => {
-    expect(new XInvoice(xinvoice).toXML()).toEqual(xmlString);
-  });
-  it('should generate an XInvoice object from a XML string', async () => {
-    expect(await XInvoice.fromXML(xmlString)).toEqual(xinvoice);
-  });
-  it('should close the circle (it already did though)', async () => {
-    expect(
-      new XInvoice((await XInvoice.fromXML(xmlString)) as Invoice).toXML()
-    ).toEqual(xmlString);
-  });
-  it('should validate a xml string by using the schematron definitions from itplr', async () => {
-    expect(
-      await XInvoice.validateXInvoice(
-        new XInvoice(xinvoice).toXML(),
-        join(__dirname, '..', '..', '..', '..', 'resources')
-      )
-    ).toBeTruthy();
-    expect(
-      await XInvoice.validateXInvoice(
-        xmlString,
-        join(__dirname, '..', '..', '..', '..', 'resources')
-      )
-    ).toBeTruthy();
-  });
-  it('should handle arrays correctly', () => {
-    expect(
-      new XInvoice({
+    const xinvoice: Invoice = {
+        CustomizationID:
+            'urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_1.2',
+        ID: 'RENr_Muster001',
+        IssueDate: '2020-08-31',
+        DueDate: '2020-09-04',
         InvoiceTypeCode: '380',
-        InvoiceLine: [
-          {
-            InvoicedQuantity: { content: '2', attributes: { unitCode: 'VAT' } },
-            ID: '123',
-            Item: {
-              Name: 'abc',
-              ClassifiedTaxCategory: {
-                ID: 'a',
-                TaxScheme: {
-                  ID: 'VAT',
+        Note: 'keine',
+        DocumentCurrencyCode: 'EUR',
+        BuyerReference: '991-01514-71',
+        InvoicePeriod: { StartDate: '2020-07-14', EndDate: '2020-08-15' },
+        OrderReference: { ID: '41876654' },
+        AccountingSupplierParty: {
+            Party: {
+                PartyIdentification: { ID: '0000123456' },
+                PartyName: { Name: 'test' },
+                PostalAddress: {
+                    StreetName: 'Park Tauberfranken 9',
+                    CityName: 'Lauda-Königshofen',
+                    PostalZone: '97922',
+                    CountrySubentity: 'Baden-Württemberg',
+                    Country: { IdentificationCode: 'DE' },
                 },
-              },
+                PartyTaxScheme: {
+                    CompanyID: 'DE123456789',
+                    TaxScheme: { ID: 'AAA' },
+                },
+                PartyLegalEntity: {
+                    RegistrationName: 'Testersteller XRE Rail GmbH',
+                },
+                Contact: {
+                    Name: 'Tina Tester',
+                    Telephone: '01736363882',
+                    ElectronicMail: 'danitram@web.de',
+                },
             },
+        },
+        AccountingCustomerParty: {
+            Party: {
+                PostalAddress: {
+                    StreetName: 'Theodor-Heuss-Allee / 7',
+                    CityName: 'Frankfurt am Main',
+                    PostalZone: '60486',
+                    CountrySubentity: 'Hessen',
+                    Country: { IdentificationCode: 'DE' },
+                },
+                PartyTaxScheme: {
+                    CompanyID: 'DE199861757',
+                    TaxScheme: { ID: 'VAT' },
+                },
+                PartyLegalEntity: { RegistrationName: 'DB Netz AG' },
+            },
+        },
+        PaymentMeans: {
+            PaymentMeansCode: '30',
+            PaymentID: 'Rechnung mit Bitte um Bezahlung',
+            PayeeFinancialAccount: {
+                ID: 'DE12345678912345678900',
+                Name: 'Testersteller XRE Rail GmbH',
+                FinancialInstitutionBranch: { ID: 'DEUXXXXXXXX' },
+            },
+        },
+        PaymentTerms: { Note: 'keine' },
+        TaxTotal: {
+            TaxAmount: { content: '475.00', attributes: { currencyID: 'EUR' } },
+            TaxSubtotal: {
+                TaxableAmount: {
+                    content: '2500.00',
+                    attributes: { currencyID: 'EUR' },
+                },
+                TaxAmount: {
+                    content: '475.00',
+                    attributes: { currencyID: 'EUR' },
+                },
+                TaxCategory: {
+                    ID: 'S',
+                    Percent: '19',
+                    TaxScheme: { ID: 'VAT' },
+                },
+            },
+        },
+        LegalMonetaryTotal: {
             LineExtensionAmount: {
-              content: '2',
-              attributes: {
-                currencyID: 'EUR',
-              },
+                content: '2500.00',
+                attributes: { currencyID: 'EUR' },
             },
-            Price: {
-              PriceAmount: { content: '2', attributes: { currencyID: 'EUR' } },
-              BaseQuantity: { content: '1', attributes: { unitCode: 't' } },
+            TaxExclusiveAmount: {
+                content: '2500.00',
+                attributes: { currencyID: 'EUR' },
             },
-          },
+            TaxInclusiveAmount: {
+                content: '2975.00',
+                attributes: { currencyID: 'EUR' },
+            },
+            PayableAmount: {
+                content: '2975.00',
+                attributes: { currencyID: 'EUR' },
+            },
+        },
+        InvoiceLine: [
+            {
+                ID: '10',
+                InvoicedQuantity: {
+                    content: '1',
+                    attributes: { unitCode: 'C62' },
+                },
+                LineExtensionAmount: {
+                    content: '1000.00',
+                    attributes: { currencyID: 'EUR' },
+                },
+                Item: {
+                    Name: 'XRE TEST RE Muster',
+                    SellersItemIdentification: { ID: '4711' },
+                    ClassifiedTaxCategory: {
+                        ID: 'S',
+                        Percent: '19',
+                        TaxScheme: { ID: 'VAT' },
+                    },
+                },
+                Price: {
+                    PriceAmount: {
+                        content: '1000',
+                        attributes: { currencyID: 'EUR' },
+                    },
+                },
+            },
+            {
+                ID: '20',
+                InvoicedQuantity: {
+                    content: '1',
+                    attributes: { unitCode: 'C62' },
+                },
+                LineExtensionAmount: {
+                    content: '1500.00',
+                    attributes: { currencyID: 'EUR' },
+                },
+                Item: {
+                    Name: 'XRE TEST RE Muster',
+                    SellersItemIdentification: { ID: '4712' },
+                    ClassifiedTaxCategory: {
+                        ID: 'S',
+                        Percent: '19',
+                        TaxScheme: { ID: 'VAT' },
+                    },
+                },
+                Price: {
+                    PriceAmount: {
+                        content: '1500',
+                        attributes: { currencyID: 'EUR' },
+                    },
+                },
+            },
         ],
-      } as Invoice).toXML()
-    )
-      .toEqual(`<?xml version="1.0" encoding="UTF-8"?><ubl:Invoice xmlns:ubl="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2.xsd">
+    };
+
+    it('should generate a valid xml string from an x invoice (simple snapshot test.)', () => {
+        expect(new XInvoice(xinvoice).toXML()).toEqual(xmlString);
+    });
+    it('should generate an XInvoice object from a XML string', async () => {
+        expect(await XInvoice.fromXML(xmlString)).toEqual(xinvoice);
+    });
+    it('should close the circle (it already did though)', async () => {
+        expect(
+            new XInvoice((await XInvoice.fromXML(xmlString)) as Invoice).toXML()
+        ).toEqual(xmlString);
+    });
+    it('should validate a xml string by using the schematron definitions from itplr', async () => {
+        expect(
+            await XInvoice.validateXInvoice(
+                new XInvoice(xinvoice).toXML(),
+                join(__dirname, '..', '..', '..', '..', 'resources')
+            )
+        ).toBeTruthy();
+        expect(
+            await XInvoice.validateXInvoice(
+                xmlString,
+                join(__dirname, '..', '..', '..', '..', 'resources')
+            )
+        ).toBeTruthy();
+    });
+    it('should handle arrays correctly', () => {
+        expect(
+            new XInvoice({
+                InvoiceTypeCode: '380',
+                InvoiceLine: [
+                    {
+                        InvoicedQuantity: {
+                            content: '2',
+                            attributes: { unitCode: 'VAT' },
+                        },
+                        ID: '123',
+                        Item: {
+                            Name: 'abc',
+                            ClassifiedTaxCategory: {
+                                ID: 'a',
+                                TaxScheme: {
+                                    ID: 'VAT',
+                                },
+                            },
+                        },
+                        LineExtensionAmount: {
+                            content: '2',
+                            attributes: {
+                                currencyID: 'EUR',
+                            },
+                        },
+                        Price: {
+                            PriceAmount: {
+                                content: '2',
+                                attributes: { currencyID: 'EUR' },
+                            },
+                            BaseQuantity: {
+                                content: '1',
+                                attributes: { unitCode: 't' },
+                            },
+                        },
+                    },
+                ],
+            } as Invoice).toXML()
+        )
+            .toEqual(`<?xml version="1.0" encoding="UTF-8"?><ubl:Invoice xmlns:ubl="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2.xsd">
 <cbc:InvoiceTypeCode>380</cbc:InvoiceTypeCode>
 <cac:InvoiceLine>
 <cbc:InvoicedQuantity unitCode="VAT">2</cbc:InvoicedQuantity>
@@ -352,5 +391,5 @@ describe('XInvoice test suite', () => {
 </cac:Price>
 </cac:InvoiceLine>
 </ubl:Invoice>`);
-  });
+    });
 });
