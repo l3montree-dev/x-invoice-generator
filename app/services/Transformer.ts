@@ -13,10 +13,10 @@ export default class Transformer {
     ];
 
     private static transformFlatToMomentKeys = [
-        'StartDate',
+        'DueDate',
         'IssueDate',
+        'InvoicePeriod.StartDate',
         'InvoicePeriod.EndDate',
-        'InvoicePeriod.DueDate',
     ];
 
     private static saveAsArrayKeys = ['InvoiceLine'];
