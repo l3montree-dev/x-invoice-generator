@@ -12,6 +12,13 @@ export default class Transformer {
         'DueDate',
     ];
 
+    private static transformFlatToMomentKeys = [
+        'StartDate',
+        'IssueDate',
+        'InvoicePeriod.EndDate',
+        'InvoicePeriod.DueDate',
+    ];
+
     private static saveAsArrayKeys = ['InvoiceLine'];
 
     /**
@@ -64,7 +71,7 @@ export default class Transformer {
 
     public static serialize(obj: object & { [key: string]: any }) {
         Object.entries(obj).forEach(([key, value]) => {
-            if (Transformer.transformToMomentKeys.includes(key)) {
+            if (Transformer.transformFlatToMomentKeys.includes(key)) {
                 obj[key] = moment(value).format('YYYY-MM-DD');
             }
         });
@@ -74,7 +81,7 @@ export default class Transformer {
     public static inflate(obj: object & { [key: string]: any }) {
         const res: object & { [key: string]: any } = {};
         Object.entries(obj).forEach(([key, value]) => {
-            if (Transformer.transformToMomentKeys.includes(key)) {
+            if (Transformer.transformFlatToMomentKeys.includes(key)) {
                 const dateValue = moment(value, 'YYYY-MM-DD');
                 if (dateValue.isValid()) {
                     res[key] = dateValue;
