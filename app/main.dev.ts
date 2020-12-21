@@ -10,11 +10,11 @@
  */
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import path from 'path';
 import { app, BrowserWindow } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import * as Sentry from '@sentry/electron';
+import * as path from 'path';
 import MenuBuilder from './menu';
 
 Sentry.init({
@@ -47,7 +47,7 @@ export default class AppUpdater {
   }
 }
 
-let mainWindow: BrowserWindow | null = null;
+const windows = new Set();
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -62,6 +62,7 @@ if (
 }
 
 const installExtensions = async () => {
+  // eslint-disable-next-line global-require
   const installer = require('electron-devtools-installer');
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
   const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
@@ -71,7 +72,7 @@ const installExtensions = async () => {
   ).catch(console.log);
 };
 
-const createWindow = async () => {
+export const createWindow = async () => {
   if (
     process.env.NODE_ENV === 'development' ||
     process.env.DEBUG_PROD === 'true'
@@ -87,10 +88,24 @@ const createWindow = async () => {
     return path.join(RESOURCES_PATH, ...paths);
   };
 
-  mainWindow = new BrowserWindow({
+  let x;
+  let y;
+
+  const currentWindow = BrowserWindow.getFocusedWindow();
+
+  if (currentWindow) {
+    const [currentWindowX, currentWindowY] = currentWindow.getPosition();
+
+    x = currentWindowX + 24;
+    y = currentWindowY + 24;
+  }
+
+  let newWindow: BrowserWindow | null = new BrowserWindow({
     show: false,
     width: 1024,
     height: 728,
+    x,
+    y,
     fullscreen: false,
     titleBarStyle: 'hidden',
     icon: getAssetPath('icon.png'),
@@ -99,32 +114,33 @@ const createWindow = async () => {
     },
   });
 
-  mainWindow.loadURL(`file://${__dirname}/app.html`);
+  newWindow.loadURL(`file://${__dirname}/app.html`);
 
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
-  mainWindow.webContents.on('did-finish-load', () => {
-    if (!mainWindow) {
-      throw new Error('"mainWindow" is not defined');
+  newWindow.webContents.on('did-finish-load', () => {
+    if (!newWindow) {
+      throw new Error('"newWindow" is not defined');
     }
     if (process.env.START_MINIMIZED) {
-      mainWindow.minimize();
+      newWindow.minimize();
     } else {
-      mainWindow.show();
-      mainWindow.focus();
+      newWindow.show();
+      newWindow.focus();
     }
   });
 
-  mainWindow.on('closed', () => {
-    mainWindow = null;
+  newWindow.on('closed', () => {
+    newWindow = null;
   });
 
-  const menuBuilder = new MenuBuilder(mainWindow);
+  const menuBuilder = new MenuBuilder(newWindow);
   menuBuilder.buildMenu();
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
   new AppUpdater();
+  return newWindow;
 };
 
 /**
@@ -149,5 +165,5 @@ if (process.env.E2E_BUILD === 'true') {
 app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) createWindow();
+  if (windows.size === 0) createWindow();
 });

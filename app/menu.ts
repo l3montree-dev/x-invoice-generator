@@ -5,6 +5,7 @@ import {
   MenuItemConstructorOptions,
   shell,
 } from 'electron';
+import { createWindow } from './main.dev';
 
 interface DarwinMenuItemConstructorOptions extends MenuItemConstructorOptions {
   selector?: string;
@@ -147,6 +148,14 @@ export default class MenuBuilder {
       label: 'Window',
       submenu: [
         {
+          label: 'New Window',
+          accelerator: 'Shift+Command+N',
+          click: () => {
+            createWindow();
+          },
+        },
+        { type: 'separator' },
+        {
           label: 'Minimize',
           accelerator: 'Command+M',
           selector: 'performMiniaturize:',
@@ -190,6 +199,13 @@ export default class MenuBuilder {
           process.env.NODE_ENV === 'development' ||
           process.env.DEBUG_PROD === 'true'
             ? [
+                {
+                  label: 'New Window',
+                  accelerator: 'Shift+Ctrl+N',
+                  click: () => {
+                    createWindow();
+                  },
+                },
                 {
                   label: '&Reload',
                   accelerator: 'Ctrl+R',
