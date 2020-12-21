@@ -2,7 +2,7 @@ import FileHandle from './FileHandle';
 
 export interface UserSettings {
     formData: object;
-    draft: any;
+    draft?: any;
 }
 export default class UserSettingsFileHandle {
     private static fileHandle: FileHandle<UserSettings> | undefined;
@@ -11,6 +11,6 @@ export default class UserSettingsFileHandle {
         if (this.fileHandle) {
             return this.fileHandle;
         }
-        return new FileHandle('store.json');
+        return new FileHandle('store.json', { formData: {} });
     }
 }

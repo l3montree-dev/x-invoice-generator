@@ -5,18 +5,25 @@ import userDataPath from './userDataPath';
 export default class FileHandle<T> {
     protected content: T | undefined;
 
+    protected readonly d: T;
+
     protected pathToFile: string;
 
-    constructor(path: string) {
+    constructor(path: string, d: T) {
         // Renderer process has to get `app` module via `remote`, whereas the main process can get it directly
         // app.getPath('userData') will return a string of the user's app data directory path.
         this.pathToFile = join(userDataPath, path);
+        this.d = d;
     }
 
-    private parseFile(): T {
+    protected parseFile(): T {
         // We'll try/catch it in case the file doesn't exist yet, which will be the case on the first application run.
         // `fs.readFileSync` will return a JSON string which we then parse into a Javascript object
-        return JSON.parse(readFileSync(this.pathToFile).toString());
+        try {
+            return JSON.parse(readFileSync(this.pathToFile).toString());
+        } catch (e) {
+            return this.d;
+        }
     }
 
     public save(): this {
