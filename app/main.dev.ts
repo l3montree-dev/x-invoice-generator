@@ -19,7 +19,7 @@ import MenuBuilder from './menu';
 
 Sentry.init({
     dsn:
-        'https://3232fcc1cc174d5c963354466e17f645@o336218.ingest.sentry.io/5500400',
+        'https://885ad248679644e3a7a60fbeaee0e549@sentry.l3montree.com/5',
     beforeSend(event) {
         // Modify the captured event
         if (event.user) {
