@@ -8,6 +8,8 @@ import { ICompletedValidation } from 'schematron-runner/esm/validator';
 import { Invoice, Node, Tag } from './types';
 
 export default class XInvoice {
+    protected static possibleRootTags = ['ubl:Invoice', 'Invoice'];
+
     constructor(protected invoice: Invoice) {}
 
     public static validateURI(uri: string): boolean {
@@ -118,7 +120,12 @@ export default class XInvoice {
         // we have to create the Invoice javascript object.
         // this object is the bridge between a user interface and the xml data structure.
         const obj = await parseStringPromise(xml);
-        return this.recursiveInvoiceGeneration(obj['ubl:Invoice']);
+        // lets identify the root node, depending on the starting tag.
+        const rootTag = this.possibleRootTags.find((entry) => entry in obj);
+        if (rootTag) {
+            return this.recursiveInvoiceGeneration(obj[rootTag]);
+        }
+        throw new Error('Invalid invoice - no root tag found.');
     }
 
     protected static attributeString(leaf: Tag): string {

@@ -80,8 +80,16 @@ const NewPage: FunctionComponent = () => {
         const [filePath] = path.filePaths;
         if (filePath) {
             const xml = readFileSync(filePath).toString();
-            const obj = Transformer.invoice2Object(await XInvoice.fromXML(xml));
-            form.setFieldsValue(obj);
+            try {
+                const obj = Transformer.invoice2Object(
+                    await XInvoice.fromXML(xml)
+                );
+                form.setFieldsValue(obj);
+            } catch (e) {
+                message.error(
+                    'Das Öffnen ist fehlgeschlagen. Es handelt sich um keine korrekte X-Invoice'
+                );
+            }
         }
     };
 
