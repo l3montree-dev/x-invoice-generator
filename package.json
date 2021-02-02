@@ -83,12 +83,22 @@
       ]
     },
     "win": {
+      "publish": {
+        "provider": "generic",
+        "url": "https://media.seeds.l3montree.com/m/xinvoice-releases",
+        "channel": "latest"
+      },
       "target": [
         "nsis",
         "msi"
       ]
     },
     "linux": {
+      "publish": {
+        "provider": "generic",
+        "url": "https://media.seeds.l3montree.com/m/xinvoice-releases",
+        "channel": "latest"
+      },
       "target": [
         "deb",
         "rpm",
