@@ -9,7 +9,7 @@ export interface TaxReport {
 export interface FormInvoiceLine {
     InvoicedQuantity: number;
     'Price.PriceAmount': number;
-    'Item.ClassifiedTaxCategory.Percent': number;
+    'Item.ClassifiedTaxCategory.Percent': string;
     'Item.SellerItemIdentification.ID': string;
     'Item.Name': string;
     'Item.ClassifiedTaxCategory.ID': string;

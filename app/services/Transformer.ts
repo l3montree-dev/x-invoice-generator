@@ -168,13 +168,12 @@ export default class Transformer {
                         'TaxAmount@currencyID': 'EUR',
                         TaxAmount: (
                             line.LineExtensionAmount *
-                            (line['Item.ClassifiedTaxCategory.Percent'] / 100)
+                            (+line['Item.ClassifiedTaxCategory.Percent'] / 100)
                         ).toFixed(2),
                         'TaxCategory.ID': line['Item.ClassifiedTaxCategory.ID'],
                         'TaxCategory.TaxScheme.ID': 'VAT',
-                        'TaxCategory.Percent': line[
-                            'Item.ClassifiedTaxCategory.Percent'
-                        ].toFixed(2),
+                        'TaxCategory.Percent':
+                            line['Item.ClassifiedTaxCategory.Percent'],
                     };
                 }
             );
