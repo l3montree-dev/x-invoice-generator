@@ -8,6 +8,8 @@ export interface TaxReport {
 
 export interface FormInvoiceLine {
     InvoicedQuantity: number;
+    "InvoicePeriod.StartDate"?: string;
+    "InvoicePeriod.EndDate"?: string;
     'Price.PriceAmount': number;
     'Item.ClassifiedTaxCategory.Percent': string;
     'Item.SellerItemIdentification.ID': string;

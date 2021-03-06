@@ -125,11 +125,7 @@ const NewPage: FunctionComponent = () => {
                 <Form
                     onFinishFailed={handleFinishFailed}
                     initialValues={
-                        UserSettingsFileHandle.get().read(true).draft
-                            ? Transformer.inflate(
-                                  UserSettingsFileHandle.get().read(true).draft
-                              )
-                            : UserSettingsFileHandle.get().read().formData
+                        UserSettingsFileHandle.get().read().formData
                     }
                     onFinish={handleSubmit}
                     form={form}

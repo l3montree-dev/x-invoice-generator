@@ -15,8 +15,6 @@ export default class Transformer {
     private static transformFlatToMomentKeys = [
         'DueDate',
         'IssueDate',
-        'InvoicePeriod.StartDate',
-        'InvoicePeriod.EndDate',
     ];
 
     private static saveAsArrayKeys = ['InvoiceLine'];
@@ -56,6 +54,8 @@ export default class Transformer {
                 line['Item.SellerItemIdentification.ID'],
             'Item.Name': line['Item.Name'],
             InvoicedQuantity: line.InvoicedQuantity,
+            "InvoicePeriod.StartDate": line["InvoicePeriod.StartDate"] ? moment(line["InvoicePeriod.StartDate"]).format('YYYY-MM-DD'): undefined,
+            "InvoicePeriod.EndDate": line["InvoicePeriod.EndDate"] ? moment(line["InvoicePeriod.EndDate"]).format('YYYY-MM-DD'): undefined,
             'InvoicedQuantity@unitCode': line['InvoicedQuantity@unitCode'],
             'Price.PriceAmount': line['Price.PriceAmount'],
             'Item.ClassifiedTaxCategory.Percent':
@@ -75,6 +75,7 @@ export default class Transformer {
                 obj[key] = moment(value).format('YYYY-MM-DD');
             }
         });
+        obj.InvoiceLine = obj.InvoiceLine?.map(Transformer.serializeInvoiceLine);
         return obj;
     }
 

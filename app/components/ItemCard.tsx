@@ -6,14 +6,14 @@ import React, {
 } from 'react';
 import {
     Card,
-    Col,
+    Col, DatePicker,
     Form,
     Input,
     InputNumber,
     Row,
     Select,
-    Typography,
-} from 'antd';
+    Typography
+} from "antd";
 import { FormListFieldData } from 'antd/lib/form/FormList';
 import { FormInstance } from 'antd/es/form';
 import EventEmitter, { EventKeys } from '../services/EventEmitter';
@@ -21,6 +21,9 @@ import { FormInvoiceLine } from '../services/Calculator';
 import { vatCategoryCode } from '../lib/x-invoice/constants';
 
 const style = {
+    datePicker: {
+        width: '100%',
+    },
     card: {
         backgroundColor: '#fafafa',
         marginBottom: '10px',
@@ -221,7 +224,61 @@ const ItemCard: FunctionComponent<Props> = (props) => {
                 </Col>
                 <Col span={6}>
                     <Form.Item label="Gesamtsumme netto">
-                        <Input value={total} style={style.input} disabled />
+                        <Input value={total || 0} style={style.input} disabled />
+                    </Form.Item>
+                </Col>
+            </Row>
+            <Row gutter={16}>
+                <Col span={12}>
+                    <Form.Item
+                        required
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Dieses Feld muss ausgefüllt werden',
+                            },
+                        ]}
+                        tooltip="Das Datum, an dem der Rechnungszeitraum beginnt. (BT-73)"
+                        fieldKey={[
+                            field.fieldKey,
+                            'InvoicePeriod.StartDate',
+                        ]}
+                        name={[
+                            field.name,
+                            'InvoicePeriod.StartDate',
+                        ]}
+                        label="Abrechnungszeitraum vom"
+                    >
+                        <DatePicker
+                            placeholder="Datum auswählen"
+                            style={style.datePicker}
+                        />
+                    </Form.Item>
+                </Col>
+                <Col span={12}>
+                    <Form.Item
+                        required
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Dieses Feld muss ausgefüllt werden',
+                            },
+                        ]}
+                        fieldKey={[
+                            field.fieldKey,
+                            'InvoicePeriod.EndDate',
+                        ]}
+                        name={[
+                            field.name,
+                            'InvoicePeriod.EndDate',
+                        ]}
+                        tooltip="Das Datum, an dem der Rechnungszeitraum endet. (BT-74)"
+                        label="Abrechnungszeitraum bis"
+                    >
+                        <DatePicker
+                            placeholder="Datum auswählen"
+                            style={style.datePicker}
+                        />
                     </Form.Item>
                 </Col>
             </Row>

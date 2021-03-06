@@ -90,6 +90,7 @@ export default class DefaultValueProvider {
     }
     static root = {
         InvoiceTypeCode: '380',
+        DocumentCurrencyCode: "EUR",
         'TaxTotal.TaxAmount@currencyID': 'EUR',
         'LegalMonetaryTotal.LineExtensionAmount@currencyID': 'EUR',
         'LegalMonetaryTotal.TaxExclusiveAmount@currencyID': 'EUR',

@@ -71,67 +71,6 @@ const GeneralInformation = () => {
                     </Form.Item>
                 </Col>
                 <Col span={12}>
-                    <Form.Item
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Dieses Feld muss ausgefüllt werden',
-                            },
-                        ]}
-                        required
-                        name="DueDate"
-                        label="Fälligkeitsdatum"
-                    >
-                        <DatePicker
-                            placeholder="Datum auswählen"
-                            style={style.datePicker}
-                            picker="date"
-                        />
-                    </Form.Item>
-                </Col>
-            </Row>
-            <Row gutter={16}>
-                <Col span={12}>
-                    <Form.Item
-                        required
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Dieses Feld muss ausgefüllt werden',
-                            },
-                        ]}
-                        tooltip="Das Datum, an dem der Rechnungszeitraum beginnt. (BT-73)"
-                        name="InvoicePeriod.StartDate"
-                        label="Abrechnungszeitraum vom"
-                    >
-                        <DatePicker
-                            placeholder="Datum auswählen"
-                            style={style.datePicker}
-                        />
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item
-                        required
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Dieses Feld muss ausgefüllt werden',
-                            },
-                        ]}
-                        tooltip="Das Datum, an dem der Rechnungszeitraum endet. (BT-74)"
-                        name="InvoicePeriod.EndDate"
-                        label="Abrechnungszeitraum bis"
-                    >
-                        <DatePicker
-                            placeholder="Datum auswählen"
-                            style={style.datePicker}
-                        />
-                    </Form.Item>
-                </Col>
-            </Row>
-            <Row gutter={16}>
-                <Col span={24}>
                     <Form.Item name="Note" label="Bemerkung">
                         <Input />
                     </Form.Item>
