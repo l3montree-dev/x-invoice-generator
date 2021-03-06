@@ -304,7 +304,12 @@ describe('XInvoice test suite', () => {
             },
         ],
     };
-
+    it("should order the invoice according to the DefaultValueProvider lookup table", () => {
+        const instance = new XInvoice(xinvoice)
+        const orderedInvoice =instance.getInvoice();
+        const keys = Object.keys(orderedInvoice);
+        expect(keys.findIndex((str) => str === "ID")).toBeLessThan(keys.findIndex((str) => str === "IssueDate"))
+    });
     it('should generate a valid xml string from an x invoice (simple snapshot test.)', () => {
         expect(new XInvoice(xinvoice).toXML()).toEqual(xmlString);
     });

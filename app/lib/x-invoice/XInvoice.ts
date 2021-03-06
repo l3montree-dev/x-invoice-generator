@@ -6,11 +6,19 @@ import { join } from 'path';
 import { validate } from 'schematron-runner';
 import { ICompletedValidation } from 'schematron-runner/esm/validator';
 import { Invoice, Node, Tag } from './types';
+import DefaultValueProvider from "../../services/DefaultValueProvider";
 
 export default class XInvoice {
     protected static possibleRootTags = ['ubl:Invoice', 'Invoice'];
+    protected invoice: Invoice;
 
-    constructor(protected invoice: Invoice) {}
+    constructor(invoice: Invoice) {
+        this.invoice = this.recursiveInvoiceOrder(invoice) as Invoice;
+    }
+
+    public getInvoice(): Invoice {
+        return this.invoice;
+    }
 
     public static validateURI(uri: string): boolean {
         return /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g.test(
@@ -50,6 +58,26 @@ export default class XInvoice {
         return validate(xml, schematron, {
             resourceDir: join(path, 'schematron', 'ubl-inv', 'empty'),
         });
+    }
+
+    public recursiveInvoiceOrder(invoice: Node): Node {
+        return Object.entries(invoice)
+            .sort(([a], [b]) => (DefaultValueProvider.orderLookupTable[a] || Infinity) - (DefaultValueProvider.orderLookupTable[b] || Infinity))
+            .map(([tagName, value]) => {
+            if (value instanceof Array) {
+                // if the value is an array we have to duplicate this node for each child.
+                return {[tagName]: value
+                    .map((val: object) => {
+                        return this.recursiveInvoiceOrder(val);
+                    })};
+            }
+            if (XInvoice.isLeaf(value)) {
+                // we are reached the leaf
+                // check if it has attributes.
+                return { [tagName]: value };
+            }
+            return {[tagName]: this.recursiveInvoiceOrder(value)}
+        }).reduce((a, b) => ({ ...a, ...b }), {});
     }
 
     public static isLeaf(obj: Node | Tag): boolean {

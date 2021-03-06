@@ -19,58 +19,59 @@ import PaymentDetails from '../components/PaymentDetails';
 import DefaultValueProvider from '../services/DefaultValueProvider';
 import UserSettingsFileHandle from '../services/UserSettingsFileHandle';
 
+const handleFinishFailed = () => {
+    message.error('Nicht alle Felder wurden korrekt ausgefüllt');
+};
+
+const handleSubmit = async (
+    values: any,
+    validate = true
+): Promise<void> => {
+    // we have to transform the values, since this is flatten object.
+    try {
+        const invoice = Transformer.object2Invoice({
+            ...DefaultValueProvider.root,
+            ...values,
+            InvoiceLine:
+                values.InvoiceLine !== undefined
+                    ? values.InvoiceLine.map(
+                    Transformer.serializeInvoiceLine
+                    )
+                    : [],
+        });
+        const xml = new XInvoice(invoice).toXML();
+        if (validate) {
+            const isValid = await XInvoice.validateXInvoice(
+                xml,
+                remote.app.isPackaged
+                    ? join(process.resourcesPath, 'resources')
+                    : join(__dirname, '..', 'resources')
+            );
+            if (!isValid) {
+                message.error(
+                    'Die generierte Rechnung entspricht nicht dem X-Rechnung Standard'
+                );
+                return;
+            }
+        }
+        const savePath = await electron.remote.dialog.showSaveDialog({
+            defaultPath: `${electron.remote.app.getPath(
+                'documents'
+            )}/Rechnung_${invoice.ID ?? moment().format('YYYY_MM_DD')}.xml`,
+        });
+        if (savePath.filePath) {
+            writeFileSync(savePath.filePath, XInvoice.formatXml(xml));
+            message.success('Rechnung erfolgreich gespeichert');
+        }
+    } catch (e) {
+        message.error('Ein Fehler ist aufgetreten.');
+        Sentry.captureException(e);
+    }
+};
+
 let interval: NodeJS.Timeout | undefined;
 const NewPage: FunctionComponent = () => {
     const [form] = Form.useForm();
-    const handleSubmit = async (
-        values: any,
-        validate = true
-    ): Promise<void> => {
-        // we have to transform the values, since this is flatten object.
-        try {
-            const invoice = Transformer.object2Invoice({
-                ...DefaultValueProvider.root,
-                ...values,
-                InvoiceLine:
-                    values.InvoiceLine !== undefined
-                        ? values.InvoiceLine.map(
-                              Transformer.serializeInvoiceLine
-                          )
-                        : [],
-            });
-            const xml = new XInvoice(invoice).toXML();
-            if (validate) {
-                const isValid = await XInvoice.validateXInvoice(
-                    xml,
-                    remote.app.isPackaged
-                        ? join(process.resourcesPath, 'resources')
-                        : join(__dirname, '..', 'resources')
-                );
-                if (!isValid) {
-                    message.error(
-                        'Die generierte Rechnung entspricht nicht dem X-Rechnung Standard'
-                    );
-                    return;
-                }
-            }
-            const savePath = await electron.remote.dialog.showSaveDialog({
-                defaultPath: `${electron.remote.app.getPath(
-                    'documents'
-                )}/Rechnung_${invoice.ID ?? moment().format('YYYY_MM_DD')}.xml`,
-            });
-            if (savePath.filePath) {
-                writeFileSync(savePath.filePath, XInvoice.formatXml(xml));
-                message.success('Rechnung erfolgreich gespeichert');
-            }
-        } catch (e) {
-            message.error('Ein Fehler ist aufgetreten.');
-            Sentry.captureException(e);
-        }
-    };
-
-    const handleFinishFailed = () => {
-        message.error('Nicht alle Felder wurden korrekt ausgefüllt');
-    };
 
     const handleOpen = async () => {
         const path = await electron.remote.dialog.showOpenDialog({
