@@ -61,7 +61,7 @@ if (
     require('electron-debug')();
 }
 
-const installExtensions = async () => {
+/*const installExtensions = async () => {
     // eslint-disable-next-line global-require
     const installer = require('electron-devtools-installer');
     const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
@@ -72,15 +72,15 @@ const installExtensions = async () => {
             installer.default(installer[name], forceDownload)
         )
     ).catch(console.log);
-};
+};*/
 
 export const createWindow = async () => {
-    if (
+    /*if (
         process.env.NODE_ENV === 'development' ||
         process.env.DEBUG_PROD === 'true'
     ) {
         await installExtensions();
-    }
+    }*/
 
     const RESOURCES_PATH = app.isPackaged
         ? path.join(process.resourcesPath, 'resources')
@@ -112,7 +112,9 @@ export const createWindow = async () => {
         titleBarStyle: 'hidden',
         icon: getAssetPath('icon.png'),
         webPreferences: {
+            contextIsolation: false,
             nodeIntegration: true,
+            enableRemoteModule: true,
         },
     });
 
