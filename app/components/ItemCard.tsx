@@ -79,9 +79,9 @@ const ItemCard: FunctionComponent<Props> = (props) => {
                     <Form.Item
                         fieldKey={[
                             field.fieldKey,
-                            'Item.SellerItemIdentification.ID',
+                            'Item.SellersItemIdentification.ID',
                         ]}
-                        name={[field.name, 'Item.SellerItemIdentification.ID']}
+                        name={[field.name, 'Item.SellersItemIdentification.ID']}
                         label="Artiklnr."
                     >
                         <Input />
@@ -229,7 +229,29 @@ const ItemCard: FunctionComponent<Props> = (props) => {
                 </Col>
             </Row>
             <Row gutter={16}>
-                <Col span={12}>
+                <Col span={8}>
+                    <Form.Item
+                        required
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Dieses Feld muss ausgefüllt werden',
+                            },
+                        ]}
+                        fieldKey={[
+                            field.fieldKey,
+                            'OrderLineReference.LineID',
+                        ]}
+                        name={[
+                            field.name,
+                            'OrderLineReference.LineID',
+                        ]}
+                        label="Bestell-Referenz"
+                    >
+                        <Input />
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
                     <Form.Item
                         required
                         rules={[
@@ -255,7 +277,7 @@ const ItemCard: FunctionComponent<Props> = (props) => {
                         />
                     </Form.Item>
                 </Col>
-                <Col span={12}>
+                <Col span={8}>
                     <Form.Item
                         required
                         rules={[

@@ -50,9 +50,10 @@ export default class Transformer {
     public static serializeInvoiceLine(line: FormInvoiceLine): FormInvoiceLine {
         return {
             ...DefaultValueProvider.invoiceLine,
-            'Item.SellerItemIdentification.ID':
-                line['Item.SellerItemIdentification.ID'],
+            'Item.SellersItemIdentification.ID':
+                line['Item.SellersItemIdentification.ID'],
             'Item.Name': line['Item.Name'],
+            'ID': line['Item.Name'],
             InvoicedQuantity: line.InvoicedQuantity,
             "InvoicePeriod.StartDate": line["InvoicePeriod.StartDate"] ? moment(line["InvoicePeriod.StartDate"]).format('YYYY-MM-DD'): undefined,
             "InvoicePeriod.EndDate": line["InvoicePeriod.EndDate"] ? moment(line["InvoicePeriod.EndDate"]).format('YYYY-MM-DD'): undefined,
@@ -62,6 +63,7 @@ export default class Transformer {
                 line['Item.ClassifiedTaxCategory.Percent'],
             'Item.ClassifiedTaxCategory.ID':
                 line['Item.ClassifiedTaxCategory.ID'],
+                "OrderLineReference.LineID": line["OrderLineReference.LineID"],
         };
     }
 

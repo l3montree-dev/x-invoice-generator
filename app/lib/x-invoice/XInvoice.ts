@@ -62,18 +62,15 @@ export default class XInvoice {
 
     public recursiveInvoiceOrder(invoice: Node): Node {
         return Object.entries(invoice)
-            .sort(([a], [b]) => (DefaultValueProvider.orderLookupTable[a] || Infinity) - (DefaultValueProvider.orderLookupTable[b] || Infinity))
+            .sort(([a], [b]) => (DefaultValueProvider.orderLookupTable[a] !== undefined ? DefaultValueProvider.orderLookupTable[a] :  Infinity) - (DefaultValueProvider.orderLookupTable[b] !== undefined ? DefaultValueProvider.orderLookupTable[b] :  Infinity))
             .map(([tagName, value]) => {
             if (value instanceof Array) {
-                // if the value is an array we have to duplicate this node for each child.
                 return {[tagName]: value
                     .map((val: object) => {
                         return this.recursiveInvoiceOrder(val);
                     })};
             }
             if (XInvoice.isLeaf(value)) {
-                // we are reached the leaf
-                // check if it has attributes.
                 return { [tagName]: value };
             }
             return {[tagName]: this.recursiveInvoiceOrder(value)}

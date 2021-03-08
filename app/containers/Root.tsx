@@ -1,22 +1,13 @@
 import React, { FunctionComponent } from 'react';
-import { Provider } from 'react-redux';
 import { hot } from 'react-hot-loader/root';
-import { ConnectedRouter } from 'connected-react-router';
-import { History } from 'history';
 import App from './App';
-import { Store } from '../redux/store';
+import {HashRouter as Router} from "react-router-dom";
 
-type Props = {
-    store: Store;
-    history: History;
-};
 
-const Root: FunctionComponent<Props> = (props) => (
-    <Provider store={props.store}>
-        <ConnectedRouter history={props.history}>
-            <App />
-        </ConnectedRouter>
-    </Provider>
+const Root: FunctionComponent = () => (
+    <Router>
+        <App />
+    </Router>
 );
 
 export default hot(Root);

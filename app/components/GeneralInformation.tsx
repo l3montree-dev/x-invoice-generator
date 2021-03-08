@@ -10,7 +10,7 @@ const GeneralInformation = () => {
     return (
         <>
             <Row gutter={16}>
-                <Col span={8}>
+                <Col span={12}>
                     <Form.Item
                         rules={[
                             {
@@ -24,7 +24,7 @@ const GeneralInformation = () => {
                         <Input placeholder="1234567" />
                     </Form.Item>
                 </Col>
-                <Col span={8}>
+                <Col span={12}>
                     <Form.Item
                         tooltip="Ein vom Erwerber zugewiesener und für interne Lenkungszwecke benutzter Bezeichner. (BT-10)"
                         required
@@ -40,15 +40,7 @@ const GeneralInformation = () => {
                         <Input placeholder="991-01514-71" />
                     </Form.Item>
                 </Col>
-                <Col span={8}>
-                    <Form.Item
-                        tooltip="Eine vom Erwerber ausgegebene Kennung für eine referenzierte Bestellung. (BT-13)"
-                        name="OrderReference.ID"
-                        label="Bestellnummer"
-                    >
-                        <Input placeholder="1234567" />
-                    </Form.Item>
-                </Col>
+                
             </Row>
             <Row gutter={16}>
                 <Col span={12}>
@@ -68,11 +60,6 @@ const GeneralInformation = () => {
                             style={style.datePicker}
                             picker="date"
                         />
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item name="Note" label="Bemerkung">
-                        <Input />
                     </Form.Item>
                 </Col>
             </Row>

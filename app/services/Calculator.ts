@@ -12,13 +12,15 @@ export interface FormInvoiceLine {
     "InvoicePeriod.EndDate"?: string;
     'Price.PriceAmount': number;
     'Item.ClassifiedTaxCategory.Percent': string;
-    'Item.SellerItemIdentification.ID': string;
+    'Item.SellersItemIdentification.ID': string;
     'Item.Name': string;
+    'ID': string;
     'Item.ClassifiedTaxCategory.ID': string;
     'Item.ClassifiedTaxCategory.TaxScheme.ID': string;
     'Price.PriceAmount@currencyID': string;
     'LineExtensionAmount@currencyID'?: string;
     'InvoicedQuantity@unitCode': string;
+    "OrderLineReference.LineID": string;
 }
 
 export default class Calculator {

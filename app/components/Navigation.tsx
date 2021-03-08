@@ -14,11 +14,11 @@ const Navigation: FunctionComponent = () => {
                 <Menu.Item onClick={() => history.replace('/')} key="new">
                     Neue Rechnung
                 </Menu.Item>
-                <Menu.Item onClick={() => history.replace('open')} key="open">
+                <Menu.Item onClick={() => history.replace('/open')} key="open">
                     Rechnung überprüfen
                 </Menu.Item>
                 <Menu.Item
-                    onClick={() => history.replace('settings')}
+                    onClick={() => history.replace('/settings')}
                     key="settings"
                 >
                     Einstellungen

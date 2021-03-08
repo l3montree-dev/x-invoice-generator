@@ -96,8 +96,9 @@ export default class DefaultValueProvider {
         'LegalMonetaryTotal.TaxExclusiveAmount@currencyID': 'EUR',
         'LegalMonetaryTotal.TaxInclusiveAmount@currencyID': 'EUR',
         'LegalMonetaryTotal.PayableAmount@currencyID': 'EUR',
-        'AccountingSupplierParty.TaxScheme.ID': "",
-        'AccountingCustomerParty.TaxScheme.ID': "",
+        'AccountingSupplierParty.Party.PartyTaxScheme.TaxScheme.ID': "",
+        'AccountingCustomerParty.Party.PartyTaxScheme.TaxScheme.ID': "",
+        'PaymentMeans.PaymentMeansCode': "58",
     };
 
     static invoiceLine = {

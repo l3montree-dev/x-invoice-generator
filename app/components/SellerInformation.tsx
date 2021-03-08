@@ -11,7 +11,7 @@ const SellerInformation: FunctionComponent<Props> = (props) => {
     return (
         <>
             <Row gutter={16}>
-                <Col span={12}>
+                <Col span={8}>
                     <Form.Item
                         rules={[
                             {
@@ -25,12 +25,26 @@ const SellerInformation: FunctionComponent<Props> = (props) => {
                         <Input placeholder="Testfirma GmbH" />
                     </Form.Item>
                 </Col>
-                <Col span={12}>
+                <Col span={8}>
                     <Form.Item
                         name="AccountingSupplierParty.Party.PartyName.Name"
                         label="Abweichender Handelsname"
                     >
                         <Input />
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <Form.Item
+                        name="AccountingSupplierParty.Party.PartyLegalEntity.CompanyID"
+                        rules={[
+                            {
+                                required: props.requireFields,
+                                message: 'Dieses Feld muss ausgefüllt werden',
+                            },
+                        ]}
+                        label="Amtsgericht"
+                    >
+                        <Input placeholder="Registergericht Duisburg, HRB 31369" />
                     </Form.Item>
                 </Col>
             </Row>
@@ -132,7 +146,7 @@ const SellerInformation: FunctionComponent<Props> = (props) => {
                         <Input placeholder="Bonn" />
                     </Form.Item>
                 </Col>
-                <Col span={12}>
+                <Col span={24}>
                     <Form.Item
                         name="AccountingSupplierParty.Party.PostalAddress.Country.IdentificationCode"
                         tooltip="Die zugrundeliegende genormte Liste ist momentan nur in englischer Sprache verfügbar."
