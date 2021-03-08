@@ -98,14 +98,6 @@ const SellerInformation: FunctionComponent<Props> = (props) => {
                 </Col>
                 <Col span={12}>
                     <Form.Item
-                        name="AccountingSupplierParty.Party.PostalAddress.CountrySubentity"
-                        label="Bundesland"
-                    >
-                        <Input placeholder="Nordrhein-Westfalen" />
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item
                         name="AccountingSupplierParty.Party.PostalAddress.Country.IdentificationCode"
                         tooltip="Die zugrundeliegende genormte Liste ist momentan nur in englischer Sprache verfügbar."
                         label="Land"

@@ -89,14 +89,6 @@ const BuyerInformation = () => {
                 </Col>
                 <Col span={12}>
                     <Form.Item
-                        name="AccountingCustomerParty.Party.PostalAddress.CountrySubentity"
-                        label="Bundesland"
-                    >
-                        <Input placeholder="Nordrhein-Westfalen" />
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item
                         required
                         name="AccountingCustomerParty.Party.PostalAddress.Country.IdentificationCode"
                         tooltip="Die zugrundeliegende genormte Liste ist momentan nur in englischer Sprache verfügbar."
