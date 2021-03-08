@@ -37,15 +37,6 @@ const SellerInformation: FunctionComponent<Props> = (props) => {
             <Row gutter={16}>
                 <Col span={12}>
                     <Form.Item
-                        name="AccountingSupplierParty.Party.PartyIdentification.ID"
-                        label="Kennung"
-                        tooltip="Eine (i.d.R. vom Erwerber vergebene) Kennung des Verkäufers, wie z. B. die Kreditorennummer für das Mittelbewirtschaftungsverfahren oder die Lieferantennummer für das Bestellsystem. (BT-29)"
-                    >
-                        <Input placeholder="0000123456" />
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item
                         rules={[
                             {
                                 required: props.requireFields,
@@ -56,6 +47,51 @@ const SellerInformation: FunctionComponent<Props> = (props) => {
                         label="Umsatzsteuer-ID"
                     >
                         <Input placeholder="DE123456789" />
+                    </Form.Item>
+                </Col>
+                <Col span={12}>
+                    <Form.Item
+                        rules={[
+                            {
+                                required: props.requireFields,
+                                message: 'Dieses Feld muss ausgefüllt werden',
+                            },
+                        ]}
+                        name="AccountingSupplierParty.Party.Contact.Name"
+                        label="Name"
+                    >
+                        <Input placeholder="Max Mustermann" />
+                    </Form.Item>
+                </Col>
+            </Row>
+            <Row gutter={16}>
+                <Col span={12}>
+                    <Form.Item
+                        rules={[
+                            {
+                                required: props.requireFields,
+                                message: 'Dieses Feld muss ausgefüllt werden',
+                            },
+                        ]}
+                        name="AccountingSupplierParty.Party.Contact.ElectronicMail"
+                        label="E-Mail Adresse"
+                    >
+                        <Input placeholder="max.mustermann@l3montree.com" />
+                    </Form.Item>
+                </Col>
+                <Col span={12}>
+                    <Form.Item
+                        required
+                        rules={[
+                            {
+                                required: props.requireFields,
+                                message: 'Dieses Feld muss ausgefüllt werden',
+                            },
+                        ]}
+                        name="AccountingSupplierParty.Party.Contact.Telephone"
+                        label="Telefon"
+                    >
+                        <Input placeholder="0228 123456" />
                     </Form.Item>
                 </Col>
             </Row>
@@ -121,51 +157,6 @@ const SellerInformation: FunctionComponent<Props> = (props) => {
                                 )
                             )}
                         </Select>
-                    </Form.Item>
-                </Col>
-            </Row>
-            <Row gutter={16}>
-                <Col span={8}>
-                    <Form.Item
-                        rules={[
-                            {
-                                required: props.requireFields,
-                                message: 'Dieses Feld muss ausgefüllt werden',
-                            },
-                        ]}
-                        name="AccountingSupplierParty.Party.Contact.Name"
-                        label="Name"
-                    >
-                        <Input placeholder="Max Mustermann" />
-                    </Form.Item>
-                </Col>
-                <Col span={8}>
-                    <Form.Item
-                        rules={[
-                            {
-                                required: props.requireFields,
-                                message: 'Dieses Feld muss ausgefüllt werden',
-                            },
-                        ]}
-                        name="AccountingSupplierParty.Party.Contact.ElectronicMail"
-                        label="E-Mail Adresse"
-                    >
-                        <Input placeholder="max.mustermann@l3montree.com" />
-                    </Form.Item>
-                </Col>
-                <Col span={8}>
-                    <Form.Item
-                        required
-                        rules={[
-                            {
-                                required: props.requireFields,
-                                message: 'Dieses Feld muss ausgefüllt werden',
-                            },
-                        ]}
-                        name="AccountingSupplierParty.Party.Contact.Telephone"
-                        label="Telefon"
-                    >
-                        <Input placeholder="0228 123456" />
                     </Form.Item>
                 </Col>
             </Row>
