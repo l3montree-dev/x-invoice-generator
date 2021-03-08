@@ -12,7 +12,7 @@ stages:
 build:
   stage: build
   script:
-    - npm ci
+    - yarn install
   artifacts:
     expire_in: 10 days
     paths:
@@ -21,7 +21,7 @@ build:
 unit-test:
   stage: test
   script:
-    - npm run test
+    - yarn test
 
 publish:
   image: electronuserland/builder:wine
@@ -31,10 +31,10 @@ publish:
     paths:
       - release/
   before_script:
-    - npm rebuild node-sass
+    - yarn rebuild node-sass
   allow_failure: false
   script:
-    - npm run package-all
+    - yarn package-all
   only:
     - master
     - dev
