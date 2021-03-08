@@ -96,6 +96,8 @@ export default class DefaultValueProvider {
         'LegalMonetaryTotal.TaxExclusiveAmount@currencyID': 'EUR',
         'LegalMonetaryTotal.TaxInclusiveAmount@currencyID': 'EUR',
         'LegalMonetaryTotal.PayableAmount@currencyID': 'EUR',
+        'AccountingSupplierParty.TaxScheme.ID': "",
+        'AccountingCustomerParty.TaxScheme.ID': "",
     };
 
     static invoiceLine = {
